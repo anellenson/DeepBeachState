@@ -1,0 +1,6 @@
+*.pth
+confusion_table_results/
+model_output/
+model_metrics/
+plots/
+resnet_models/
