@@ -1,192 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/augment_imgs.py" line="216" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ea5c92a5-9e95-4f8a-a632-99895f91a0a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/augment_imgs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/prep_files/rename_labels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/._.DS_Store" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run.sh.swp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArgusDS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArgusDS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CAMplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/CAMplot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TiledArgusDS.py" beforeDir="false" afterPath="$PROJECT_DIR$/TiledArgusDS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno0.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno2.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno3.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/1024.1024.lr0.01.ss30.bs4mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/1024.1024.lr0.01.ss40.bs8mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.001.ss40.bs64mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.001.ss40.bs8mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.004.ss40.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.006.ss40.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.008.ss30.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.009.ss40.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.009.ss40.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss15.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss20.bs8mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss30.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss40.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss40.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.333.lr0.01.ss40.bs64mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.512.lr0.004.ss50.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.512.lr0.006.ss35.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.512.lr0.006.ss35.bs8mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/256.512.lr0.006.ss50.bs64mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/512.512.lr0.008.ss30.bs16mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/512.666.lr0.008.ss30.bs32mopikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.1024.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.1024.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.1024.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.256.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.256.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.256.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.256.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.512.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.512.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.512.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/1024.512.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.1024.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.1024.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.1024.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.1024.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.256.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.256.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.256.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.256.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.512.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.512.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.512.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/256.512.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.1024.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.1024.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.1024.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.1024.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.256.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.256.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.256.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.256.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512.lr0.001.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512.lr0.001.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512.lr0.01.ss25.bs12.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512.lr0.01.ss25.bs4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs12mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs12mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs12mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs12mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs12mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs20mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs20mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs20mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs20mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.0001.ss40.bs20mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs12mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs12mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs12mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs12mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs12mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs20mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs20mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs20mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs20mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.001.ss40.bs20mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs12mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs12mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs12mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs12mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs12mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs20mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs20mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs20mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs20mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr0.01.ss40.bs20mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs12mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs12mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs12mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs12mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs12mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs20mo0.5.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs20mo0.6.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs20mo0.7.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs20mo0.8.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/noPybossa/oblique_results/512.512/512.512.lr1e-05.ss40.bs20mo0.9.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/notiled/confdt.notiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno0.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/notiled/confdt.notiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/notiled/confdt.notiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno2.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/notiled/confdt.notiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno3.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/notiled/confdt.notiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/tiled/confdt.tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno0.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/tiled/confdt.tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/tiled/confdt.tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno2.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/tiled/confdt.tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno3.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/tiled/confdt.tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno4.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs0.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs1.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs10.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs11.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs12.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs13.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs14.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs15.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs16.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs17.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs18.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs19.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs2.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs20.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs21.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs22.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs23.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs24.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs3.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs4.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs6.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs7.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs8.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/Hs/Hs9.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline0.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline1.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline10.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline11.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline12.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline13.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline14.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline15.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline16.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline17.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline18.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline19.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline2.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline20.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline21.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline22.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline23.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline24.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline3.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline4.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline55.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline6.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline7.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline8.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/baseline/baseline9.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/confusion_table_results/withWaves/enflux.omegaeq.oblique512.512.lr0.01.ss12.bs8mo0.9gamma0.1.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_image_ts.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_image_ts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kfold_train_testsplit.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kfold_train_testsplit_multilabel.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kfold_traintestsplit.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/prob_majvote_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/prob_majvote_df.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/prob_pid_dict.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/prob_pid_dict.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/strlabel_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/strlabel_df.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plotTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotTools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postResnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/postResnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preResnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/preResnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/process_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/process_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/explore_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/explore_features.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labels/nbn_valfiles_15perclass.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_valfiles_15perclass.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/labels/pure_label_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_labels_df.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_ResNet.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/testResNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainResNetWaveParams.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNetWaveParams.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainResNet_kfold.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNet_kfold.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testResNet_kfold.py" beforeDir="false" afterPath="$PROJECT_DIR$/testResNet_kfold.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainResNet_nokfold.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNet_nokfold.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../prepDataLib.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -196,46 +26,34 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/trainResNet_kfold.py">
+        <entry file="file://$PROJECT_DIR$/augment_imgs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1500">
-              <caret line="124" selection-start-line="124" selection-end-line="124" />
+            <state relative-caret-position="-4038">
               <folding>
-                <element signature="e#0#47#0" expanded="true" />
+                <element signature="e#0#48#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/torch/autograd/__init__.py">
+        <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/PIL/Image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="96" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/trainResNetWaveParams.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="32" column="36" lean-forward="true" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="296">
+              <caret line="2300" column="27" lean-forward="true" selection-start-line="2300" selection-start-column="27" selection-end-line="2300" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/SkillScore.py">
+        <entry file="file://$PROJECT_DIR$/trainResNet_nokfold.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12">
+            <state relative-caret-position="326">
+              <caret line="68" selection-start-line="68" selection-end-line="68" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -244,22 +62,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preResnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1470">
-              <caret line="108" selection-start-line="108" selection-end-line="108" />
+            <state relative-caret-position="687">
+              <caret line="106" lean-forward="true" selection-start-line="99" selection-end-line="106" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testResNet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3540">
-              <caret line="257" column="11" selection-start-line="257" selection-start-column="11" selection-end-line="257" selection-end-column="11" />
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -280,34 +86,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/generate_image_ts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+            <state relative-caret-position="732">
+              <caret line="118" selection-start-line="118" selection-end-line="118" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CAMplot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/postResnet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2655">
-              <caret line="182" column="44" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="44" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -324,9 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mean</find>
-      <find>labels_df</find>
-      <find>conf</find>
       <find>CAMplotdir</find>
       <find>plotname</find>
       <find>bins</find>
@@ -354,10 +133,14 @@
       <find>plot_individual</find>
       <find>criterion</find>
       <find>plot_individ</find>
+      <find>RandomErasing</find>
+      <find>F.adjust</find>
+      <find>pids</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -371,12 +154,15 @@
         <option value="$PROJECT_DIR$/CAMplot.py" />
         <option value="$PROJECT_DIR$/trainResNet_kfold.py" />
         <option value="$PROJECT_DIR$/generate_image_ts.py" />
+        <option value="$PROJECT_DIR$/setup_ResNet.py" />
+        <option value="$PROJECT_DIR$/prep_files/rename_labels.py" />
+        <option value="$PROJECT_DIR$/augment_imgs.py" />
+        <option value="$PROJECT_DIR$/trainResNet_nokfold.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="-31" />
-    <option name="y" value="35" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="85" />
     <option name="width" value="1900" />
     <option name="height" value="1080" />
   </component>
@@ -387,7 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -395,16 +180,27 @@
               <item name="ResNet" type="b2602c69:ProjectViewProjectNode" />
               <item name="ResNet" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ResNet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ResNet" type="462c0819:PsiDirectoryNode" />
+              <item name="labels" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ResNet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ResNet" type="462c0819:PsiDirectoryNode" />
+              <item name="prep_files" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../argusclassifier" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -429,7 +225,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.generate_image_ts">
+  <component name="RunManager" selected="Python.augment_imgs">
+    <configuration name="augment_imgs" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ResNet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/pytorch/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/augment_imgs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="generate_image_ts" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="ResNet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -465,6 +282,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/process_results.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rename_labels" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ResNet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/pytorch/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prep_files/rename_labels.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -517,28 +356,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="trainResNet_multilabel" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="ResNet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/pytorch/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/multilabel/trainResNet_multilabel.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="trainResNet_tiled" type="PythonConfigurationType" factoryName="Python">
       <module name="ResNet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -562,11 +379,12 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.augment_imgs" />
       <item itemvalue="Python.generate_image_ts" />
       <item itemvalue="Python.process_results" />
+      <item itemvalue="Python.rename_labels" />
       <item itemvalue="Python.testResNet" />
       <item itemvalue="Python.trainResNet_kfold" />
-      <item itemvalue="Python.trainResNet_multilabel" />
       <item itemvalue="Python.trainResNet_tiled" />
     </list>
   </component>
@@ -585,25 +403,44 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-31" y="35" width="1900" height="1080" extended-state="0" />
+    <frame x="0" y="85" width="1900" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25268817" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25215054" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32945284" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32945284" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3993015" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286052" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3286052" />
+      <window_info active="true" anchor="bottom" x="2994" y="57" width="468" height="948" id="Debug" order="3" type="FLOATING" visible="true" weight="0.72314507" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Educational.CheckDetails" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32945284" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32945284" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286052" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2526596" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32945284" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32945284" />
+      <window_info anchor="bottom" x="1920" y="-3" width="1920" height="1087" id="Debug" order="3" type="FLOATING" visible="true" weight="0.72314507" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Educational.CheckDetails" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32945284" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32890365" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -668,6 +505,25 @@
       </default-breakpoints>
     </breakpoint-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>name == 'erase'</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(filename) &gt; 70</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>if len(filename) &gt; 70</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/sklearn/model_selection/_split.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -710,13 +566,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/pandas/io/common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="420" selection-start-line="420" selection-end-line="420" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7905">
@@ -751,30 +600,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/trainResNet_kfold.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="124" selection-start-line="124" selection-end-line="124" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/torch/autograd/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/preResnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1470">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -784,26 +613,6 @@
           <caret line="257" column="11" selection-start-line="257" selection-start-column="11" selection-end-line="257" selection-end-column="11" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArgusDS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CAMplot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -818,31 +627,136 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/generate_image_ts.py">
+    <entry file="file://$PROJECT_DIR$/trainResNetWaveParams.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="118" lean-forward="true" selection-start-line="118" selection-end-line="118" />
+        <state relative-caret-position="384">
+          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/trainResNetWaveParams.py">
+    <entry file="file://$PROJECT_DIR$/trainResNet_kfold.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="32" column="36" lean-forward="true" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
+        <state relative-caret-position="1554">
+          <caret line="124" selection-start-line="124" selection-end-line="124" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CAMplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/torchvision/transforms/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/torchvision/transforms/transforms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1181">
+          <caret line="913" column="57" selection-start-line="913" selection-start-column="49" selection-end-line="913" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArgusDS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/pandas/io/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="420" selection-start-line="420" selection-end-line="420" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prep_files/rename_labels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SkillScore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12">
+        <state relative-caret-position="165">
+          <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preResnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="106" lean-forward="true" selection-start-line="99" selection-end-line="106" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generate_image_ts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="732">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/pytorch/lib/python2.7/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="2300" column="27" lean-forward="true" selection-start-line="2300" selection-start-column="27" selection-end-line="2300" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/augment_imgs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4038">
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainResNet_nokfold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>

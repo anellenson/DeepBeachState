@@ -28,16 +28,16 @@ from torch.autograd import Variable
 
 #load the labels dataframe
 
-pid_df_dict = {'duck':'labels/pure_label_df.pickle', 'nbn':'nbn_labels_cleaned_165.pickle'}
+pid_df_dict = {'duck':'labels/duck_daytimex_labels_df.pickle', 'nbn':'nbn_daytimex_labels.pickle'} ############no longer need this, since we're doing it all with dictionaries
 #load the validation files
-valfilename = 'labels/nbn_valfiles_15perclass.pickle'
-valfile_duck = 'labels/duck_valfiles_15perclass.pickle'
+valfilename = 'labels/nbn_daytimex_valfiles.aug_imgs.pickle'
+valfile_duck = 'labels/duck_daytimex_valfiles.aug_imgs.pickle'
 removed_shoreline_mean = [0.2714, 0.3129, 0.3416]
 removed_shoreline_std = [0.3037, 0.3458, 0.3769]
 removed_shoreline_histeq_mean = [0.1680, 0.1719, 0.1871]
 removed_shoreline_histeq_std = [0.2567, 0.2591, 0.2708]
-nbn_gray_mean = [0.4372,0.4372,0.4372]
-nbn_gray_std = [0.3033,0.3033,0.3033]
+nbn_gray_mean = [0.4835,0.4835,0.4835]
+nbn_gray_std = [0.2652,0.2652,0.2652]
 duck_gray_mean = [0.5199, 0.5199, 0.5199]
 duck_gray_std = [0.2319, 0.2319, 0.2319]
 rgb_mean = [0.4066, 0.4479, 0.4734]
@@ -46,11 +46,11 @@ class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states lis
 for train_site in ['duck']:
     for imgtype in ['orig_gray']:
         for run in range(5,10):
-            valfilename = 'labels/{}_valfiles_15perclass.pickle'.format(train_site)
+            valfilename = 'labels/{}_valfiles.pickle'.format(train_site)
             pid_df = pid_df_dict[train_site]
             ds_size = 75
             res_height = 256 #height
-            res_width = 512 #width
+            res_width = 256 #width
             batch_size = 16
             lr = 0.008
             gray = True #This is a switch for grayscale or not
@@ -65,9 +65,6 @@ for train_site in ['duck']:
             multilabel_bool = False
             pretrained = True
             train_earlier_layers = False
-            if train_earlier_layers:
-                old_model_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/resnet_models/'
-                old_model_name = 'pure_images_h512_w1024_more_labels_50epochs.pth'
 
             ##saveout info
             model_name = 'train_on_{}_stretched__run{}'.format(train_site, run)
@@ -77,7 +74,7 @@ for train_site in ['duck']:
             if not os.path.exists(conf_folder):
                 os.mkdir(conf_folder)
 
-            with open(valfilename, 'rb') as f:
+            with open(valfilename, 'rb') as f: #change this from a dictionary
                 valfile_dict = pickle.load(f)
 
             # with open(valfile_duck, 'rb') as f:
@@ -96,7 +93,7 @@ for train_site in ['duck']:
             # labels_df = labels_df[['pid', 'label']]
             # labels_df = labels_df.reset_index()
 
-            pids, labels, labels_dict = pre.createLabelsDict(labels_df, class_names)
+            pids, labels, labels_dict = pre.createLabelsDict(labels_df, class_names) # remove this and load a labels dictionary
 
 
             ######################################################################################################################

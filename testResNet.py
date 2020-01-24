@@ -43,7 +43,7 @@ class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
 test_site = 'nbn'
 train_site = 'duck'
 
-pid_df_dict = {'duck':'labels/pure_label_df.pickle', 'nbn':'nbn_labels_cleaned_165.pickle'}
+pid_df_dict = {'duck':'labels/duck_daytimex_labels_df.pickle', 'nbn':'nbn_labels_cleaned_165.pickle'}
 pid_df = pid_df_dict[test_site]
 labels_df = pd.read_pickle(pid_df)
 pid_votes = False #This is to turn on the calculation of probabilities from votes

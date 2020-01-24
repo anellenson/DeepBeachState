@@ -20,7 +20,7 @@ for wi,ww in enumerate(weights):
 
 
 embedded_weights = manifold.TSNE(n_components=2, perplexity = 10).fit_transform(weights_array)
-labels_df = pd.read_pickle('labels/pure_label_df.pickle')
+labels_df = pd.read_pickle('labels/duck_daytimex_labels_df.pickle')
 labels = [class_names.index(labels_df[labels_df.pid==pid].label.values) for pid in fnames if pid in labels_df.pid.values]
 missing_inds = [i for i,pid in enumerate(fnames) if pid not in labels_df.pid.values]
 lined_up_weights = np.delete(embedded_weights, missing_inds, axis = 0)
