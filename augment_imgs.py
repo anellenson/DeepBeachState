@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 import random
 
+
 class MyDataset(Dataset):
     def __init__(self, list_IDs, basedir, transform = None):
         self.list_IDs = list_IDs
@@ -79,13 +80,14 @@ class File_setup():
 
 ############set up validation dataset
 
-    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs):
+    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs, num_val_imgs):
 
         '''
         This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe
         It will ensure that the images in the dataframe and the images in the image directory are consistent
 
            num_train_imgs  =    number of images per class in training set
+           num_val_imgs  =    number of images per class in validation set
            valfilename     =    name of pickle for validation files. The pickle will be a list of file names.
                                 The number of images per class = (len(valfiles) + len(trainfiles)) - num_train_imgs
 
@@ -105,19 +107,14 @@ class File_setup():
 
         for ci in self.class_names: ####TO DO : make this so that it works with the labels dictionary, not necessarily a labels dataframe
 
-            shuffled_inds = self.labels_df[(self.labels_df['label'] == ci)].index.values
-            shuffled_inds = sorted(shuffled_inds, key=lambda k: random.random())
-            total_len = len(shuffled_inds)
+            pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
+            random.shuffle(pids)
 
-            if num_train_imgs > total_len:
-                print('Number of desired training images exceeds the total number of images for ' + ci)
+            trainfiles += pids[:num_train_imgs]
+            valfiles += pids[num_train_imgs:num_train_imgs + num_val_imgs]
 
-
-            for ss in shuffled_inds[:num_train_imgs]:
-                trainfiles.append(self.labels_df.pid.iloc[ss])
-
-            for ss in shuffled_inds[num_train_imgs:]:
-                valfiles.append(self.labels_df.pid.iloc[ss])
+            print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
+            print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
 
         self.trainfiles = trainfiles
         self.valfiles = valfiles
@@ -156,7 +153,7 @@ class File_setup():
         return labels_dict
 
 
-    def augment_imgs(self):
+    def augment_imgs(self, labels_dict_filename):
 
 
         #partition the files FIRST
@@ -201,6 +198,7 @@ class File_setup():
                         if ti == 4:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
 
+                        img = img.convert("L")
                     #save out image file
                         filename = imgname[:-3] + name + '.jpg'
                         img.save(self.img_dir + filename)
@@ -214,19 +212,28 @@ class File_setup():
 
                 print('Finished producing images from ' + name + 'transformation')
 
+        # save out train and val files
         self.save_train_val(self.valfilename[:-6]+ 'aug_imgs.pickle', self.trainfilename[:-6]+ 'aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
 
+        with open(labels_dict_filename, 'wb') as f:
+            pickle.dump(self.labels_dict, f)
 
-labels_pickle = 'labels/duck_daytimex_labels_df.pickle'
-labels_dict_filename = 'labels/duck_labels_dict.pickle'
-img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/test/'
-valfilename = 'labels/duck_daytimex_valfiles.pickle'
-trainfilename = 'labels/duck_daytimex_trainfiles.pickle'
-num_train_imgs = 75
+
+        #save out new labels dictionary
+
+
+
+labels_pickle = 'labels/nbn_daytimex_labels.pickle'
+labels_dict_filename = 'labels/nbn_labels_dict.pickle'
+img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
+valfilename = 'labels/nbn_daytimex_valfiles.pickle'
+trainfilename = 'labels/nbn_daytimex_trainfiles.pickle'
+num_train_imgs = 50
+num_val_imgs = 15
 
 
 
 F = File_setup(img_folder, labels_pickle)
-F.set_up_train_val(valfilename, trainfilename, num_train_imgs)
+F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
 F.create_labels_dict(labels_dict_filename)
-F.augment_imgs()
+F.augment_imgs(labels_dict_filename)

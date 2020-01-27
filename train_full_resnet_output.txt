@@ -1,0 +1,3024 @@
+For test train_full_ResNet_duck, Epoch 0/199
+----------
+train Loss: 10.6109 Acc: 0.2142
+val Loss: 7.7537 Acc: 0.2378
+
+For test train_full_ResNet_duck, Epoch 1/199
+----------
+train Loss: 11.0278 Acc: 0.2271
+val Loss: 11.7306 Acc: 0.2644
+
+For test train_full_ResNet_duck, Epoch 2/199
+----------
+train Loss: 11.4581 Acc: 0.2338
+val Loss: 12.7763 Acc: 0.2000
+
+For test train_full_ResNet_duck, Epoch 3/199
+----------
+train Loss: 9.4723 Acc: 0.2418
+val Loss: 12.5943 Acc: 0.2600
+
+For test train_full_ResNet_duck, Epoch 4/199
+----------
+train Loss: 7.2180 Acc: 0.2773
+val Loss: 2.8965 Acc: 0.3333
+
+For test train_full_ResNet_duck, Epoch 5/199
+----------
+train Loss: 6.9910 Acc: 0.2604
+val Loss: 6.5420 Acc: 0.2489
+
+For test train_full_ResNet_duck, Epoch 6/199
+----------
+train Loss: 7.6359 Acc: 0.2738
+val Loss: 4.6256 Acc: 0.2444
+
+For test train_full_ResNet_duck, Epoch 7/199
+----------
+train Loss: 6.9115 Acc: 0.2942
+val Loss: 9.4581 Acc: 0.2333
+
+For test train_full_ResNet_duck, Epoch 8/199
+----------
+train Loss: 9.2374 Acc: 0.2729
+val Loss: 10.8225 Acc: 0.2600
+
+For test train_full_ResNet_duck, Epoch 9/199
+----------
+train Loss: 7.7154 Acc: 0.2951
+val Loss: 6.3492 Acc: 0.2133
+
+For test train_full_ResNet_duck, Epoch 10/199
+----------
+train Loss: 6.2855 Acc: 0.3244
+val Loss: 6.5121 Acc: 0.2311
+
+For test train_full_ResNet_duck, Epoch 11/199
+----------
+train Loss: 8.7423 Acc: 0.2840
+val Loss: 10.6642 Acc: 0.2578
+
+For test train_full_ResNet_duck, Epoch 12/199
+----------
+train Loss: 6.7874 Acc: 0.3031
+val Loss: 6.7488 Acc: 0.2733
+
+For test train_full_ResNet_duck, Epoch 13/199
+----------
+train Loss: 5.4301 Acc: 0.3218
+Epoch    14: reducing learning rate of group 0 to 1.0000e-03.
+val Loss: 15.4169 Acc: 0.2000
+
+For test train_full_ResNet_duck, Epoch 14/199
+----------
+train Loss: 2.5986 Acc: 0.4347
+val Loss: 3.6185 Acc: 0.3178
+
+For test train_full_ResNet_duck, Epoch 15/199
+----------
+train Loss: 1.8771 Acc: 0.4649
+val Loss: 2.8806 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 16/199
+----------
+train Loss: 1.8426 Acc: 0.4516
+val Loss: 3.2142 Acc: 0.3422
+
+For test train_full_ResNet_duck, Epoch 17/199
+----------
+train Loss: 1.8329 Acc: 0.4644
+val Loss: 2.8573 Acc: 0.3689
+
+For test train_full_ResNet_duck, Epoch 18/199
+----------
+train Loss: 1.7104 Acc: 0.4676
+val Loss: 2.9494 Acc: 0.3422
+
+For test train_full_ResNet_duck, Epoch 19/199
+----------
+train Loss: 1.7650 Acc: 0.4800
+val Loss: 3.0303 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 20/199
+----------
+train Loss: 1.7213 Acc: 0.4498
+val Loss: 2.8939 Acc: 0.3489
+
+For test train_full_ResNet_duck, Epoch 21/199
+----------
+train Loss: 1.6520 Acc: 0.4791
+val Loss: 2.7863 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 22/199
+----------
+train Loss: 1.7291 Acc: 0.4680
+val Loss: 2.8824 Acc: 0.3778
+
+For test train_full_ResNet_duck, Epoch 23/199
+----------
+train Loss: 1.7113 Acc: 0.4591
+val Loss: 2.6917 Acc: 0.3622
+
+For test train_full_ResNet_duck, Epoch 24/199
+----------
+train Loss: 1.6527 Acc: 0.4818
+val Loss: 3.0876 Acc: 0.3156
+
+For test train_full_ResNet_duck, Epoch 25/199
+----------
+train Loss: 1.7362 Acc: 0.4689
+val Loss: 2.5373 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 26/199
+----------
+train Loss: 1.6277 Acc: 0.4840
+val Loss: 2.5621 Acc: 0.3444
+
+For test train_full_ResNet_duck, Epoch 27/199
+----------
+train Loss: 1.5137 Acc: 0.4951
+val Loss: 2.7590 Acc: 0.3378
+
+For test train_full_ResNet_duck, Epoch 28/199
+----------
+train Loss: 1.6111 Acc: 0.4782
+val Loss: 2.6336 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 29/199
+----------
+train Loss: 1.5977 Acc: 0.4822
+val Loss: 2.6833 Acc: 0.3400
+
+For test train_full_ResNet_duck, Epoch 30/199
+----------
+train Loss: 1.5127 Acc: 0.4951
+val Loss: 2.5800 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 31/199
+----------
+train Loss: 1.4652 Acc: 0.5004
+val Loss: 2.5125 Acc: 0.3600
+
+For test train_full_ResNet_duck, Epoch 32/199
+----------
+train Loss: 1.5852 Acc: 0.4822
+val Loss: 2.4656 Acc: 0.3600
+
+For test train_full_ResNet_duck, Epoch 33/199
+----------
+train Loss: 1.5461 Acc: 0.4653
+val Loss: 2.4869 Acc: 0.3622
+
+For test train_full_ResNet_duck, Epoch 34/199
+----------
+train Loss: 1.6491 Acc: 0.4813
+val Loss: 2.8079 Acc: 0.3600
+
+For test train_full_ResNet_duck, Epoch 35/199
+----------
+train Loss: 1.5133 Acc: 0.5000
+val Loss: 2.5720 Acc: 0.3444
+
+For test train_full_ResNet_duck, Epoch 36/199
+----------
+train Loss: 1.5361 Acc: 0.4796
+val Loss: 2.3908 Acc: 0.3844
+
+For test train_full_ResNet_duck, Epoch 37/199
+----------
+train Loss: 1.5372 Acc: 0.4836
+val Loss: 2.6172 Acc: 0.3467
+
+For test train_full_ResNet_duck, Epoch 38/199
+----------
+train Loss: 1.4622 Acc: 0.4884
+val Loss: 2.5044 Acc: 0.3378
+
+For test train_full_ResNet_duck, Epoch 39/199
+----------
+train Loss: 1.5607 Acc: 0.4644
+val Loss: 2.4506 Acc: 0.3400
+
+For test train_full_ResNet_duck, Epoch 40/199
+----------
+train Loss: 1.5216 Acc: 0.4836
+val Loss: 2.4839 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 41/199
+----------
+train Loss: 1.4729 Acc: 0.4956
+val Loss: 2.3872 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 42/199
+----------
+train Loss: 1.4578 Acc: 0.4867
+val Loss: 2.2825 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 43/199
+----------
+train Loss: 1.4451 Acc: 0.4920
+val Loss: 2.2016 Acc: 0.3689
+
+For test train_full_ResNet_duck, Epoch 44/199
+----------
+train Loss: 1.4793 Acc: 0.4924
+val Loss: 2.5855 Acc: 0.3689
+
+For test train_full_ResNet_duck, Epoch 45/199
+----------
+train Loss: 1.5300 Acc: 0.4733
+val Loss: 2.1388 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 46/199
+----------
+train Loss: 1.3763 Acc: 0.5107
+val Loss: 2.2583 Acc: 0.3756
+
+For test train_full_ResNet_duck, Epoch 47/199
+----------
+train Loss: 1.3868 Acc: 0.5031
+val Loss: 2.1016 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 48/199
+----------
+train Loss: 1.3896 Acc: 0.5124
+val Loss: 2.1372 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 49/199
+----------
+train Loss: 1.4322 Acc: 0.4947
+val Loss: 2.3160 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 50/199
+----------
+train Loss: 1.4165 Acc: 0.5000
+val Loss: 2.1808 Acc: 0.3711
+
+For test train_full_ResNet_duck, Epoch 51/199
+----------
+train Loss: 1.5514 Acc: 0.4676
+val Loss: 2.3675 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 52/199
+----------
+train Loss: 1.4505 Acc: 0.4858
+val Loss: 2.4671 Acc: 0.3644
+
+For test train_full_ResNet_duck, Epoch 53/199
+----------
+train Loss: 1.6198 Acc: 0.4524
+val Loss: 2.2874 Acc: 0.3622
+
+For test train_full_ResNet_duck, Epoch 54/199
+----------
+train Loss: 1.3788 Acc: 0.4840
+val Loss: 2.3215 Acc: 0.3378
+
+For test train_full_ResNet_duck, Epoch 55/199
+----------
+train Loss: 1.4420 Acc: 0.5040
+val Loss: 2.1912 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 56/199
+----------
+train Loss: 1.3918 Acc: 0.4911
+Epoch    57: reducing learning rate of group 0 to 1.0000e-04.
+val Loss: 2.3433 Acc: 0.3489
+
+For test train_full_ResNet_duck, Epoch 57/199
+----------
+train Loss: 1.2270 Acc: 0.5542
+val Loss: 2.0569 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 58/199
+----------
+train Loss: 1.2151 Acc: 0.5391
+val Loss: 2.0037 Acc: 0.3844
+
+For test train_full_ResNet_duck, Epoch 59/199
+----------
+train Loss: 1.1889 Acc: 0.5391
+val Loss: 2.0611 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 60/199
+----------
+train Loss: 1.1964 Acc: 0.5427
+val Loss: 2.0198 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 61/199
+----------
+train Loss: 1.1870 Acc: 0.5533
+val Loss: 1.9669 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 62/199
+----------
+train Loss: 1.2468 Acc: 0.5418
+val Loss: 2.1195 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 63/199
+----------
+train Loss: 1.1980 Acc: 0.5511
+val Loss: 1.9639 Acc: 0.4111
+
+For test train_full_ResNet_duck, Epoch 64/199
+----------
+train Loss: 1.1588 Acc: 0.5551
+val Loss: 1.9670 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 65/199
+----------
+train Loss: 1.1745 Acc: 0.5458
+val Loss: 1.9086 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 66/199
+----------
+train Loss: 1.1901 Acc: 0.5502
+val Loss: 1.9790 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 67/199
+----------
+train Loss: 1.1895 Acc: 0.5449
+val Loss: 1.9684 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 68/199
+----------
+train Loss: 1.1681 Acc: 0.5444
+val Loss: 2.1043 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 69/199
+----------
+train Loss: 1.2043 Acc: 0.5418
+val Loss: 2.0039 Acc: 0.4178
+
+For test train_full_ResNet_duck, Epoch 70/199
+----------
+train Loss: 1.2078 Acc: 0.5427
+val Loss: 2.0663 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 71/199
+----------
+train Loss: 1.1955 Acc: 0.5404
+val Loss: 2.0001 Acc: 0.3733
+
+For test train_full_ResNet_duck, Epoch 72/199
+----------
+train Loss: 1.2217 Acc: 0.5400
+val Loss: 2.0049 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 73/199
+----------
+train Loss: 1.1835 Acc: 0.5489
+val Loss: 1.9931 Acc: 0.3889
+
+For test train_full_ResNet_duck, Epoch 74/199
+----------
+train Loss: 1.1807 Acc: 0.5511
+Epoch    75: reducing learning rate of group 0 to 1.0000e-05.
+val Loss: 1.9904 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 75/199
+----------
+train Loss: 1.1760 Acc: 0.5502
+val Loss: 2.0749 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 76/199
+----------
+train Loss: 1.1587 Acc: 0.5489
+val Loss: 1.9237 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 77/199
+----------
+train Loss: 1.1890 Acc: 0.5524
+val Loss: 1.9905 Acc: 0.3956
+
+For test train_full_ResNet_duck, Epoch 78/199
+----------
+train Loss: 1.1881 Acc: 0.5471
+val Loss: 1.9651 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 79/199
+----------
+train Loss: 1.1515 Acc: 0.5631
+val Loss: 2.0117 Acc: 0.4400
+
+For test train_full_ResNet_duck, Epoch 80/199
+----------
+train Loss: 1.1621 Acc: 0.5618
+val Loss: 2.0539 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 81/199
+----------
+train Loss: 1.1727 Acc: 0.5520
+val Loss: 2.0320 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 82/199
+----------
+train Loss: 1.1780 Acc: 0.5467
+val Loss: 1.9831 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 83/199
+----------
+train Loss: 1.1291 Acc: 0.5680
+Epoch    84: reducing learning rate of group 0 to 1.0000e-06.
+val Loss: 2.0109 Acc: 0.3889
+
+For test train_full_ResNet_duck, Epoch 84/199
+----------
+train Loss: 1.1891 Acc: 0.5564
+val Loss: 1.8900 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 85/199
+----------
+train Loss: 1.1829 Acc: 0.5569
+val Loss: 1.9707 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 86/199
+----------
+train Loss: 1.1854 Acc: 0.5360
+val Loss: 2.0440 Acc: 0.3689
+
+For test train_full_ResNet_duck, Epoch 87/199
+----------
+train Loss: 1.1664 Acc: 0.5436
+val Loss: 2.0075 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 88/199
+----------
+train Loss: 1.1754 Acc: 0.5431
+val Loss: 2.0273 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 89/199
+----------
+train Loss: 1.1511 Acc: 0.5689
+val Loss: 1.9199 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 90/199
+----------
+train Loss: 1.1896 Acc: 0.5444
+val Loss: 1.9856 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 91/199
+----------
+train Loss: 1.1416 Acc: 0.5613
+val Loss: 2.0249 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 92/199
+----------
+train Loss: 1.1864 Acc: 0.5409
+val Loss: 1.9862 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 93/199
+----------
+train Loss: 1.1860 Acc: 0.5369
+Epoch    94: reducing learning rate of group 0 to 1.0000e-07.
+val Loss: 1.9282 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 94/199
+----------
+train Loss: 1.1854 Acc: 0.5516
+val Loss: 1.9623 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 95/199
+----------
+train Loss: 1.1738 Acc: 0.5493
+val Loss: 2.0834 Acc: 0.3711
+
+For test train_full_ResNet_duck, Epoch 96/199
+----------
+train Loss: 1.1370 Acc: 0.5649
+val Loss: 1.9863 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 97/199
+----------
+train Loss: 1.1773 Acc: 0.5458
+val Loss: 2.0040 Acc: 0.3844
+
+For test train_full_ResNet_duck, Epoch 98/199
+----------
+train Loss: 1.1527 Acc: 0.5609
+val Loss: 1.9906 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 99/199
+----------
+train Loss: 1.1746 Acc: 0.5471
+val Loss: 1.9512 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 100/199
+----------
+train Loss: 1.1390 Acc: 0.5618
+val Loss: 2.0019 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 101/199
+----------
+train Loss: 1.1487 Acc: 0.5556
+val Loss: 1.9110 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 102/199
+----------
+train Loss: 1.1680 Acc: 0.5413
+Epoch   103: reducing learning rate of group 0 to 1.0000e-08.
+val Loss: 1.9487 Acc: 0.4378
+
+For test train_full_ResNet_duck, Epoch 103/199
+----------
+train Loss: 1.1744 Acc: 0.5507
+val Loss: 1.9732 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 104/199
+----------
+train Loss: 1.1816 Acc: 0.5529
+val Loss: 2.0284 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 105/199
+----------
+train Loss: 1.1624 Acc: 0.5618
+val Loss: 1.9782 Acc: 0.4156
+
+For test train_full_ResNet_duck, Epoch 106/199
+----------
+train Loss: 1.1586 Acc: 0.5640
+val Loss: 2.0532 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 107/199
+----------
+train Loss: 1.1635 Acc: 0.5489
+val Loss: 1.9422 Acc: 0.4156
+
+For test train_full_ResNet_duck, Epoch 108/199
+----------
+train Loss: 1.1323 Acc: 0.5556
+val Loss: 2.0406 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 109/199
+----------
+train Loss: 1.1360 Acc: 0.5551
+val Loss: 1.9686 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 110/199
+----------
+train Loss: 1.1886 Acc: 0.5440
+val Loss: 1.9799 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 111/199
+----------
+train Loss: 1.1335 Acc: 0.5667
+val Loss: 1.9628 Acc: 0.4178
+
+For test train_full_ResNet_duck, Epoch 112/199
+----------
+train Loss: 1.1394 Acc: 0.5551
+val Loss: 2.0915 Acc: 0.3844
+
+For test train_full_ResNet_duck, Epoch 113/199
+----------
+train Loss: 1.1518 Acc: 0.5813
+val Loss: 2.0219 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 114/199
+----------
+train Loss: 1.1472 Acc: 0.5636
+val Loss: 1.9110 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 115/199
+----------
+train Loss: 1.1748 Acc: 0.5489
+val Loss: 1.9706 Acc: 0.4200
+
+For test train_full_ResNet_duck, Epoch 116/199
+----------
+train Loss: 1.1688 Acc: 0.5476
+val Loss: 2.1052 Acc: 0.3711
+
+For test train_full_ResNet_duck, Epoch 117/199
+----------
+train Loss: 1.1586 Acc: 0.5524
+val Loss: 1.9878 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 118/199
+----------
+train Loss: 1.1764 Acc: 0.5458
+val Loss: 1.9844 Acc: 0.3711
+
+For test train_full_ResNet_duck, Epoch 119/199
+----------
+train Loss: 1.1588 Acc: 0.5640
+val Loss: 2.0044 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 120/199
+----------
+train Loss: 1.1878 Acc: 0.5533
+val Loss: 1.9650 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 121/199
+----------
+train Loss: 1.1465 Acc: 0.5484
+val Loss: 1.9640 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 122/199
+----------
+train Loss: 1.1228 Acc: 0.5640
+val Loss: 1.9691 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 123/199
+----------
+train Loss: 1.1637 Acc: 0.5653
+val Loss: 2.0341 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 124/199
+----------
+train Loss: 1.1930 Acc: 0.5529
+val Loss: 2.0095 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 125/199
+----------
+train Loss: 1.1701 Acc: 0.5498
+val Loss: 2.0214 Acc: 0.4178
+
+For test train_full_ResNet_duck, Epoch 126/199
+----------
+train Loss: 1.1665 Acc: 0.5556
+val Loss: 2.0618 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 127/199
+----------
+train Loss: 1.1406 Acc: 0.5636
+val Loss: 1.9545 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 128/199
+----------
+train Loss: 1.1543 Acc: 0.5622
+val Loss: 2.0107 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 129/199
+----------
+train Loss: 1.1532 Acc: 0.5596
+val Loss: 2.0075 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 130/199
+----------
+train Loss: 1.1491 Acc: 0.5733
+val Loss: 2.0078 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 131/199
+----------
+train Loss: 1.1645 Acc: 0.5573
+val Loss: 1.9971 Acc: 0.3956
+
+For test train_full_ResNet_duck, Epoch 132/199
+----------
+train Loss: 1.1535 Acc: 0.5542
+val Loss: 1.9950 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 133/199
+----------
+train Loss: 1.1455 Acc: 0.5587
+val Loss: 1.9796 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 134/199
+----------
+train Loss: 1.1471 Acc: 0.5476
+val Loss: 1.9623 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 135/199
+----------
+train Loss: 1.1558 Acc: 0.5547
+val Loss: 1.9636 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 136/199
+----------
+train Loss: 1.1635 Acc: 0.5520
+val Loss: 1.9519 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 137/199
+----------
+train Loss: 1.1605 Acc: 0.5516
+val Loss: 1.9904 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 138/199
+----------
+train Loss: 1.1843 Acc: 0.5476
+val Loss: 2.0171 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 139/199
+----------
+train Loss: 1.1743 Acc: 0.5587
+val Loss: 2.1478 Acc: 0.3844
+
+For test train_full_ResNet_duck, Epoch 140/199
+----------
+train Loss: 1.1836 Acc: 0.5471
+val Loss: 2.0807 Acc: 0.3756
+
+For test train_full_ResNet_duck, Epoch 141/199
+----------
+train Loss: 1.1749 Acc: 0.5413
+val Loss: 1.9912 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 142/199
+----------
+train Loss: 1.1795 Acc: 0.5511
+val Loss: 2.0184 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 143/199
+----------
+train Loss: 1.1781 Acc: 0.5591
+val Loss: 1.9585 Acc: 0.4311
+
+For test train_full_ResNet_duck, Epoch 144/199
+----------
+train Loss: 1.1757 Acc: 0.5547
+val Loss: 2.0919 Acc: 0.3689
+
+For test train_full_ResNet_duck, Epoch 145/199
+----------
+train Loss: 1.1547 Acc: 0.5529
+val Loss: 1.9924 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 146/199
+----------
+train Loss: 1.2088 Acc: 0.5458
+val Loss: 1.9319 Acc: 0.4111
+
+For test train_full_ResNet_duck, Epoch 147/199
+----------
+train Loss: 1.1760 Acc: 0.5467
+val Loss: 2.0751 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 148/199
+----------
+train Loss: 1.1707 Acc: 0.5413
+val Loss: 1.9980 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 149/199
+----------
+train Loss: 1.1721 Acc: 0.5622
+val Loss: 2.0446 Acc: 0.3889
+
+For test train_full_ResNet_duck, Epoch 150/199
+----------
+train Loss: 1.1725 Acc: 0.5613
+val Loss: 1.9167 Acc: 0.4289
+
+For test train_full_ResNet_duck, Epoch 151/199
+----------
+train Loss: 1.1580 Acc: 0.5569
+val Loss: 1.9727 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 152/199
+----------
+train Loss: 1.1531 Acc: 0.5551
+val Loss: 1.9262 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 153/199
+----------
+train Loss: 1.1692 Acc: 0.5440
+val Loss: 1.9465 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 154/199
+----------
+train Loss: 1.1666 Acc: 0.5507
+val Loss: 2.0026 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 155/199
+----------
+train Loss: 1.1750 Acc: 0.5436
+val Loss: 2.0820 Acc: 0.3978
+
+For test train_full_ResNet_duck, Epoch 156/199
+----------
+train Loss: 1.1512 Acc: 0.5436
+val Loss: 1.9729 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 157/199
+----------
+train Loss: 1.1516 Acc: 0.5600
+val Loss: 2.0221 Acc: 0.3756
+
+For test train_full_ResNet_duck, Epoch 158/199
+----------
+train Loss: 1.1844 Acc: 0.5409
+val Loss: 1.9149 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 159/199
+----------
+train Loss: 1.1644 Acc: 0.5622
+val Loss: 1.8951 Acc: 0.4200
+
+For test train_full_ResNet_duck, Epoch 160/199
+----------
+train Loss: 1.1675 Acc: 0.5507
+val Loss: 2.0266 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 161/199
+----------
+train Loss: 1.1644 Acc: 0.5507
+val Loss: 1.9829 Acc: 0.3778
+
+For test train_full_ResNet_duck, Epoch 162/199
+----------
+train Loss: 1.1520 Acc: 0.5587
+val Loss: 1.9982 Acc: 0.4156
+
+For test train_full_ResNet_duck, Epoch 163/199
+----------
+train Loss: 1.1500 Acc: 0.5587
+val Loss: 2.1018 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 164/199
+----------
+train Loss: 1.1240 Acc: 0.5689
+val Loss: 2.0150 Acc: 0.3778
+
+For test train_full_ResNet_duck, Epoch 165/199
+----------
+train Loss: 1.1778 Acc: 0.5516
+val Loss: 2.0589 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 166/199
+----------
+train Loss: 1.1687 Acc: 0.5498
+val Loss: 1.9428 Acc: 0.4111
+
+For test train_full_ResNet_duck, Epoch 167/199
+----------
+train Loss: 1.1976 Acc: 0.5418
+val Loss: 1.9333 Acc: 0.4156
+
+For test train_full_ResNet_duck, Epoch 168/199
+----------
+train Loss: 1.1963 Acc: 0.5409
+val Loss: 2.0300 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 169/199
+----------
+train Loss: 1.1448 Acc: 0.5498
+val Loss: 2.0252 Acc: 0.3956
+
+For test train_full_ResNet_duck, Epoch 170/199
+----------
+train Loss: 1.1299 Acc: 0.5716
+val Loss: 1.9558 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 171/199
+----------
+train Loss: 1.1875 Acc: 0.5533
+val Loss: 2.0230 Acc: 0.4222
+
+For test train_full_ResNet_duck, Epoch 172/199
+----------
+train Loss: 1.2093 Acc: 0.5418
+val Loss: 2.0110 Acc: 0.4200
+
+For test train_full_ResNet_duck, Epoch 173/199
+----------
+train Loss: 1.1642 Acc: 0.5547
+val Loss: 2.1368 Acc: 0.4044
+
+For test train_full_ResNet_duck, Epoch 174/199
+----------
+train Loss: 1.1951 Acc: 0.5533
+val Loss: 2.0207 Acc: 0.3822
+
+For test train_full_ResNet_duck, Epoch 175/199
+----------
+train Loss: 1.1864 Acc: 0.5618
+val Loss: 2.0180 Acc: 0.3867
+
+For test train_full_ResNet_duck, Epoch 176/199
+----------
+train Loss: 1.1563 Acc: 0.5387
+val Loss: 1.9234 Acc: 0.4133
+
+For test train_full_ResNet_duck, Epoch 177/199
+----------
+train Loss: 1.1666 Acc: 0.5396
+val Loss: 2.0805 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 178/199
+----------
+train Loss: 1.1525 Acc: 0.5582
+val Loss: 2.0142 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 179/199
+----------
+train Loss: 1.1685 Acc: 0.5382
+val Loss: 1.9406 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 180/199
+----------
+train Loss: 1.1340 Acc: 0.5564
+val Loss: 1.9859 Acc: 0.3911
+
+For test train_full_ResNet_duck, Epoch 181/199
+----------
+train Loss: 1.1411 Acc: 0.5556
+val Loss: 1.8955 Acc: 0.4244
+
+For test train_full_ResNet_duck, Epoch 182/199
+----------
+train Loss: 1.1806 Acc: 0.5462
+val Loss: 1.9605 Acc: 0.4067
+
+For test train_full_ResNet_duck, Epoch 183/199
+----------
+train Loss: 1.1758 Acc: 0.5431
+val Loss: 1.9127 Acc: 0.4022
+
+For test train_full_ResNet_duck, Epoch 184/199
+----------
+train Loss: 1.1687 Acc: 0.5520
+val Loss: 2.0407 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 185/199
+----------
+train Loss: 1.1913 Acc: 0.5427
+val Loss: 1.9549 Acc: 0.4311
+
+For test train_full_ResNet_duck, Epoch 186/199
+----------
+train Loss: 1.1417 Acc: 0.5560
+val Loss: 1.9802 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 187/199
+----------
+train Loss: 1.1627 Acc: 0.5689
+val Loss: 2.0044 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 188/199
+----------
+train Loss: 1.1496 Acc: 0.5636
+val Loss: 1.9615 Acc: 0.4000
+
+For test train_full_ResNet_duck, Epoch 189/199
+----------
+train Loss: 1.1680 Acc: 0.5604
+val Loss: 1.9434 Acc: 0.4222
+
+For test train_full_ResNet_duck, Epoch 190/199
+----------
+train Loss: 1.1528 Acc: 0.5551
+val Loss: 1.9746 Acc: 0.4200
+
+For test train_full_ResNet_duck, Epoch 191/199
+----------
+train Loss: 1.1170 Acc: 0.5618
+val Loss: 2.0922 Acc: 0.3733
+
+For test train_full_ResNet_duck, Epoch 192/199
+----------
+train Loss: 1.1643 Acc: 0.5489
+val Loss: 2.1169 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 193/199
+----------
+train Loss: 1.1655 Acc: 0.5587
+val Loss: 1.9827 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 194/199
+----------
+train Loss: 1.1613 Acc: 0.5569
+val Loss: 2.0654 Acc: 0.4111
+
+For test train_full_ResNet_duck, Epoch 195/199
+----------
+train Loss: 1.1507 Acc: 0.5573
+val Loss: 2.0712 Acc: 0.4089
+
+For test train_full_ResNet_duck, Epoch 196/199
+----------
+train Loss: 1.1389 Acc: 0.5684
+val Loss: 1.9996 Acc: 0.3933
+
+For test train_full_ResNet_duck, Epoch 197/199
+----------
+train Loss: 1.1383 Acc: 0.5671
+val Loss: 1.9646 Acc: 0.3800
+
+For test train_full_ResNet_duck, Epoch 198/199
+----------
+train Loss: 1.1573 Acc: 0.5569
+val Loss: 2.0709 Acc: 0.3756
+
+For test train_full_ResNet_duck, Epoch 199/199
+----------
+train Loss: 1.1528 Acc: 0.5573
+val Loss: 2.1042 Acc: 0.3844
+
+Training complete in 48m 21s
+Best val Acc: 0.440000
+For test train_full_ResNet_nbn, Epoch 0/199
+----------
+train Loss: 13.8219 Acc: 0.2200
+val Loss: 25.1554 Acc: 0.2000
+
+For test train_full_ResNet_nbn, Epoch 1/199
+----------
+train Loss: 10.8305 Acc: 0.2147
+val Loss: 9.7717 Acc: 0.2022
+
+For test train_full_ResNet_nbn, Epoch 2/199
+----------
+train Loss: 13.4734 Acc: 0.2127
+val Loss: 11.3169 Acc: 0.2022
+
+For test train_full_ResNet_nbn, Epoch 3/199
+----------
+train Loss: 14.0819 Acc: 0.2040
+val Loss: 8.2316 Acc: 0.1889
+
+For test train_full_ResNet_nbn, Epoch 4/199
+----------
+train Loss: 12.9929 Acc: 0.2153
+val Loss: 10.3087 Acc: 0.2022
+
+For test train_full_ResNet_nbn, Epoch 5/199
+----------
+train Loss: 11.8761 Acc: 0.2247
+val Loss: 10.7220 Acc: 0.2000
+
+For test train_full_ResNet_nbn, Epoch 6/199
+----------
+train Loss: 11.6424 Acc: 0.2200
+val Loss: 12.7675 Acc: 0.2000
+
+For test train_full_ResNet_nbn, Epoch 7/199
+----------
+train Loss: 9.5066 Acc: 0.2393
+val Loss: 7.2709 Acc: 0.2422
+
+For test train_full_ResNet_nbn, Epoch 8/199
+----------
+train Loss: 10.9992 Acc: 0.2353
+val Loss: 10.5213 Acc: 0.2422
+
+For test train_full_ResNet_nbn, Epoch 9/199
+----------
+train Loss: 10.2305 Acc: 0.2507
+val Loss: 24.4335 Acc: 0.1978
+
+For test train_full_ResNet_nbn, Epoch 10/199
+----------
+train Loss: 10.8700 Acc: 0.2433
+val Loss: 11.6652 Acc: 0.2022
+
+For test train_full_ResNet_nbn, Epoch 11/199
+----------
+train Loss: 8.1263 Acc: 0.2620
+val Loss: 6.4308 Acc: 0.2489
+
+For test train_full_ResNet_nbn, Epoch 12/199
+----------
+train Loss: 8.3131 Acc: 0.2473
+val Loss: 7.0076 Acc: 0.2178
+
+For test train_full_ResNet_nbn, Epoch 13/199
+----------
+train Loss: 9.8854 Acc: 0.2653
+val Loss: 9.2092 Acc: 0.2444
+
+For test train_full_ResNet_nbn, Epoch 14/199
+----------
+train Loss: 9.7242 Acc: 0.2627
+val Loss: 4.7494 Acc: 0.3089
+
+For test train_full_ResNet_nbn, Epoch 15/199
+----------
+train Loss: 5.5331 Acc: 0.3033
+val Loss: 5.7116 Acc: 0.2356
+
+For test train_full_ResNet_nbn, Epoch 16/199
+----------
+train Loss: 11.6582 Acc: 0.2693
+val Loss: 6.7332 Acc: 0.2578
+
+For test train_full_ResNet_nbn, Epoch 17/199
+----------
+train Loss: 8.2272 Acc: 0.2947
+val Loss: 6.5670 Acc: 0.2578
+
+For test train_full_ResNet_nbn, Epoch 18/199
+----------
+train Loss: 4.2745 Acc: 0.3260
+val Loss: 4.3334 Acc: 0.2889
+
+For test train_full_ResNet_nbn, Epoch 19/199
+----------
+train Loss: 9.1303 Acc: 0.2740
+val Loss: 10.2603 Acc: 0.2444
+
+For test train_full_ResNet_nbn, Epoch 20/199
+----------
+train Loss: 6.9610 Acc: 0.2933
+val Loss: 13.7791 Acc: 0.2000
+
+For test train_full_ResNet_nbn, Epoch 21/199
+----------
+train Loss: 9.4771 Acc: 0.2553
+val Loss: 8.6822 Acc: 0.2200
+
+For test train_full_ResNet_nbn, Epoch 22/199
+----------
+train Loss: 7.2856 Acc: 0.3033
+val Loss: 5.0639 Acc: 0.2889
+
+For test train_full_ResNet_nbn, Epoch 23/199
+----------
+train Loss: 6.4019 Acc: 0.2980
+val Loss: 5.2543 Acc: 0.3000
+
+For test train_full_ResNet_nbn, Epoch 24/199
+----------
+train Loss: 4.7804 Acc: 0.3307
+val Loss: 7.4872 Acc: 0.2267
+
+For test train_full_ResNet_nbn, Epoch 25/199
+----------
+train Loss: 6.1084 Acc: 0.3193
+val Loss: 6.1331 Acc: 0.2867
+
+For test train_full_ResNet_nbn, Epoch 26/199
+----------
+train Loss: 9.7965 Acc: 0.2927
+val Loss: 8.6412 Acc: 0.2489
+
+For test train_full_ResNet_nbn, Epoch 27/199
+----------
+train Loss: 8.1391 Acc: 0.3053
+Epoch    28: reducing learning rate of group 0 to 1.0000e-03.
+val Loss: 8.9337 Acc: 0.2378
+
+For test train_full_ResNet_nbn, Epoch 28/199
+----------
+train Loss: 2.1791 Acc: 0.4693
+val Loss: 2.7075 Acc: 0.3600
+
+For test train_full_ResNet_nbn, Epoch 29/199
+----------
+train Loss: 1.5797 Acc: 0.5113
+val Loss: 2.4760 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 30/199
+----------
+train Loss: 1.6123 Acc: 0.4940
+val Loss: 2.8403 Acc: 0.3178
+
+For test train_full_ResNet_nbn, Epoch 31/199
+----------
+train Loss: 1.6081 Acc: 0.4960
+val Loss: 2.7007 Acc: 0.3111
+
+For test train_full_ResNet_nbn, Epoch 32/199
+----------
+train Loss: 1.6154 Acc: 0.4947
+val Loss: 2.4648 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 33/199
+----------
+train Loss: 1.6666 Acc: 0.4927
+val Loss: 2.7340 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 34/199
+----------
+train Loss: 1.6251 Acc: 0.4873
+val Loss: 2.4526 Acc: 0.3178
+
+For test train_full_ResNet_nbn, Epoch 35/199
+----------
+train Loss: 1.5294 Acc: 0.5093
+val Loss: 2.4971 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 36/199
+----------
+train Loss: 1.5079 Acc: 0.5187
+val Loss: 2.8780 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 37/199
+----------
+train Loss: 1.4768 Acc: 0.5253
+val Loss: 2.5166 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 38/199
+----------
+train Loss: 1.4993 Acc: 0.5240
+val Loss: 3.0451 Acc: 0.3089
+
+For test train_full_ResNet_nbn, Epoch 39/199
+----------
+train Loss: 1.4913 Acc: 0.5213
+val Loss: 2.5697 Acc: 0.3222
+
+For test train_full_ResNet_nbn, Epoch 40/199
+----------
+train Loss: 1.5389 Acc: 0.5013
+val Loss: 2.3419 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 41/199
+----------
+train Loss: 1.4916 Acc: 0.5287
+val Loss: 2.3515 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 42/199
+----------
+train Loss: 1.4536 Acc: 0.5340
+val Loss: 2.5350 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 43/199
+----------
+train Loss: 1.5185 Acc: 0.5040
+val Loss: 2.6059 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 44/199
+----------
+train Loss: 1.5443 Acc: 0.5053
+val Loss: 2.3566 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 45/199
+----------
+train Loss: 1.4761 Acc: 0.5300
+val Loss: 2.4054 Acc: 0.3711
+
+For test train_full_ResNet_nbn, Epoch 46/199
+----------
+train Loss: 1.4754 Acc: 0.5180
+val Loss: 2.2378 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 47/199
+----------
+train Loss: 1.3922 Acc: 0.5393
+val Loss: 2.3032 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 48/199
+----------
+train Loss: 1.4360 Acc: 0.5140
+val Loss: 2.5602 Acc: 0.2978
+
+For test train_full_ResNet_nbn, Epoch 49/199
+----------
+train Loss: 1.4543 Acc: 0.5067
+val Loss: 2.3794 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 50/199
+----------
+train Loss: 1.4511 Acc: 0.5200
+val Loss: 2.2702 Acc: 0.3178
+
+For test train_full_ResNet_nbn, Epoch 51/199
+----------
+train Loss: 1.4610 Acc: 0.5193
+val Loss: 2.6332 Acc: 0.3289
+
+For test train_full_ResNet_nbn, Epoch 52/199
+----------
+train Loss: 1.4444 Acc: 0.5187
+val Loss: 2.2153 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 53/199
+----------
+train Loss: 1.4618 Acc: 0.5160
+val Loss: 2.6944 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 54/199
+----------
+train Loss: 1.3945 Acc: 0.5307
+val Loss: 2.3422 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 55/199
+----------
+train Loss: 1.3697 Acc: 0.5167
+val Loss: 2.2750 Acc: 0.3022
+
+For test train_full_ResNet_nbn, Epoch 56/199
+----------
+train Loss: 1.4139 Acc: 0.5400
+val Loss: 2.6125 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 57/199
+----------
+train Loss: 1.4231 Acc: 0.5200
+val Loss: 2.2626 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 58/199
+----------
+train Loss: 1.3306 Acc: 0.5313
+val Loss: 2.2354 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 59/199
+----------
+train Loss: 1.5073 Acc: 0.4927
+val Loss: 2.1628 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 60/199
+----------
+train Loss: 1.3361 Acc: 0.5447
+val Loss: 2.6392 Acc: 0.3222
+
+For test train_full_ResNet_nbn, Epoch 61/199
+----------
+train Loss: 1.5313 Acc: 0.4867
+val Loss: 2.4308 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 62/199
+----------
+train Loss: 1.4874 Acc: 0.5087
+val Loss: 2.3279 Acc: 0.3289
+
+For test train_full_ResNet_nbn, Epoch 63/199
+----------
+train Loss: 1.3524 Acc: 0.5267
+val Loss: 2.2302 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 64/199
+----------
+train Loss: 1.4377 Acc: 0.5047
+val Loss: 2.2461 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 65/199
+----------
+train Loss: 1.3758 Acc: 0.5313
+val Loss: 2.4355 Acc: 0.3289
+
+For test train_full_ResNet_nbn, Epoch 66/199
+----------
+train Loss: 1.4293 Acc: 0.5087
+val Loss: 2.3025 Acc: 0.3222
+
+For test train_full_ResNet_nbn, Epoch 67/199
+----------
+train Loss: 1.2714 Acc: 0.5573
+val Loss: 2.2564 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 68/199
+----------
+train Loss: 1.3356 Acc: 0.5300
+Epoch    69: reducing learning rate of group 0 to 1.0000e-04.
+val Loss: 2.1661 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 69/199
+----------
+train Loss: 1.1623 Acc: 0.5727
+val Loss: 2.1933 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 70/199
+----------
+train Loss: 1.1867 Acc: 0.5653
+val Loss: 2.1347 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 71/199
+----------
+train Loss: 1.1729 Acc: 0.5593
+val Loss: 2.0852 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 72/199
+----------
+train Loss: 1.1649 Acc: 0.5733
+val Loss: 2.1853 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 73/199
+----------
+train Loss: 1.1561 Acc: 0.5527
+val Loss: 2.0970 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 74/199
+----------
+train Loss: 1.1571 Acc: 0.5733
+val Loss: 2.1038 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 75/199
+----------
+train Loss: 1.1727 Acc: 0.5787
+val Loss: 2.1473 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 76/199
+----------
+train Loss: 1.1601 Acc: 0.5613
+val Loss: 2.0855 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 77/199
+----------
+train Loss: 1.1548 Acc: 0.5813
+val Loss: 2.1061 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 78/199
+----------
+train Loss: 1.1878 Acc: 0.5540
+val Loss: 2.1375 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 79/199
+----------
+train Loss: 1.1334 Acc: 0.6000
+val Loss: 2.2417 Acc: 0.3222
+
+For test train_full_ResNet_nbn, Epoch 80/199
+----------
+train Loss: 1.1853 Acc: 0.5740
+Epoch    81: reducing learning rate of group 0 to 1.0000e-05.
+val Loss: 2.1302 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 81/199
+----------
+train Loss: 1.1739 Acc: 0.5773
+val Loss: 2.1282 Acc: 0.3289
+
+For test train_full_ResNet_nbn, Epoch 82/199
+----------
+train Loss: 1.1334 Acc: 0.5820
+val Loss: 2.0610 Acc: 0.3644
+
+For test train_full_ResNet_nbn, Epoch 83/199
+----------
+train Loss: 1.1503 Acc: 0.5807
+val Loss: 2.1619 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 84/199
+----------
+train Loss: 1.1533 Acc: 0.5707
+val Loss: 2.0823 Acc: 0.3711
+
+For test train_full_ResNet_nbn, Epoch 85/199
+----------
+train Loss: 1.1247 Acc: 0.5693
+val Loss: 2.1165 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 86/199
+----------
+train Loss: 1.1444 Acc: 0.5687
+val Loss: 2.1595 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 87/199
+----------
+train Loss: 1.1637 Acc: 0.5760
+val Loss: 2.1055 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 88/199
+----------
+train Loss: 1.1599 Acc: 0.5593
+val Loss: 2.1498 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 89/199
+----------
+train Loss: 1.1781 Acc: 0.5620
+val Loss: 2.1015 Acc: 0.3600
+
+For test train_full_ResNet_nbn, Epoch 90/199
+----------
+train Loss: 1.1361 Acc: 0.5760
+val Loss: 2.1561 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 91/199
+----------
+train Loss: 1.0804 Acc: 0.6000
+Epoch    92: reducing learning rate of group 0 to 1.0000e-06.
+val Loss: 2.0910 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 92/199
+----------
+train Loss: 1.1258 Acc: 0.5827
+val Loss: 2.1214 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 93/199
+----------
+train Loss: 1.1573 Acc: 0.5787
+val Loss: 2.1412 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 94/199
+----------
+train Loss: 1.1697 Acc: 0.5660
+val Loss: 2.1521 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 95/199
+----------
+train Loss: 1.1214 Acc: 0.5707
+val Loss: 2.1343 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 96/199
+----------
+train Loss: 1.1069 Acc: 0.5893
+val Loss: 2.2261 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 97/199
+----------
+train Loss: 1.1348 Acc: 0.5833
+val Loss: 2.1834 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 98/199
+----------
+train Loss: 1.1629 Acc: 0.5713
+val Loss: 2.0854 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 99/199
+----------
+train Loss: 1.1412 Acc: 0.5787
+val Loss: 2.1596 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 100/199
+----------
+train Loss: 1.1390 Acc: 0.5787
+Epoch   101: reducing learning rate of group 0 to 1.0000e-07.
+val Loss: 2.1284 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 101/199
+----------
+train Loss: 1.1837 Acc: 0.5567
+val Loss: 2.1347 Acc: 0.3200
+
+For test train_full_ResNet_nbn, Epoch 102/199
+----------
+train Loss: 1.1059 Acc: 0.5893
+val Loss: 2.1734 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 103/199
+----------
+train Loss: 1.1218 Acc: 0.5933
+val Loss: 2.0576 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 104/199
+----------
+train Loss: 1.1625 Acc: 0.5687
+val Loss: 2.1726 Acc: 0.3200
+
+For test train_full_ResNet_nbn, Epoch 105/199
+----------
+train Loss: 1.1606 Acc: 0.5653
+val Loss: 2.1345 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 106/199
+----------
+train Loss: 1.1258 Acc: 0.5687
+val Loss: 2.1619 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 107/199
+----------
+train Loss: 1.1267 Acc: 0.5840
+val Loss: 2.0761 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 108/199
+----------
+train Loss: 1.1603 Acc: 0.5840
+val Loss: 2.0981 Acc: 0.3689
+
+For test train_full_ResNet_nbn, Epoch 109/199
+----------
+train Loss: 1.1288 Acc: 0.5887
+val Loss: 2.1278 Acc: 0.3222
+
+For test train_full_ResNet_nbn, Epoch 110/199
+----------
+train Loss: 1.1194 Acc: 0.5733
+val Loss: 2.1158 Acc: 0.3022
+
+For test train_full_ResNet_nbn, Epoch 111/199
+----------
+train Loss: 1.1557 Acc: 0.5787
+val Loss: 2.1045 Acc: 0.3844
+
+For test train_full_ResNet_nbn, Epoch 112/199
+----------
+train Loss: 1.1423 Acc: 0.5673
+Epoch   113: reducing learning rate of group 0 to 1.0000e-08.
+val Loss: 2.1150 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 113/199
+----------
+train Loss: 1.1302 Acc: 0.5760
+val Loss: 2.1334 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 114/199
+----------
+train Loss: 1.1959 Acc: 0.5633
+val Loss: 2.1292 Acc: 0.3689
+
+For test train_full_ResNet_nbn, Epoch 115/199
+----------
+train Loss: 1.1394 Acc: 0.5860
+val Loss: 2.1443 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 116/199
+----------
+train Loss: 1.1396 Acc: 0.5767
+val Loss: 2.1390 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 117/199
+----------
+train Loss: 1.1869 Acc: 0.5627
+val Loss: 2.1342 Acc: 0.3622
+
+For test train_full_ResNet_nbn, Epoch 118/199
+----------
+train Loss: 1.1866 Acc: 0.5480
+val Loss: 2.1092 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 119/199
+----------
+train Loss: 1.1593 Acc: 0.5767
+val Loss: 2.2064 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 120/199
+----------
+train Loss: 1.1494 Acc: 0.5780
+val Loss: 2.1235 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 121/199
+----------
+train Loss: 1.1452 Acc: 0.5733
+val Loss: 2.1322 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 122/199
+----------
+train Loss: 1.1436 Acc: 0.5773
+val Loss: 2.1299 Acc: 0.3600
+
+For test train_full_ResNet_nbn, Epoch 123/199
+----------
+train Loss: 1.1528 Acc: 0.5567
+val Loss: 2.1150 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 124/199
+----------
+train Loss: 1.1535 Acc: 0.5640
+val Loss: 2.0829 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 125/199
+----------
+train Loss: 1.1723 Acc: 0.5693
+val Loss: 2.1165 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 126/199
+----------
+train Loss: 1.1987 Acc: 0.5553
+val Loss: 2.1224 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 127/199
+----------
+train Loss: 1.1339 Acc: 0.5793
+val Loss: 2.1127 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 128/199
+----------
+train Loss: 1.1886 Acc: 0.5693
+val Loss: 2.0951 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 129/199
+----------
+train Loss: 1.1528 Acc: 0.5720
+val Loss: 2.0614 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 130/199
+----------
+train Loss: 1.1538 Acc: 0.5640
+val Loss: 2.0944 Acc: 0.3644
+
+For test train_full_ResNet_nbn, Epoch 131/199
+----------
+train Loss: 1.1359 Acc: 0.5673
+val Loss: 2.0271 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 132/199
+----------
+train Loss: 1.1486 Acc: 0.5800
+val Loss: 2.1156 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 133/199
+----------
+train Loss: 1.1322 Acc: 0.5827
+val Loss: 2.1520 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 134/199
+----------
+train Loss: 1.1666 Acc: 0.5647
+val Loss: 2.1669 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 135/199
+----------
+train Loss: 1.1150 Acc: 0.5753
+val Loss: 2.0755 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 136/199
+----------
+train Loss: 1.1585 Acc: 0.5760
+val Loss: 2.1159 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 137/199
+----------
+train Loss: 1.1776 Acc: 0.5633
+val Loss: 2.1395 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 138/199
+----------
+train Loss: 1.1395 Acc: 0.5687
+val Loss: 2.1008 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 139/199
+----------
+train Loss: 1.1364 Acc: 0.5827
+val Loss: 2.1468 Acc: 0.3289
+
+For test train_full_ResNet_nbn, Epoch 140/199
+----------
+train Loss: 1.1596 Acc: 0.5607
+val Loss: 2.0840 Acc: 0.3600
+
+For test train_full_ResNet_nbn, Epoch 141/199
+----------
+train Loss: 1.1156 Acc: 0.5947
+val Loss: 2.1073 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 142/199
+----------
+train Loss: 1.1242 Acc: 0.5907
+val Loss: 2.1527 Acc: 0.3622
+
+For test train_full_ResNet_nbn, Epoch 143/199
+----------
+train Loss: 1.1411 Acc: 0.5847
+val Loss: 2.1390 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 144/199
+----------
+train Loss: 1.1524 Acc: 0.5820
+val Loss: 2.1742 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 145/199
+----------
+train Loss: 1.1018 Acc: 0.6033
+val Loss: 2.1073 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 146/199
+----------
+train Loss: 1.1441 Acc: 0.5827
+val Loss: 2.1286 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 147/199
+----------
+train Loss: 1.1132 Acc: 0.5953
+val Loss: 2.1534 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 148/199
+----------
+train Loss: 1.1294 Acc: 0.5707
+val Loss: 2.1261 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 149/199
+----------
+train Loss: 1.1752 Acc: 0.5653
+val Loss: 2.1009 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 150/199
+----------
+train Loss: 1.1322 Acc: 0.5807
+val Loss: 2.1362 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 151/199
+----------
+train Loss: 1.1387 Acc: 0.5627
+val Loss: 2.0915 Acc: 0.3578
+
+For test train_full_ResNet_nbn, Epoch 152/199
+----------
+train Loss: 1.1581 Acc: 0.5840
+val Loss: 2.0863 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 153/199
+----------
+train Loss: 1.1208 Acc: 0.5793
+val Loss: 2.1357 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 154/199
+----------
+train Loss: 1.1278 Acc: 0.5800
+val Loss: 2.0851 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 155/199
+----------
+train Loss: 1.1517 Acc: 0.5713
+val Loss: 2.0490 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 156/199
+----------
+train Loss: 1.1479 Acc: 0.5813
+val Loss: 2.1274 Acc: 0.3578
+
+For test train_full_ResNet_nbn, Epoch 157/199
+----------
+train Loss: 1.1880 Acc: 0.5660
+val Loss: 2.1310 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 158/199
+----------
+train Loss: 1.1418 Acc: 0.5767
+val Loss: 2.1290 Acc: 0.3311
+
+For test train_full_ResNet_nbn, Epoch 159/199
+----------
+train Loss: 1.1457 Acc: 0.5573
+val Loss: 2.1304 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 160/199
+----------
+train Loss: 1.1690 Acc: 0.5853
+val Loss: 2.1740 Acc: 0.3667
+
+For test train_full_ResNet_nbn, Epoch 161/199
+----------
+train Loss: 1.1774 Acc: 0.5667
+val Loss: 2.1489 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 162/199
+----------
+train Loss: 1.1464 Acc: 0.5660
+val Loss: 2.1380 Acc: 0.3622
+
+For test train_full_ResNet_nbn, Epoch 163/199
+----------
+train Loss: 1.1487 Acc: 0.5833
+val Loss: 2.1393 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 164/199
+----------
+train Loss: 1.2028 Acc: 0.5653
+val Loss: 2.0625 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 165/199
+----------
+train Loss: 1.1612 Acc: 0.5720
+val Loss: 2.1464 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 166/199
+----------
+train Loss: 1.1618 Acc: 0.5787
+val Loss: 2.0559 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 167/199
+----------
+train Loss: 1.1530 Acc: 0.5813
+val Loss: 2.0718 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 168/199
+----------
+train Loss: 1.1390 Acc: 0.5747
+val Loss: 2.1188 Acc: 0.3689
+
+For test train_full_ResNet_nbn, Epoch 169/199
+----------
+train Loss: 1.1617 Acc: 0.5727
+val Loss: 2.1241 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 170/199
+----------
+train Loss: 1.1664 Acc: 0.5667
+val Loss: 2.1338 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 171/199
+----------
+train Loss: 1.1581 Acc: 0.5773
+val Loss: 2.1607 Acc: 0.3600
+
+For test train_full_ResNet_nbn, Epoch 172/199
+----------
+train Loss: 1.1179 Acc: 0.5927
+val Loss: 2.0646 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 173/199
+----------
+train Loss: 1.1548 Acc: 0.5907
+val Loss: 2.1776 Acc: 0.3467
+
+For test train_full_ResNet_nbn, Epoch 174/199
+----------
+train Loss: 1.1028 Acc: 0.5940
+val Loss: 2.1043 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 175/199
+----------
+train Loss: 1.1431 Acc: 0.5780
+val Loss: 2.1591 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 176/199
+----------
+train Loss: 1.1454 Acc: 0.5733
+val Loss: 2.1802 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 177/199
+----------
+train Loss: 1.1347 Acc: 0.5820
+val Loss: 2.0903 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 178/199
+----------
+train Loss: 1.1420 Acc: 0.5640
+val Loss: 2.0973 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 179/199
+----------
+train Loss: 1.1303 Acc: 0.5927
+val Loss: 2.0711 Acc: 0.3444
+
+For test train_full_ResNet_nbn, Epoch 180/199
+----------
+train Loss: 1.1738 Acc: 0.5787
+val Loss: 2.0615 Acc: 0.3356
+
+For test train_full_ResNet_nbn, Epoch 181/199
+----------
+train Loss: 1.1691 Acc: 0.5653
+val Loss: 2.1491 Acc: 0.3533
+
+For test train_full_ResNet_nbn, Epoch 182/199
+----------
+train Loss: 1.1808 Acc: 0.5733
+val Loss: 2.1452 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 183/199
+----------
+train Loss: 1.1531 Acc: 0.5860
+val Loss: 2.0856 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 184/199
+----------
+train Loss: 1.1602 Acc: 0.5653
+val Loss: 2.0996 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 185/199
+----------
+train Loss: 1.1716 Acc: 0.5887
+val Loss: 2.1225 Acc: 0.3244
+
+For test train_full_ResNet_nbn, Epoch 186/199
+----------
+train Loss: 1.1928 Acc: 0.5593
+val Loss: 2.1447 Acc: 0.3378
+
+For test train_full_ResNet_nbn, Epoch 187/199
+----------
+train Loss: 1.1462 Acc: 0.5793
+val Loss: 2.0567 Acc: 0.3267
+
+For test train_full_ResNet_nbn, Epoch 188/199
+----------
+train Loss: 1.1710 Acc: 0.5707
+val Loss: 2.1377 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 189/199
+----------
+train Loss: 1.1153 Acc: 0.5967
+val Loss: 2.1014 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 190/199
+----------
+train Loss: 1.1988 Acc: 0.5640
+val Loss: 2.1273 Acc: 0.3556
+
+For test train_full_ResNet_nbn, Epoch 191/199
+----------
+train Loss: 1.1517 Acc: 0.5733
+val Loss: 2.0986 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 192/199
+----------
+train Loss: 1.1569 Acc: 0.5787
+val Loss: 2.0760 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 193/199
+----------
+train Loss: 1.1327 Acc: 0.5793
+val Loss: 2.1223 Acc: 0.3156
+
+For test train_full_ResNet_nbn, Epoch 194/199
+----------
+train Loss: 1.1643 Acc: 0.5653
+val Loss: 2.2046 Acc: 0.3333
+
+For test train_full_ResNet_nbn, Epoch 195/199
+----------
+train Loss: 1.1412 Acc: 0.5787
+val Loss: 2.1105 Acc: 0.3511
+
+For test train_full_ResNet_nbn, Epoch 196/199
+----------
+train Loss: 1.1574 Acc: 0.5713
+val Loss: 2.1478 Acc: 0.3489
+
+For test train_full_ResNet_nbn, Epoch 197/199
+----------
+train Loss: 1.1504 Acc: 0.5693
+val Loss: 2.1970 Acc: 0.3422
+
+For test train_full_ResNet_nbn, Epoch 198/199
+----------
+train Loss: 1.1759 Acc: 0.5827
+val Loss: 2.1439 Acc: 0.3400
+
+For test train_full_ResNet_nbn, Epoch 199/199
+----------
+train Loss: 1.1217 Acc: 0.5820
+val Loss: 2.0472 Acc: 0.3578
+
+Training complete in 33m 37s
+Best val Acc: 0.384444
+For test train_full_ResNet_nbn_duck, Epoch 0/199
+----------
+train Loss: 12.4657 Acc: 0.2067
+val Loss: 8.8715 Acc: 0.2111
+
+For test train_full_ResNet_nbn_duck, Epoch 1/199
+----------
+train Loss: 14.0476 Acc: 0.2147
+val Loss: 19.2792 Acc: 0.1967
+
+For test train_full_ResNet_nbn_duck, Epoch 2/199
+----------
+train Loss: 10.9040 Acc: 0.2229
+val Loss: 12.8243 Acc: 0.1933
+
+For test train_full_ResNet_nbn_duck, Epoch 3/199
+----------
+train Loss: 11.0824 Acc: 0.2307
+val Loss: 17.4658 Acc: 0.2000
+
+For test train_full_ResNet_nbn_duck, Epoch 4/199
+----------
+train Loss: 11.2096 Acc: 0.2328
+val Loss: 13.9799 Acc: 0.2033
+
+For test train_full_ResNet_nbn_duck, Epoch 5/199
+----------
+train Loss: 10.6867 Acc: 0.2424
+val Loss: 7.5571 Acc: 0.2089
+
+For test train_full_ResNet_nbn_duck, Epoch 6/199
+----------
+train Loss: 9.3120 Acc: 0.2339
+val Loss: 13.4079 Acc: 0.2178
+
+For test train_full_ResNet_nbn_duck, Epoch 7/199
+----------
+train Loss: 10.1002 Acc: 0.2435
+val Loss: 9.7305 Acc: 0.2000
+
+For test train_full_ResNet_nbn_duck, Epoch 8/199
+----------
+train Loss: 8.6904 Acc: 0.2600
+val Loss: 6.3052 Acc: 0.2333
+
+For test train_full_ResNet_nbn_duck, Epoch 9/199
+----------
+train Loss: 7.6535 Acc: 0.2712
+val Loss: 8.4359 Acc: 0.2244
+
+For test train_full_ResNet_nbn_duck, Epoch 10/199
+----------
+train Loss: 8.9031 Acc: 0.2488
+val Loss: 10.7526 Acc: 0.2033
+
+For test train_full_ResNet_nbn_duck, Epoch 11/199
+----------
+train Loss: 9.9425 Acc: 0.2589
+val Loss: 6.9182 Acc: 0.2600
+
+For test train_full_ResNet_nbn_duck, Epoch 12/199
+----------
+train Loss: 8.8801 Acc: 0.2752
+val Loss: 16.6632 Acc: 0.2056
+
+For test train_full_ResNet_nbn_duck, Epoch 13/199
+----------
+train Loss: 8.2244 Acc: 0.2741
+val Loss: 9.4675 Acc: 0.2878
+
+For test train_full_ResNet_nbn_duck, Epoch 14/199
+----------
+train Loss: 7.1369 Acc: 0.2744
+val Loss: 3.8292 Acc: 0.3167
+
+For test train_full_ResNet_nbn_duck, Epoch 15/199
+----------
+train Loss: 7.3171 Acc: 0.2808
+val Loss: 11.1489 Acc: 0.2544
+
+For test train_full_ResNet_nbn_duck, Epoch 16/199
+----------
+train Loss: 7.4713 Acc: 0.3008
+val Loss: 8.9529 Acc: 0.2278
+
+For test train_full_ResNet_nbn_duck, Epoch 17/199
+----------
+train Loss: 7.8522 Acc: 0.2872
+val Loss: 9.1391 Acc: 0.2444
+
+For test train_full_ResNet_nbn_duck, Epoch 18/199
+----------
+train Loss: 8.9467 Acc: 0.2760
+val Loss: 18.8542 Acc: 0.2156
+
+For test train_full_ResNet_nbn_duck, Epoch 19/199
+----------
+train Loss: 8.4978 Acc: 0.2787
+val Loss: 8.8211 Acc: 0.2433
+
+For test train_full_ResNet_nbn_duck, Epoch 20/199
+----------
+train Loss: 7.6134 Acc: 0.2949
+val Loss: 4.6147 Acc: 0.2933
+
+For test train_full_ResNet_nbn_duck, Epoch 21/199
+----------
+train Loss: 7.8613 Acc: 0.2936
+val Loss: 18.7531 Acc: 0.2000
+
+For test train_full_ResNet_nbn_duck, Epoch 22/199
+----------
+train Loss: 7.3423 Acc: 0.2877
+val Loss: 9.3640 Acc: 0.2500
+
+For test train_full_ResNet_nbn_duck, Epoch 23/199
+----------
+train Loss: 8.2330 Acc: 0.2880
+Epoch    24: reducing learning rate of group 0 to 1.0000e-03.
+val Loss: 6.3813 Acc: 0.2522
+
+For test train_full_ResNet_nbn_duck, Epoch 24/199
+----------
+train Loss: 2.3077 Acc: 0.4299
+val Loss: 3.2682 Acc: 0.3256
+
+For test train_full_ResNet_nbn_duck, Epoch 25/199
+----------
+train Loss: 2.0041 Acc: 0.4424
+val Loss: 3.3447 Acc: 0.3022
+
+For test train_full_ResNet_nbn_duck, Epoch 26/199
+----------
+train Loss: 2.0522 Acc: 0.4373
+val Loss: 2.9818 Acc: 0.3422
+
+For test train_full_ResNet_nbn_duck, Epoch 27/199
+----------
+train Loss: 2.0568 Acc: 0.4397
+val Loss: 3.3942 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 28/199
+----------
+train Loss: 1.9691 Acc: 0.4251
+val Loss: 2.7665 Acc: 0.3200
+
+For test train_full_ResNet_nbn_duck, Epoch 29/199
+----------
+train Loss: 1.9618 Acc: 0.4317
+val Loss: 3.0657 Acc: 0.3100
+
+For test train_full_ResNet_nbn_duck, Epoch 30/199
+----------
+train Loss: 2.0092 Acc: 0.4373
+val Loss: 2.7021 Acc: 0.3678
+
+For test train_full_ResNet_nbn_duck, Epoch 31/199
+----------
+train Loss: 2.0357 Acc: 0.4309
+val Loss: 2.8487 Acc: 0.3267
+
+For test train_full_ResNet_nbn_duck, Epoch 32/199
+----------
+train Loss: 1.9565 Acc: 0.4320
+val Loss: 2.7311 Acc: 0.3333
+
+For test train_full_ResNet_nbn_duck, Epoch 33/199
+----------
+train Loss: 1.9756 Acc: 0.4357
+val Loss: 2.8105 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 34/199
+----------
+train Loss: 1.9216 Acc: 0.4491
+val Loss: 3.5188 Acc: 0.3189
+
+For test train_full_ResNet_nbn_duck, Epoch 35/199
+----------
+train Loss: 1.8760 Acc: 0.4373
+val Loss: 3.0396 Acc: 0.3167
+
+For test train_full_ResNet_nbn_duck, Epoch 36/199
+----------
+train Loss: 1.8701 Acc: 0.4352
+val Loss: 3.1292 Acc: 0.3133
+
+For test train_full_ResNet_nbn_duck, Epoch 37/199
+----------
+train Loss: 1.8809 Acc: 0.4475
+val Loss: 2.7735 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 38/199
+----------
+train Loss: 1.8714 Acc: 0.4427
+val Loss: 2.7742 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 39/199
+----------
+train Loss: 1.8958 Acc: 0.4371
+val Loss: 2.6863 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 40/199
+----------
+train Loss: 1.8275 Acc: 0.4544
+val Loss: 3.1270 Acc: 0.3111
+
+For test train_full_ResNet_nbn_duck, Epoch 41/199
+----------
+train Loss: 1.8358 Acc: 0.4411
+val Loss: 2.9703 Acc: 0.3067
+
+For test train_full_ResNet_nbn_duck, Epoch 42/199
+----------
+train Loss: 1.8950 Acc: 0.4533
+val Loss: 2.8767 Acc: 0.3233
+
+For test train_full_ResNet_nbn_duck, Epoch 43/199
+----------
+train Loss: 1.8943 Acc: 0.4219
+val Loss: 2.9045 Acc: 0.3333
+
+For test train_full_ResNet_nbn_duck, Epoch 44/199
+----------
+train Loss: 1.7799 Acc: 0.4347
+val Loss: 2.7414 Acc: 0.3367
+
+For test train_full_ResNet_nbn_duck, Epoch 45/199
+----------
+train Loss: 1.7793 Acc: 0.4525
+val Loss: 3.0120 Acc: 0.3256
+
+For test train_full_ResNet_nbn_duck, Epoch 46/199
+----------
+train Loss: 1.7701 Acc: 0.4520
+val Loss: 2.4699 Acc: 0.3522
+
+For test train_full_ResNet_nbn_duck, Epoch 47/199
+----------
+train Loss: 1.8128 Acc: 0.4571
+val Loss: 2.6503 Acc: 0.3222
+
+For test train_full_ResNet_nbn_duck, Epoch 48/199
+----------
+train Loss: 1.7571 Acc: 0.4536
+val Loss: 2.4895 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 49/199
+----------
+train Loss: 1.6922 Acc: 0.4597
+val Loss: 2.5000 Acc: 0.3422
+
+For test train_full_ResNet_nbn_duck, Epoch 50/199
+----------
+train Loss: 1.7427 Acc: 0.4467
+val Loss: 2.3542 Acc: 0.3544
+
+For test train_full_ResNet_nbn_duck, Epoch 51/199
+----------
+train Loss: 1.8038 Acc: 0.4320
+val Loss: 2.5800 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 52/199
+----------
+train Loss: 1.7391 Acc: 0.4493
+val Loss: 2.5834 Acc: 0.3144
+
+For test train_full_ResNet_nbn_duck, Epoch 53/199
+----------
+train Loss: 1.7573 Acc: 0.4488
+val Loss: 2.5236 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 54/199
+----------
+train Loss: 1.7843 Acc: 0.4395
+val Loss: 2.4268 Acc: 0.3200
+
+For test train_full_ResNet_nbn_duck, Epoch 55/199
+----------
+train Loss: 1.7445 Acc: 0.4443
+val Loss: 2.4523 Acc: 0.3489
+
+For test train_full_ResNet_nbn_duck, Epoch 56/199
+----------
+train Loss: 1.6887 Acc: 0.4576
+val Loss: 3.3605 Acc: 0.2822
+
+For test train_full_ResNet_nbn_duck, Epoch 57/199
+----------
+train Loss: 1.7126 Acc: 0.4461
+val Loss: 2.4566 Acc: 0.3244
+
+For test train_full_ResNet_nbn_duck, Epoch 58/199
+----------
+train Loss: 1.7084 Acc: 0.4472
+val Loss: 2.4870 Acc: 0.3378
+
+For test train_full_ResNet_nbn_duck, Epoch 59/199
+----------
+train Loss: 1.7021 Acc: 0.4472
+Epoch    60: reducing learning rate of group 0 to 1.0000e-04.
+val Loss: 2.4659 Acc: 0.3133
+
+For test train_full_ResNet_nbn_duck, Epoch 60/199
+----------
+train Loss: 1.4741 Acc: 0.4792
+val Loss: 2.3135 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 61/199
+----------
+train Loss: 1.4852 Acc: 0.4781
+val Loss: 2.1577 Acc: 0.3656
+
+For test train_full_ResNet_nbn_duck, Epoch 62/199
+----------
+train Loss: 1.4651 Acc: 0.4824
+val Loss: 2.2957 Acc: 0.3589
+
+For test train_full_ResNet_nbn_duck, Epoch 63/199
+----------
+train Loss: 1.4481 Acc: 0.4832
+val Loss: 2.3018 Acc: 0.3622
+
+For test train_full_ResNet_nbn_duck, Epoch 64/199
+----------
+train Loss: 1.4530 Acc: 0.4787
+val Loss: 2.3891 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 65/199
+----------
+train Loss: 1.4528 Acc: 0.4779
+val Loss: 2.1528 Acc: 0.3689
+
+For test train_full_ResNet_nbn_duck, Epoch 66/199
+----------
+train Loss: 1.4429 Acc: 0.4907
+val Loss: 2.3064 Acc: 0.3344
+
+For test train_full_ResNet_nbn_duck, Epoch 67/199
+----------
+train Loss: 1.4606 Acc: 0.4835
+val Loss: 2.3067 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 68/199
+----------
+train Loss: 1.4802 Acc: 0.4787
+val Loss: 2.4199 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 69/199
+----------
+train Loss: 1.4618 Acc: 0.4800
+val Loss: 2.2524 Acc: 0.3389
+
+For test train_full_ResNet_nbn_duck, Epoch 70/199
+----------
+train Loss: 1.4635 Acc: 0.4835
+val Loss: 2.1222 Acc: 0.3700
+
+For test train_full_ResNet_nbn_duck, Epoch 71/199
+----------
+train Loss: 1.5037 Acc: 0.4749
+val Loss: 2.1942 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 72/199
+----------
+train Loss: 1.4402 Acc: 0.4883
+val Loss: 2.2967 Acc: 0.3400
+
+For test train_full_ResNet_nbn_duck, Epoch 73/199
+----------
+train Loss: 1.4607 Acc: 0.4877
+val Loss: 2.1439 Acc: 0.3678
+
+For test train_full_ResNet_nbn_duck, Epoch 74/199
+----------
+train Loss: 1.4492 Acc: 0.4861
+val Loss: 2.3313 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 75/199
+----------
+train Loss: 1.4646 Acc: 0.4824
+val Loss: 2.3936 Acc: 0.3500
+
+For test train_full_ResNet_nbn_duck, Epoch 76/199
+----------
+train Loss: 1.4355 Acc: 0.4824
+val Loss: 2.2733 Acc: 0.3378
+
+For test train_full_ResNet_nbn_duck, Epoch 77/199
+----------
+train Loss: 1.4831 Acc: 0.4827
+val Loss: 2.2184 Acc: 0.3622
+
+For test train_full_ResNet_nbn_duck, Epoch 78/199
+----------
+train Loss: 1.4614 Acc: 0.4787
+val Loss: 2.1486 Acc: 0.3500
+
+For test train_full_ResNet_nbn_duck, Epoch 79/199
+----------
+train Loss: 1.4356 Acc: 0.4803
+Epoch    80: reducing learning rate of group 0 to 1.0000e-05.
+val Loss: 2.2935 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 80/199
+----------
+train Loss: 1.4152 Acc: 0.4896
+val Loss: 2.3131 Acc: 0.3522
+
+For test train_full_ResNet_nbn_duck, Epoch 81/199
+----------
+train Loss: 1.4584 Acc: 0.4787
+val Loss: 2.1001 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 82/199
+----------
+train Loss: 1.4407 Acc: 0.4861
+val Loss: 2.2687 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 83/199
+----------
+train Loss: 1.4327 Acc: 0.4859
+val Loss: 2.2875 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 84/199
+----------
+train Loss: 1.4342 Acc: 0.4939
+val Loss: 2.2975 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 85/199
+----------
+train Loss: 1.4376 Acc: 0.4835
+val Loss: 2.1881 Acc: 0.3489
+
+For test train_full_ResNet_nbn_duck, Epoch 86/199
+----------
+train Loss: 1.4202 Acc: 0.4941
+val Loss: 2.2396 Acc: 0.3400
+
+For test train_full_ResNet_nbn_duck, Epoch 87/199
+----------
+train Loss: 1.4453 Acc: 0.4845
+val Loss: 2.1394 Acc: 0.3467
+
+For test train_full_ResNet_nbn_duck, Epoch 88/199
+----------
+train Loss: 1.4559 Acc: 0.4848
+val Loss: 2.2102 Acc: 0.3611
+
+For test train_full_ResNet_nbn_duck, Epoch 89/199
+----------
+train Loss: 1.4075 Acc: 0.4939
+val Loss: 2.3764 Acc: 0.3256
+
+For test train_full_ResNet_nbn_duck, Epoch 90/199
+----------
+train Loss: 1.4181 Acc: 0.4853
+Epoch    91: reducing learning rate of group 0 to 1.0000e-06.
+val Loss: 2.3241 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 91/199
+----------
+train Loss: 1.4375 Acc: 0.4800
+val Loss: 2.1423 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 92/199
+----------
+train Loss: 1.4432 Acc: 0.4880
+val Loss: 2.2103 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 93/199
+----------
+train Loss: 1.4012 Acc: 0.4947
+val Loss: 2.2410 Acc: 0.3633
+
+For test train_full_ResNet_nbn_duck, Epoch 94/199
+----------
+train Loss: 1.4435 Acc: 0.4781
+val Loss: 2.2400 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 95/199
+----------
+train Loss: 1.4130 Acc: 0.4912
+val Loss: 2.2242 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 96/199
+----------
+train Loss: 1.4242 Acc: 0.4829
+val Loss: 2.1916 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 97/199
+----------
+train Loss: 1.4080 Acc: 0.4904
+val Loss: 2.1888 Acc: 0.3333
+
+For test train_full_ResNet_nbn_duck, Epoch 98/199
+----------
+train Loss: 1.4441 Acc: 0.4749
+val Loss: 2.1789 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 99/199
+----------
+train Loss: 1.4486 Acc: 0.4947
+Epoch   100: reducing learning rate of group 0 to 1.0000e-07.
+val Loss: 2.2991 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 100/199
+----------
+train Loss: 1.4443 Acc: 0.4811
+val Loss: 2.2465 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 101/199
+----------
+train Loss: 1.4255 Acc: 0.4872
+val Loss: 2.1354 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 102/199
+----------
+train Loss: 1.4479 Acc: 0.4885
+val Loss: 2.1979 Acc: 0.3700
+
+For test train_full_ResNet_nbn_duck, Epoch 103/199
+----------
+train Loss: 1.4348 Acc: 0.4760
+val Loss: 2.2651 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 104/199
+----------
+train Loss: 1.4226 Acc: 0.4947
+val Loss: 2.1555 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 105/199
+----------
+train Loss: 1.4214 Acc: 0.4941
+val Loss: 2.2615 Acc: 0.3500
+
+For test train_full_ResNet_nbn_duck, Epoch 106/199
+----------
+train Loss: 1.4294 Acc: 0.4936
+val Loss: 2.2083 Acc: 0.3489
+
+For test train_full_ResNet_nbn_duck, Epoch 107/199
+----------
+train Loss: 1.4415 Acc: 0.4896
+val Loss: 2.2451 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 108/199
+----------
+train Loss: 1.4351 Acc: 0.4837
+Epoch   109: reducing learning rate of group 0 to 1.0000e-08.
+val Loss: 2.3343 Acc: 0.3322
+
+For test train_full_ResNet_nbn_duck, Epoch 109/199
+----------
+train Loss: 1.4343 Acc: 0.4936
+val Loss: 2.2295 Acc: 0.3522
+
+For test train_full_ResNet_nbn_duck, Epoch 110/199
+----------
+train Loss: 1.4834 Acc: 0.4656
+val Loss: 2.2582 Acc: 0.3589
+
+For test train_full_ResNet_nbn_duck, Epoch 111/199
+----------
+train Loss: 1.4325 Acc: 0.4915
+val Loss: 2.2916 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 112/199
+----------
+train Loss: 1.4564 Acc: 0.4819
+val Loss: 2.1387 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 113/199
+----------
+train Loss: 1.4331 Acc: 0.4909
+val Loss: 2.4273 Acc: 0.3311
+
+For test train_full_ResNet_nbn_duck, Epoch 114/199
+----------
+train Loss: 1.4454 Acc: 0.4851
+val Loss: 2.1551 Acc: 0.3544
+
+For test train_full_ResNet_nbn_duck, Epoch 115/199
+----------
+train Loss: 1.4303 Acc: 0.4936
+val Loss: 2.1026 Acc: 0.3400
+
+For test train_full_ResNet_nbn_duck, Epoch 116/199
+----------
+train Loss: 1.4126 Acc: 0.4861
+val Loss: 2.2574 Acc: 0.3400
+
+For test train_full_ResNet_nbn_duck, Epoch 117/199
+----------
+train Loss: 1.4148 Acc: 0.4952
+val Loss: 2.2955 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 118/199
+----------
+train Loss: 1.4276 Acc: 0.4891
+val Loss: 2.1703 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 119/199
+----------
+train Loss: 1.4189 Acc: 0.4955
+val Loss: 2.2336 Acc: 0.3633
+
+For test train_full_ResNet_nbn_duck, Epoch 120/199
+----------
+train Loss: 1.4367 Acc: 0.4901
+val Loss: 2.1919 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 121/199
+----------
+train Loss: 1.4018 Acc: 0.4973
+val Loss: 2.2918 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 122/199
+----------
+train Loss: 1.4420 Acc: 0.4800
+val Loss: 2.1394 Acc: 0.3600
+
+For test train_full_ResNet_nbn_duck, Epoch 123/199
+----------
+train Loss: 1.4611 Acc: 0.4680
+val Loss: 2.3232 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 124/199
+----------
+train Loss: 1.4244 Acc: 0.4981
+val Loss: 2.2146 Acc: 0.3744
+
+For test train_full_ResNet_nbn_duck, Epoch 125/199
+----------
+train Loss: 1.4258 Acc: 0.4909
+val Loss: 2.2010 Acc: 0.3522
+
+For test train_full_ResNet_nbn_duck, Epoch 126/199
+----------
+train Loss: 1.4278 Acc: 0.4832
+val Loss: 2.2451 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 127/199
+----------
+train Loss: 1.4092 Acc: 0.5056
+val Loss: 2.3681 Acc: 0.3056
+
+For test train_full_ResNet_nbn_duck, Epoch 128/199
+----------
+train Loss: 1.4059 Acc: 0.4984
+val Loss: 2.2307 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 129/199
+----------
+train Loss: 1.4438 Acc: 0.4835
+val Loss: 2.3068 Acc: 0.3467
+
+For test train_full_ResNet_nbn_duck, Epoch 130/199
+----------
+train Loss: 1.4348 Acc: 0.4904
+val Loss: 2.2949 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 131/199
+----------
+train Loss: 1.4264 Acc: 0.4747
+val Loss: 2.3426 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 132/199
+----------
+train Loss: 1.4018 Acc: 0.4963
+val Loss: 2.2711 Acc: 0.3356
+
+For test train_full_ResNet_nbn_duck, Epoch 133/199
+----------
+train Loss: 1.4437 Acc: 0.4861
+val Loss: 2.2386 Acc: 0.3389
+
+For test train_full_ResNet_nbn_duck, Epoch 134/199
+----------
+train Loss: 1.4157 Acc: 0.4965
+val Loss: 2.2222 Acc: 0.3689
+
+For test train_full_ResNet_nbn_duck, Epoch 135/199
+----------
+train Loss: 1.4063 Acc: 0.4936
+val Loss: 2.1192 Acc: 0.3422
+
+For test train_full_ResNet_nbn_duck, Epoch 136/199
+----------
+train Loss: 1.4337 Acc: 0.4899
+val Loss: 2.1845 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 137/199
+----------
+train Loss: 1.4194 Acc: 0.4840
+val Loss: 2.1613 Acc: 0.3678
+
+For test train_full_ResNet_nbn_duck, Epoch 138/199
+----------
+train Loss: 1.4370 Acc: 0.4899
+val Loss: 2.2512 Acc: 0.3667
+
+For test train_full_ResNet_nbn_duck, Epoch 139/199
+----------
+train Loss: 1.4824 Acc: 0.4824
+val Loss: 2.2007 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 140/199
+----------
+train Loss: 1.4155 Acc: 0.4952
+val Loss: 2.2627 Acc: 0.3667
+
+For test train_full_ResNet_nbn_duck, Epoch 141/199
+----------
+train Loss: 1.4568 Acc: 0.4845
+val Loss: 2.2766 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 142/199
+----------
+train Loss: 1.4344 Acc: 0.4944
+val Loss: 2.2274 Acc: 0.3611
+
+For test train_full_ResNet_nbn_duck, Epoch 143/199
+----------
+train Loss: 1.4131 Acc: 0.4973
+val Loss: 2.3281 Acc: 0.3300
+
+For test train_full_ResNet_nbn_duck, Epoch 144/199
+----------
+train Loss: 1.4618 Acc: 0.4795
+val Loss: 2.2148 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 145/199
+----------
+train Loss: 1.4405 Acc: 0.4867
+val Loss: 2.1388 Acc: 0.3600
+
+For test train_full_ResNet_nbn_duck, Epoch 146/199
+----------
+train Loss: 1.4573 Acc: 0.4792
+val Loss: 2.2286 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 147/199
+----------
+train Loss: 1.4474 Acc: 0.4853
+val Loss: 2.2698 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 148/199
+----------
+train Loss: 1.4420 Acc: 0.4920
+val Loss: 2.1259 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 149/199
+----------
+train Loss: 1.4485 Acc: 0.4819
+val Loss: 2.1580 Acc: 0.3689
+
+For test train_full_ResNet_nbn_duck, Epoch 150/199
+----------
+train Loss: 1.4438 Acc: 0.4864
+val Loss: 2.2181 Acc: 0.3489
+
+For test train_full_ResNet_nbn_duck, Epoch 151/199
+----------
+train Loss: 1.4417 Acc: 0.4936
+val Loss: 2.1288 Acc: 0.3622
+
+For test train_full_ResNet_nbn_duck, Epoch 152/199
+----------
+train Loss: 1.4194 Acc: 0.4872
+val Loss: 2.2576 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 153/199
+----------
+train Loss: 1.4122 Acc: 0.4923
+val Loss: 2.2579 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 154/199
+----------
+train Loss: 1.4166 Acc: 0.4899
+val Loss: 2.2634 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 155/199
+----------
+train Loss: 1.4129 Acc: 0.4909
+val Loss: 2.3078 Acc: 0.3422
+
+For test train_full_ResNet_nbn_duck, Epoch 156/199
+----------
+train Loss: 1.4493 Acc: 0.4848
+val Loss: 2.1658 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 157/199
+----------
+train Loss: 1.4329 Acc: 0.4885
+val Loss: 2.1624 Acc: 0.3478
+
+For test train_full_ResNet_nbn_duck, Epoch 158/199
+----------
+train Loss: 1.4746 Acc: 0.4824
+val Loss: 2.2057 Acc: 0.3678
+
+For test train_full_ResNet_nbn_duck, Epoch 159/199
+----------
+train Loss: 1.4424 Acc: 0.4891
+val Loss: 2.1816 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 160/199
+----------
+train Loss: 1.4319 Acc: 0.4899
+val Loss: 2.2505 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 161/199
+----------
+train Loss: 1.4288 Acc: 0.4899
+val Loss: 2.3072 Acc: 0.3311
+
+For test train_full_ResNet_nbn_duck, Epoch 162/199
+----------
+train Loss: 1.3950 Acc: 0.5029
+val Loss: 2.2981 Acc: 0.3344
+
+For test train_full_ResNet_nbn_duck, Epoch 163/199
+----------
+train Loss: 1.3953 Acc: 0.4936
+val Loss: 2.2540 Acc: 0.3600
+
+For test train_full_ResNet_nbn_duck, Epoch 164/199
+----------
+train Loss: 1.4412 Acc: 0.4992
+val Loss: 2.2895 Acc: 0.3544
+
+For test train_full_ResNet_nbn_duck, Epoch 165/199
+----------
+train Loss: 1.4556 Acc: 0.4824
+val Loss: 2.2216 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 166/199
+----------
+train Loss: 1.4298 Acc: 0.4941
+val Loss: 2.3640 Acc: 0.3622
+
+For test train_full_ResNet_nbn_duck, Epoch 167/199
+----------
+train Loss: 1.4242 Acc: 0.4803
+val Loss: 2.2843 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 168/199
+----------
+train Loss: 1.4071 Acc: 0.4944
+val Loss: 2.1837 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 169/199
+----------
+train Loss: 1.3938 Acc: 0.5013
+val Loss: 2.2546 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 170/199
+----------
+train Loss: 1.4118 Acc: 0.4891
+val Loss: 2.2347 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 171/199
+----------
+train Loss: 1.4094 Acc: 0.4915
+val Loss: 2.3601 Acc: 0.3322
+
+For test train_full_ResNet_nbn_duck, Epoch 172/199
+----------
+train Loss: 1.4249 Acc: 0.4928
+val Loss: 2.2670 Acc: 0.3522
+
+For test train_full_ResNet_nbn_duck, Epoch 173/199
+----------
+train Loss: 1.4321 Acc: 0.4856
+val Loss: 2.2038 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 174/199
+----------
+train Loss: 1.4393 Acc: 0.4875
+val Loss: 2.0975 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 175/199
+----------
+train Loss: 1.4381 Acc: 0.4885
+val Loss: 2.2225 Acc: 0.3656
+
+For test train_full_ResNet_nbn_duck, Epoch 176/199
+----------
+train Loss: 1.4354 Acc: 0.4915
+val Loss: 2.2431 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 177/199
+----------
+train Loss: 1.4058 Acc: 0.4979
+val Loss: 2.2544 Acc: 0.3578
+
+For test train_full_ResNet_nbn_duck, Epoch 178/199
+----------
+train Loss: 1.4225 Acc: 0.4896
+val Loss: 2.3200 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 179/199
+----------
+train Loss: 1.4313 Acc: 0.4829
+val Loss: 2.2276 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 180/199
+----------
+train Loss: 1.4164 Acc: 0.4923
+val Loss: 2.1980 Acc: 0.3511
+
+For test train_full_ResNet_nbn_duck, Epoch 181/199
+----------
+train Loss: 1.4225 Acc: 0.4984
+val Loss: 2.1134 Acc: 0.3556
+
+For test train_full_ResNet_nbn_duck, Epoch 182/199
+----------
+train Loss: 1.4140 Acc: 0.5000
+val Loss: 2.2128 Acc: 0.3411
+
+For test train_full_ResNet_nbn_duck, Epoch 183/199
+----------
+train Loss: 1.4188 Acc: 0.4811
+val Loss: 2.2306 Acc: 0.3567
+
+For test train_full_ResNet_nbn_duck, Epoch 184/199
+----------
+train Loss: 1.4332 Acc: 0.4875
+val Loss: 2.2915 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 185/199
+----------
+train Loss: 1.4406 Acc: 0.4928
+val Loss: 2.1689 Acc: 0.3456
+
+For test train_full_ResNet_nbn_duck, Epoch 186/199
+----------
+train Loss: 1.4339 Acc: 0.4883
+val Loss: 2.3381 Acc: 0.3300
+
+For test train_full_ResNet_nbn_duck, Epoch 187/199
+----------
+train Loss: 1.4139 Acc: 0.4947
+val Loss: 2.2691 Acc: 0.3444
+
+For test train_full_ResNet_nbn_duck, Epoch 188/199
+----------
+train Loss: 1.4376 Acc: 0.4827
+val Loss: 2.1530 Acc: 0.3678
+
+For test train_full_ResNet_nbn_duck, Epoch 189/199
+----------
+train Loss: 1.4029 Acc: 0.4917
+val Loss: 2.1845 Acc: 0.3633
+
+For test train_full_ResNet_nbn_duck, Epoch 190/199
+----------
+train Loss: 1.4815 Acc: 0.4739
+val Loss: 2.1841 Acc: 0.3333
+
+For test train_full_ResNet_nbn_duck, Epoch 191/199
+----------
+train Loss: 1.4535 Acc: 0.4885
+val Loss: 2.1791 Acc: 0.3756
+
+For test train_full_ResNet_nbn_duck, Epoch 192/199
+----------
+train Loss: 1.4106 Acc: 0.4981
+val Loss: 2.1849 Acc: 0.3422
+
+For test train_full_ResNet_nbn_duck, Epoch 193/199
+----------
+train Loss: 1.4325 Acc: 0.4904
+val Loss: 2.2163 Acc: 0.3544
+
+For test train_full_ResNet_nbn_duck, Epoch 194/199
+----------
+train Loss: 1.4038 Acc: 0.4925
+val Loss: 2.2942 Acc: 0.3489
+
+For test train_full_ResNet_nbn_duck, Epoch 195/199
+----------
+train Loss: 1.4484 Acc: 0.4789
+val Loss: 2.3177 Acc: 0.3533
+
+For test train_full_ResNet_nbn_duck, Epoch 196/199
+----------
+train Loss: 1.4102 Acc: 0.4896
+val Loss: 2.2608 Acc: 0.3400
+
+For test train_full_ResNet_nbn_duck, Epoch 197/199
+----------
+train Loss: 1.4345 Acc: 0.4731
+val Loss: 2.2794 Acc: 0.3322
+
+For test train_full_ResNet_nbn_duck, Epoch 198/199
+----------
+train Loss: 1.4509 Acc: 0.4891
+val Loss: 2.2959 Acc: 0.3433
+
+For test train_full_ResNet_nbn_duck, Epoch 199/199
+----------
+train Loss: 1.4483 Acc: 0.4925
+val Loss: 2.3577 Acc: 0.3344
+
+Training complete in 81m 37s
+Best val Acc: 0.375556

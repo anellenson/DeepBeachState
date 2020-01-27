@@ -17,20 +17,19 @@ def imshow(inp, mean, std, title=None):
     if title is not None:
         plt.title(title)
 
-def calcConfusion(model_conv, dataloaders, class_names, device, mean, std, labels_df, waveparams, model_name, plotimgs  = False):
+def calcConfusion(model_conv, dataloaders, class_names, device, mean, std, labels_df, waveparams, plotimgs  = False):
     #Set plot images to "True" if you want to plot the confused images.
     nb_classes = len(class_names)
     confusion_matrix = torch.zeros(nb_classes, nb_classes)
-    confused_dir = 'plots/' + model_name + '/'
+    confused_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/plots/confused/'
     #First remove everything in the directory
 #confusion_grouped_matrix = torch.zeros(length(group_list), length(group_list))
     if plotimgs:
-        if os.path.exists(confused_dir):
-            filelist = os.listdir(confused_dir)
+        for cc in class_names:
+            filelist = os.listdir(confused_dir + cc)
             for ff in filelist:
-                os.remove(os.path.join(confused_dir,ff))
-        if not os.path.exists(confused_dir):
-            os.mkdir(confused_dir)
+                os.remove(os.path.join(confused_dir,cc,ff))
+
     cnt = 0
     with torch.no_grad():
         for i, (inputs, id, classes) in enumerate(dataloaders['val']):
@@ -59,19 +58,17 @@ def calcConfusion(model_conv, dataloaders, class_names, device, mean, std, label
                 confusion_matrix[t.long(), p.long()] += 1
             if plotimgs:
                 for pi,pp in enumerate(preds):
-                    if len(preds)%2 == 0:
-                        ax = plt.subplot(len(preds)//2, 2, pi+1)
-                    if len(preds)%2 == 1:
-                        ax = plt.subplot(len(preds) // 2 +1, 2, pi + 1)
+                    fig = plt.figure(1)
+                    plt.clf()
                     imshow(inputs[pi].cpu(), mean,std)
-                    ax.axis('off')
-                    ax.set_title('Predicted {} and Truth {}'.format(class_names[pp],class_names[classes[pi]]))
+                    plt.title('Predicted {} and Truth {}'.format(class_names[pp],class_names[classes[pi]]))
                     #Text here for the top probabilities
                     #plt.pause(0.5)
-                plt.savefig(confused_dir + 'confused_imgs{}.png'.format(i), dpi = 800)
+                    plt.savefig(confused_dir + '{}/img{}.png'.format(class_names[classes[pi]],cnt), dpi = 800)
+                    cnt +=1
 
     conf_dt = pd.DataFrame(columns = class_names, index = class_names, data = confusion_matrix.numpy())
-
+    conf_dt = conf_dt
 
     return conf_dt
 

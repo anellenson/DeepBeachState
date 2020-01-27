@@ -8,7 +8,9 @@ import pickle
 from PIL import Image
 import scipy.io as sio
 import matplotlib.pyplot as pl
-import cPickle
+from collections import Counter
+from itertools import chain
+
 
 
 def loadLabels(matfilename, waveparams):
@@ -68,7 +70,7 @@ def createTrainValSets(labels_df,classes):
         shuffled_inds = labels_df[(labels_df['label'] == ci)].index.values
         shuffled_inds = sorted(shuffled_inds, key=lambda k: random.random())
         total_len = len(shuffled_inds)
-        train_len = total_len - 15
+        train_len = int(np.floor(0.8*total_len))
 
         for ss in shuffled_inds[0:train_len]:
             trainfiles.append(labels_df.pid.iloc[ss])
@@ -107,15 +109,35 @@ def createLabelsDict(labels_df, class_names):
 
     return pids, labels, labels_dict
 
-def equalize_classes(class_names, valfiles, labels_df, num):
-    trainfiles = []
-    for state in class_names:
-        inds_class = np.where(labels_df.label == state)[0]
-        train_files_for_class = [labels_df.iloc[ii].pid for ii in inds_class if labels_df.iloc[ii].pid not in valfiles]
-        train_files_for_class = train_files_for_class[:num]
-        trainfiles = trainfiles + train_files_for_class
+def createLabelsDict_simplex(labels_dict, class_names):
+    pids = []
+    simplex_labels = []
 
-    return trainfiles
+    for (pid, votes) in labels_dict.items():
+        votes = labels_dict[pid]
+        hist_votes = Counter(votes)
+        #Sort the simplex position according to where they are in the class list
+        sorted_votes = np.zeros((len(class_names),1))
+
+        for key in list(hist_votes.keys()):
+            if key in class_names:
+                sorted_votes[class_names.index(key)] = hist_votes[key]
+
+        #Turn into simplex weights
+        simplex = sorted_votes/np.sum(sorted_votes)
+        simplex = list(chain.from_iterable(simplex))
+
+        simplex_labels.append(simplex)
+        pids.append(pid)
+
+    labels_dict = {}
+    for pid, labels in zip(pids, simplex_labels):
+        entry = {pid:labels}
+        labels_dict.update(entry)
+
+    return pids, simplex_labels, labels_dict
+
+
 
 def calcMean(basedir,matfilename, transform, res1, res2):
     matfile = sio.loadmat(matfilename)
@@ -202,15 +224,3 @@ def load_KFold_partition(pids):
         partition['val'] = testfiles
 
     return partition
-
-def add_segmented_images(add_segment_states, partition, labels_dict, state_list):
-    segmented_labels = pd.read_pickle('labels/segmented_labels.pickle')
-    additional_labels = []
-    for filename, state in segmented_labels.items():
-        if state in add_segment_states:
-            partition['train'].append(filename)
-            state_num = state_list.index(state)
-            new_entry = {filename: state_num}
-            labels_dict.update(new_entry)
-
-    return partition, labels_dict
