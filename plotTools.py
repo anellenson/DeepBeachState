@@ -3,7 +3,9 @@ from matplotlib import pyplot as plt
 import torch
 import numpy as np
 
-def trainInfo(conf_dt, class_names, val_acc, train_acc, val_loss, train_loss, plot_fname, title):
+
+
+def trainInfo_conf_dt(conf_dt, class_names, val_acc, train_acc, val_loss, train_loss, plot_fname, title):
     confusion_matrix = torch.Tensor(conf_dt.values)
     class_acc = confusion_matrix.diag()/confusion_matrix.sum(1)
     confusion_matrix = confusion_matrix.numpy()
@@ -36,6 +38,29 @@ def trainInfo(conf_dt, class_names, val_acc, train_acc, val_loss, train_loss, pl
     plt.suptitle(title)
 
     plt.savefig(plot_fname, dpi = 600)
+
+
+def trainInfo(val_acc, train_acc, val_loss, train_loss, plot_fname, title):
+
+    fig = plt.figure()
+    plt.clf()
+    plt.subplot(121)
+    plt.plot(np.arange(0,len(val_acc)), val_acc, color= 'purple', label = 'val')
+    plt.plot(np.arange(0,len(val_acc)), train_acc, color = 'orange', label = 'train')
+    plt.legend()
+    plt.xlabel('Epoch')
+    plt.title('Accuracy')
+
+    plt.subplot(122)
+    plt.plot(np.arange(0,len(val_loss)), val_loss, color = 'purple', label = 'val')
+    plt.plot(np.arange(0,len(train_loss)), train_loss, color = 'orange', label = 'train')
+    plt.xlabel('Epoch')
+    plt.title('Loss')
+
+    plt.suptitle(title)
+
+    plt.savefig(plot_fname, dpi = 600)
+
 
 
 

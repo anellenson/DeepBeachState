@@ -24,48 +24,56 @@ from CAMplot import CAMplot
 #Configurations
 pl.ion()
 plot_CAMs = True
+basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
+trainsite = 'nbn'
 #Resolution for tiled ds, res1/res2 for nontiled
-resolution = 512
-mean = 0.48
-std = 0.29 #This is from the 'calc mean'
-modeltype = 'oblique'
-class_names = ['B','C','D','E','F','G','Calm','NoVis']
-no_class = [70, 172, 91, 57, 107, 105, 134, 60]
-weights = [1/np.cbrt(no) for no in no_class]
-class_weights = torch.FloatTensor(weights).cuda()
-regression = True
-#This is the plot name of the accuracy figure
+resolution = 256
+res2 = 256
+mean = 0.5199 # pull in from nbn/duck
+std = 0.2319 #This is from the 'calc mean'
+class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
+trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
+#Which images to test on?
+with open('labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(trainsite), 'rb') as f:
+    test_IDs = pickle.load(f)
 
-modelname = 'mse_loss_512'
-out_plot_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/plots/resnet/' + modelname + '/ycseca/'
-if not os.path.exists(out_plot_dir):
-    os.mkdir(out_plot_dir)
-modeltype = 'notiled' #tiled or no tiled
-basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/oblique/test/'
-labels_df = pd.read_pickle('/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/labels/prob_majvote_df.pickle')
-modelfolder = '/home/server/pi/homes/aellenso/Research/DeepBeach/resnet_models/' + modelname + '/'
+test_IDs = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
+
+
+
+prob_votes = False #This is to turn on the calculation of probabilities from votes
+prob_seg = True
+
+###Find where the mmodel name is
+modelname = 'train_full_ResNet_{}.pth'.format(trainsite, trainsite)
+modelfolder = 'resnet_models/train_on_{}'.format(trainsite)
+
+
+#Save out information
+CAMplotdir = basedir + '/plots/{}/fulltrain/CAMplot/'.format(trainsite)
+if not os.path.exists(CAMplotdir):
+    os.mkdir(CAMplotdir)
+
 multilabel_bool = False
 
-kfold_file = 'kfold_train_test_split_ycseca.mat'
 
-with open('labels/prob_pid_dict.pickle','rb') as dict_pick:
-    prob_pid_dict = pickle.load(dict_pick)
+basedirs = ['/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/',
+                '/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/']
 
-#labels_df = pd.DataFrame({'pid':list(prob_pid_dict.keys()), 'label':list(prob_pid_dict.values())})
+
 ###Info about the model
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
 #Load the model
-model_conv = torchvision.models.resnet50(pretrained=True)
+model_conv = torchvision.models.resnet50()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 num_ftrs = model_conv.fc.in_features
 nb_classes = len(class_names)
-model_conv.fc = nn.Sequential(nn.Dropout(0.1),nn.Linear(num_ftrs, nb_classes))
+model_conv.fc = nn.Linear(num_ftrs, nb_classes) # check is there really drop out
 model_conv = model_conv.to(device)
 
-
-
-test_transform = transforms.Compose([transforms.Resize((512,512)),
+test_transform = transforms.Compose([transforms.Resize((resolution,res2)),
                                         transforms.ToTensor(),
                                         transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
                                         transforms.Normalize([mean, mean, mean],[std, std, std]),
@@ -76,10 +84,6 @@ def calc_prob(conf_dt):
     prob_perclass = conf_dt.values/total_perclass.values
     prob_df = pd.DataFrame(data = prob_perclass, columns = conf_dt.columns, index = conf_dt.index)
     return prob_df
-
-
-# pause a bit so that plots are updated
-
 
 def test_model(model, dataloader, multilabel =False):
 
@@ -127,43 +131,40 @@ def test_model(model, dataloader, multilabel =False):
                 preds = (out_sigmoid > t).float() * 1
                 totalpreds.append(preds.cpu().numpy()[0])
 
-            if not regression:
+            else:
                 #This will return one prediction
                 probs = torch.nn.functional.softmax(outputs)
                 _, preds = torch.max(outputs, 1)
                 preds = preds.cpu().numpy()[0]
                 totalpreds.append(preds)
-            if regression:
-                probs = outputs
-                preds = torch.max(probs, 1)
-                totalpreds.append(preds[1].cpu().numpy()[0])
 
             probs = probs[0].cpu().numpy()
             #Find top probabilities
-            top_probs = sorted(range(len(probs)), key=lambda k: probs[k], reverse=True)[:3]
+            top_probs = sorted(range(len(probs)), key=lambda k: probs[k], reverse=True)
 
             #Load probabilities from the pid_dictoinary
-            try:
-                votes = prob_pid_dict[pid]
-                hist_votes = Counter(votes)
-                #Sort the probabilities according to where they are in the class list
-                sorted_votes = np.zeros((len(probs),1))
-                for key in list(hist_votes.keys()):
-                    if key in class_names:
-                        sorted_votes[class_names.index(key)] = hist_votes[key]
+            if multilabel_bool:
+                try:
+                    votes = prob_pid_dict[pid]
+                    hist_votes = Counter(votes)
+                    #Sort the probabilities according to where they are in the class list
+                    sorted_votes = np.zeros((len(probs),1))
+                    for key in list(hist_votes.keys()):
+                        if key in class_names:
+                            sorted_votes[class_names.index(key)] = hist_votes[key]
 
 
-                #Turn into probabilties
-                prob_votes = sorted_votes/np.sum(sorted_votes)
-                totalvotes.append(prob_votes)
-                #multiply by the probability of getting it right
-                if multilabel_bool:
-                    #Generate multilabel
-                    multi_target = np.zeros((len(class_names),))
-                    multi_target[np.where((sorted_votes != 0))[0]] = 1
+                    #Turn into probabilties
+                    prob_votes = sorted_votes/np.sum(sorted_votes)
+                    totalvotes.append(prob_votes)
+                    #multiply by the probability of getting it right
+                    if multilabel_bool:
+                        #Generate multilabel
+                        multi_target = np.zeros((len(class_names),))
+                        multi_target[np.where((sorted_votes != 0))[0]] = 1
 
-            except KeyError:
-                pass
+                except KeyError:
+                    pass
 
             if plot_CAMs:
                 params = list(model.parameters())
@@ -194,8 +195,8 @@ def test_model(model, dataloader, multilabel =False):
                 print("On iteration {}".format(i))
 
     #Recast the probabilities into an array
-    totalprobs_array = np.empty((len(totalprobs), len(probs)))
-    totalvotes_array = np.empty((len(totalprobs), len(probs)))
+    totalprobs_array = np.zeros((len(totalprobs), len(probs)))
+    totalvotes_array = np.zeros((len(totalprobs), len(probs)))
     for ti,probs in enumerate(totalprobs):
         totalprobs_array[ti,:] = probs
 
@@ -205,111 +206,76 @@ def test_model(model, dataloader, multilabel =False):
 
     return totalprobs_array, totalpreds, totalvotes_array, testpids, allCAMs, testinps
 
-'''
-fig, ax = pl.subplots(10,2, sharex = True, sharey = True, tight_layout = True)
-ax.ravel('F')[5].set_xlim(0, len(class_names))
-ax.ravel('F')[5].set_xticks(np.arange(len(class_names)))
-ax.ravel('F')[9].set_xticks(np.arange(len(class_names)))
-ax.ravel('F')[5].set_xticklabels(class_names)
-ax.ravel('F')[9].set_xticklabels(class_names)
-fig.suptitle(model)
-fig.set_size_inches(6.5,12)
-'''
-models = os.listdir(modelfolder)
-models.sort() #Sort so they correspond with the train/test splits which will be called by index
-with open(kfold_file, 'rb') as file:
-    kfold_dict = pickle.load(file)
-
-kfold_testfiles = kfold_dict['testfiles']
-#This is for a given class, what's the accuracy
-
-meanprobs_model = np.zeros((len(models),len(class_names)))
-state_std_model = np.zeros((len(models),len(class_names)))
-P_P_sum = np.zeros((len(class_names), len(class_names)))
-split_no = 0
-model = [mm for mm in models if 'foldno{}'.format(str(split_no)) in mm]
-model = model[0]
+import ArgusDS
+test_ds = ArgusDS.ArgusTestDS(basedirs, test_IDs, transform = test_transform)
+test_dl = torch.utils.data.DataLoader(test_ds, batch_size=1) #num workers is how many subprocesses to use
 
 
-test_IDs = []
-test_labels = []
-##Load the labels that were in the validation set for each class
-
-for pid, label in zip(labels_df.pid, labels_df.label):
-    if pid in kfold_testfiles[split_no]:
-        test_IDs.append(pid)
-        test_labels.append(label)
-
-    if modeltype == 'tiled':
-        print("Importing tiled dataset")
-        import TiledArgusDS
-        test_ds = TiledArgusDS.TiledArgusTestDS(basedir, test_IDs, resolution, transform = test_transform)
-        test_dl = torch.utils.data.DataLoader(test_ds, batch_size=1) #num workers is how many subprocesses to use
-    else:
-        import ArgusDS
-        test_ds = ArgusDS.ArgusTestDS(basedir, test_IDs, transform = test_transform)
-        test_dl = torch.utils.data.DataLoader(test_ds, batch_size=1) #num workers is how many subprocesses to use
-
-
-model_conv.load_state_dict(torch.load(modelfolder + model))
+model_conv.load_state_dict(torch.load(modelfolder + '/' + modelname))
 model_conv = model_conv.to(device)
 
 totalprobs, totalpreds, totalvotes, testpids, allCAMs, testinps = test_model(model_conv, test_dl, multilabel = multilabel_bool)
-Pdot = 0
-for probs, prob_votes in zip(totalprobs, totalvotes):
-    Pdot = Pdot + np.dot(probs, prob_votes)
-    P_P = np.outer(probs, prob_votes)
-    P_P_sum = P_P_sum + P_P
 
 if plot_CAMs:
     bins = [0, 0.2, 0.4, 0.6, 0.8]
     CAMplot = CAMplot(totalprobs, totalpreds, totalvotes, testpids, allCAMs, testinps, class_names)
     state_and_prob_binned_dict = CAMplot.bin_CAMs(bins)
-    CAMplot.find_and_plot_binned_mean_var(state_and_prob_binned_dict, bins, resolution, out_plot_dir)
-    CAMplot.plot_individual_CAMs(out_plot_dir)
-
-#Now find accuracy, confusion table
-if not multilabel_bool:
-    confusion_matrix = np.zeros((len(class_names), len(class_names)))
-    for cnn_prediction,votes_for_image in zip(totalpreds, totalvotes):
-        true_class = np.where((votes_for_image == np.max(votes_for_image)))
-        confusion_matrix[true_class, cnn_prediction] += 1
-
-    confusion_matrix = (confusion_matrix.T/np.sum(confusion_matrix, axis = 1)).T
-
-    confplotname = out_plot_dir + 'conf_table{}.{}.png'.format(modelname,split_no)
-    fig, ax = pl.subplots(1,1)
-    cl = ax.pcolor(np.flipud(confusion_matrix), cmap = 'Reds')
-    for ai, acc in enumerate(confusion_matrix.diagonal()):
-        ax.text(ai+0.15, 7 - ai + 0.5, '{0:.2f}'.format(acc), fontweight = 'bold')
-    pl.colorbar(cl)
-    cl.set_clim((0,1))
-    ax.set_xlabel('Confused As')
-    ax.set_ylabel('CNN')
-    ax.set_xticks(np.arange(len(class_names)))
-    ax.set_xticklabels(class_names)
-    ax.set_yticks(np.arange(len(class_names[::-1])))
-    ax.set_yticklabels(class_names[::-1])
-    ax.set_title(modelname + ' Normalized Confusion Matrix Split {}, Pdot of {}'.format(split_no, Pdot))
-    pl.savefig(confplotname)
-
-#normalize the PP
-P_P_norm = (P_P_sum.T/np.sum(P_P_sum, axis = 1)).T
-
-PPplotname = out_plot_dir + 'PP_table{}.{}.png'.format(modelname,split_no)
-fig, ax = pl.subplots(1,1)
-cl = ax.pcolor(np.flipud(P_P_norm),cmap = 'Blues')
-for ai, acc in enumerate(P_P_norm.diagonal()):
-    ax.text(ai+0.15, 7 - ai + 0.5, '{0:.2f}'.format(acc), fontweight = 'bold')
-pl.colorbar(cl)
-cl.set_clim((0,1))
-ax.set_xlabel('Human Probabilities')
-ax.set_ylabel('CNN Probabilities')
-ax.set_xticks(np.arange(len(class_names)))
-ax.set_xticklabels(class_names)
-ax.set_yticks(np.arange(len(class_names[::-1])))
-ax.set_yticklabels(class_names)
-ax.set_title(modelname + ' P*P')
-pl.savefig(PPplotname)
+    CAMplot.find_and_plot_binned_mean_var(state_and_prob_binned_dict, bins, resolution, CAMplotdir)
+    CAMplot.plot_individual_CAMs(CAMplotdir)
 
 
+# results_dict = {'totalprobs':totalprobs, 'CNNpreds'}
+#
+#
+# Pdot = 0
+# for probs, prob_votes in zip(totalprobs, totalvotes):
+#     Pdot = Pdot + np.dot(probs, prob_votes)
+#     P_P = np.outer(probs, prob_votes)
+#     P_P_sum = P_P_sum + P_P
+#
+#
+# #
+#
+# if not multilabel_bool: #results class
+#     confusion_matrix = np.zeros((len(class_names), len(class_names)))
+#     for cnn_prediction,votes_for_image in zip(totalpreds, totalvotes):
+#         true_class = np.where((votes_for_image == np.max(votes_for_image))) #insert here new for the 'segmented' image
+#         confusion_matrix[true_class, cnn_prediction] += 1
+#
+#     confusion_matrix = (confusion_matrix.T/np.sum(confusion_matrix, axis = 1)).T
+#
+#     confplotname = '/plots/model_name/conftable_{}.{}.png'.format(modelname,split_no)
+#     fig, ax = pl.subplots(1,1)
+#     cl = ax.pcolor(np.flipud(confusion_matrix), cmap = 'Reds')
+#     for ai, acc in enumerate(confusion_matrix.diagonal()):
+#         ax.text(ai+0.15, 7 - ai + 0.5, '{0:.2f}'.format(acc), fontweight = 'bold')
+#     pl.colorbar(cl)
+#     cl.set_clim((0,1))
+#     ax.set_xlabel('Confused As')
+#     ax.set_ylabel('CNN')
+#     ax.set_xticks(np.arange(len(class_names)))
+#     ax.set_xticklabels(class_names)
+#     ax.set_yticks(np.arange(len(class_names[::-1])))
+#     ax.set_yticklabels(class_names[::-1])
+#     ax.set_title(modelname + ' Normalized Confusion Matrix Split {}, Pdot of {}'.format(split_no, Pdot))
+#     pl.savefig(confplotname)
+#
+# #normalize the PP
+# P_P_norm = (P_P_sum.T/np.sum(P_P_sum, axis = 1)).T
+#
+# fig, ax = pl.subplots(1,1)
+# cl = ax.pcolor(np.flipud(P_P_norm),cmap = 'Blues')
+# for ai, acc in enumerate(P_P_norm.diagonal()):
+#     ax.text(ai+0.15, 7 - ai + 0.5, '{0:.2f}'.format(acc), fontweight = 'bold')
+# pl.colorbar(cl)
+# cl.set_clim((0,1))
+# ax.set_xlabel('Human Probabilities')
+# ax.set_ylabel('CNN Probabilities')
+# ax.set_xticks(np.arange(len(class_names)))
+# ax.set_xticklabels(class_names)
+# ax.set_yticks(np.arange(len(class_names[::-1])))
+# ax.set_yticklabels(class_names)
+# ax.set_title(modelname + ' P*P')
+# pl.savefig(PPplotname)
+#
+#

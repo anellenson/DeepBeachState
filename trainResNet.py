@@ -49,7 +49,7 @@ multilabel_bool = False
 ##saveout info
 
 for train_site in ['duck','nbn', 'nbn_duck']:
-    model_name = 'train_full_ResNet_{}'.format(train_site)
+    model_name = 'train_full_Inception_{}'.format(train_site)
     basedirs = ['/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/',
                 '/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/']
     conf_folder = 'confusion_table_results/{}/'.format(train_site) + model_name[:-5] + '/'

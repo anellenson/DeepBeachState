@@ -42,7 +42,7 @@ class CAMplot:
             ax.axis('off')
             ax.imshow(inp)
 
-            ax = pl.subplot(2,2,2
+            ax = pl.subplot(2,2,2)
             ax.axis('off')
             ax.imshow(inp)
             ax.imshow(CAM, alpha = 0.4)

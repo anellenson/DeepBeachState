@@ -4,7 +4,8 @@ import matplotlib.pyplot as pl
 import numpy as np
 import torchvision
 import postResnet as post
-import plotTools
+import plotTools as pt
+import pickle
 import torch
 import torch.nn as nn
 
@@ -31,7 +32,12 @@ def load_df(dirname, classes):
     results_df = results_df.sort_values(by = 'meanacc',ascending = False)
     return results_df
 
-#First load the images with multilabels
+for runtype in ['duck', 'nbn', 'nbn_duck']:
 
+    with open('model_output/{}/train_full_ResNet_{}.pickle'.format(runtype, runtype), 'rb') as f:
+        trainInfo = pickle.load(f)
+
+    plot_fname = 'plots/run_info_augmented_images_{}'.format(runtype)
+    pt.trainInfo(trainInfo['val_acc'], trainInfo['train_acc'], trainInfo['val_loss'], trainInfo['train_loss'], plot_fname, runtype)
 
 
