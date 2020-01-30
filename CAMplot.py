@@ -31,6 +31,7 @@ class CAMplot:
 
         fig = pl.figure(1)
         for pid, inp, CAM, probs_CNN, probs_human in zip(self.testpids, self.testinps, self.allCAMs, self.totalprobs_array, self.totalvotes_array):
+
             inp = inp[0].numpy().transpose((1, 2, 0))
             inp = std * inp + mean
             inp = np.clip(inp, 0, 1)
@@ -44,22 +45,31 @@ class CAMplot:
 
             ax = pl.subplot(2,2,2)
             ax.axis('off')
-            ax.imshow(inp)
-            ax.imshow(CAM, alpha = 0.4)
+            ax.imshow(CAM, cmap = 'gray')
 
-            ax = pl.subplot(2,1,2)
-            ax.scatter(np.arange(len(probs_CNN)), probs_CNN, color = 'blue', label = 'CNN')
-            ax.plot(np.arange(len(probs_CNN)), probs_CNN,  color = 'blue')
+            #threshold?
+            max_val = 0.75*(np.max(np.max(CAM)))
+            CAM_val = CAM.copy()
+            thresh = CAM_val < max_val
+            CAM_val[thresh] = 0
 
-            ax.scatter(np.arange(len(probs_CNN)), probs_human, color = 'black', label = 'Human')
-            ax.plot(np.arange(len(probs_CNN)), probs_human,  color = 'black')
-
-            pl.legend()
-            ax.set_xlim((0,8))
-            ax.set_ylabel('Probability')
-            ax.set_xticklabels(self.class_names)
-            ax.set_ylim((0,1))
+            ax = pl.subplot(2,2,3)
+            ax.axis('off')
+            ax.imshow(CAM_val, cmap = 'gray')
             pl.savefig(camplotdir+'/{}'.format(pid), dpi = 400)
+
+            # ax = pl.subplot(2,1,2)
+            # ax.scatter(np.arange(len(probs_CNN)), probs_CNN, color = 'blue', label = 'CNN')
+            # ax.plot(np.arange(len(probs_CNN)), probs_CNN,  color = 'blue')
+            #
+            # ax.scatter(np.arange(len(probs_CNN)), probs_human, color = 'black', label = 'Human')
+            # ax.plot(np.arange(len(probs_CNN)), probs_human,  color = 'black')
+            #
+            # pl.legend()
+            # ax.set_xlim((0,8))
+            # ax.set_ylabel('Probability')
+            # ax.set_xticklabels(self.class_names)
+            # ax.set_ylim((0,1))
 
 
             pl.close()
