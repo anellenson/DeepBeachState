@@ -223,7 +223,7 @@ class File_setup():
 
 
 
-labels_pickle = 'labels/nbn_daytimex_labels.pickle'
+labels_pickle = 'labels/nbn_daytimex_labels_df.pickle'
 labels_dict_filename = 'labels/nbn_labels_dict.pickle'
 img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
 valfilename = 'labels/nbn_daytimex_valfiles.pickle'
