@@ -108,7 +108,7 @@ class File_setup():
         for ci in self.class_names: ####TO DO : make this so that it works with the labels dictionary, not necessarily a labels dataframe
 
             pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
-            random.shuffle(pids)
+
 
             trainfiles += pids[:num_train_imgs]
             valfiles += pids[num_train_imgs:num_train_imgs + num_val_imgs]
@@ -116,6 +116,7 @@ class File_setup():
             print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
             print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
 
+        random.shuffle(trainfiles)#shuffle the trainfiles later
         self.trainfiles = trainfiles
         self.valfiles = valfiles
 
@@ -225,10 +226,10 @@ class File_setup():
 
 labels_pickle = 'labels/nbn_daytimex_labels_df.pickle'
 labels_dict_filename = 'labels/nbn_labels_dict.pickle'
-img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
+img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
 valfilename = 'labels/nbn_daytimex_valfiles.pickle'
 trainfilename = 'labels/nbn_daytimex_trainfiles.pickle'
-num_train_imgs = 50
+num_train_imgs = 100
 num_val_imgs = 15
 
 

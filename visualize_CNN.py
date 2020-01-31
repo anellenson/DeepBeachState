@@ -2,7 +2,7 @@ from __future__ import print_function
 
 import copy
 import os.path as osp
-
+import os
 import click
 from PIL import Image
 import matplotlib.cm as cm
@@ -38,9 +38,9 @@ def preprocess(image_path, resolution, mean, std):
         image = Image.open(f)
         image = image.convert("RGB")
         raw_image = transform(image)
-        image = transforms.Normalize([mean, mean, mean],[std, std, std])(raw_image)
+        #image = transforms.Normalize([mean, mean, mean],[std, std, std])(raw_image)
 
-    return image, raw_image
+    return raw_image, raw_image
 
 def save_gradient(filename, gradient):
     gradient = gradient.cpu().numpy().transpose(1, 2, 0)
@@ -61,18 +61,21 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
     cv2.imwrite(filename, np.uint8(gcam))
 
 
-trainsite = 'duck'
+trainsite = 'nbn'
+testsite = 'nbn'
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
-mean = 0.5199 # pull in from nbn/duck
+mean = 0.5199 # pull in from train_on_nbn/train_on_duck
 std = 0.2319 #This is from the 'calc mean'
 topk = 1 #only ask for the top choice
-imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'}
+imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
-modelname = 'train_on_{}_run0'.format(trainsite)
+modelname =  'aug_pretrained_resnet50'
+
+
+torch.cuda.empty_cache()
+
 modelpath= '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
-
-
 
 ##load model
 model_conv = models.resnet50()
@@ -88,14 +91,29 @@ model_conv.load_state_dict(torch.load(modelpath))
 model_conv = model_conv.to(device)
 model_conv.eval()
 
-output_dir = '{}/plots/{}/{}/guided_backprop/'.format(basedir, trainsite, modelname)
+output_dir = 'model_output/train_on_{}/{}/visualize/test_on_{}'.format(trainsite, modelname, testsite)
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 
 
 ##load images here, preprocess all of them (don't do a dataset)
-with open('labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(trainsite), 'rb') as f:
+with open('labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(testsite), 'rb') as f:
     test_IDs = pickle.load(f)
-test_IDs = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
-test_IDs = [imgdir[trainsite] + '/'+tt for tt in test_IDs]
+valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
+
+
+with open('labels/{}_labels_dict.pickle'.format(testsite), 'rb') as f:
+    labels_dict = pickle.load(f)
+
+#filter so you get two images per class
+test_labels = np.array([labels_dict[pid] for pid in valfiles])
+test_IDs = []
+for i in range(5):
+    class_pids = np.where(test_labels == i)[0]
+    test_IDs += [valfiles[cc] for cc in class_pids[:2]]
+
+test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
+
 
 images, raw_images = load_images(test_IDs, resolution, mean, std)
 images = torch.stack(images).to(device)
@@ -117,6 +135,8 @@ for j, image in enumerate(images):
     #target_layer = 'layer4' #which layer to pull from
 
     for i in range(topk):
+
+        torch.cuda.empty_cache()
         # Guided Backpropagation
         gbp.backward(ids=ids[:, [i]])
         gradients = gbp.generate()
@@ -162,3 +182,5 @@ for j, image in enumerate(images):
         img = cv2.imread(test_IDs[j])
         img = cv2.resize(img, (resolution, resolution))
         cv2.imwrite(osp.join(output_dir, "{}_original_image.jpg".format(j)), img)
+
+

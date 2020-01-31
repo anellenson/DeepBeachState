@@ -44,13 +44,17 @@ nbn_labels = sio.loadmat('/home/server/pi/homes/aellenso/Research/DeepBeach/matl
 
 new_labels_df = pd.DataFrame({'pid':nbn_labels['pid'], 'label':nbn_labels['label']})
 
-additional_labels = sio.loadmat('/home/server/pi/homes/aellenso/Research/DeepBeach/matlab/new_labelled_imgs_nbn')
+additional_labels = sio.loadmat('/home/server/pi/homes/aellenso/Research/DeepBeach/matlab/new_labelled_imgs_nbn.mat')
 pid = additional_labels['pid'][0]
 pid = [pp[0] for pp in pid]
 
 addl_labels_df = pd.DataFrame({'pid':pid, 'label':additional_labels['label']})
 nbn_labels = pd.concat((addl_labels_df, new_labels_df))
 nbn_labels = nbn_labels.drop_duplicates()
+nbn_labels = nbn_labels.iloc[1:]
+
+
+nbn_labels['label'] = [ll.split()[0] for ll in nbn_labels.label]
 
 nbn_labels.to_pickle('../labels/nbn_daytimex_labels_df.pickle')
 # with open('missing_pids_labels.txt', 'wb') as f:

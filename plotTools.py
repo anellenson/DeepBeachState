@@ -1,120 +1,137 @@
-import matplotlib
-from matplotlib import pyplot as plt
-import torch
+from matplotlib import pyplot as pl
 import numpy as np
+from sklearn import metrics
+import pandas as pd
+import pickle
+
+
+class skillComp():
+
+    def __init__(self, modelnames, plot_folder, out_folder):
+        self.modelnames = modelnames
+        self.plot_folder = plot_folder
+        self.out_folder = out_folder
+
+
+    def gen_skill_score(self, true_labels, pred_labels):
+
+        f1 = metrics.f1_score(true_labels, pred_labels, average='weighted')
+        corrcoeff = metrics.matthews_corrcoef(true_labels, pred_labels)
+        nmi = metrics.normalized_mutual_info_score(true_labels, pred_labels)
+
+        return f1, corrcoeff, nmi
+
+    def gen_skill_df(self):
+        '''
+        This will produce a results dataframe with F1, NMI, and Correlation Coefficient
+        The dataframe will have the 'test site' and 'model' for plotting in seaborn
+        It uses 'gen skill score'
+
+        '''
+        results_df = pd.DataFrame(columns = ['test_site','corr-coeff', 'f1', 'nmi', 'model'])
+
+        for model in self.modelnames:
+            with open(self.out_folder +'{}/cnn_preds.pickle'.format(model), 'rb') as f:
+                predictions = pickle.load(f)
+
+            for testsite in ['duck', 'nbn']:
+                cnn_preds = predictions['{}_CNN'.format(testsite)]
+                true =  predictions['{}_truth'.format(testsite)]
+
+                #Will throw an error when this is no longer a tensor
+
+                cnn_preds = [cc.item() for cc in cnn_preds]
+                true = [tt.item() for tt in true]
+
+                f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
+
+                results = {'model':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
+                results_df = results_df.append(results, ignore_index = True)
+
+
+        self.results_df = results_df
+
+        return results_df
+
+
+    def confusionTable(self, confusion_matrix, class_names, title, ax, cmap):
+        class_acc = confusion_matrix.diagonal()/np.sum(confusion_matrix, axis =1)
+
+        ax.pcolor(confusion_matrix, cmap = cmap)
+        for row in np.arange(len(confusion_matrix)):
+            for col in np.arange(len(confusion_matrix)):
+                if confusion_matrix[row, col] >= 30:
+                    ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
+                if confusion_matrix[row,col] < 30:
+                    ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
+        ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
+        ax.xaxis.tick_top()                     # and move the X-Axis
+        ax.yaxis.tick_left()
+        ax.set_xticklabels(class_names)
+        ax.set_yticklabels(class_names)
+        ax.set_title(title)
 
 
 
-def trainInfo_conf_dt(conf_dt, class_names, val_acc, train_acc, val_loss, train_loss, plot_fname, title):
-    confusion_matrix = torch.Tensor(conf_dt.values)
-    class_acc = confusion_matrix.diag()/confusion_matrix.sum(1)
-    confusion_matrix = confusion_matrix.numpy()
-    confusion_text = []
-    for row in confusion_matrix:
-        confusion_text.append(['%1d' %x for x in row])
-    for ri,rr in enumerate(class_acc):
-        confusion_text[ri].append('{0:1.1f}'.format(rr*100))
+    def gen_conf_matrix(self):
+        '''
 
-    class_names_withacc = class_names + ['Acc']
-    fig = plt.figure()
-    plt.clf()
-    plt.subplot(221)
-    plt.plot(np.arange(0,len(val_acc)), val_acc, color= 'purple', label = 'val')
-    plt.plot(np.arange(0,len(val_acc)), train_acc, color = 'orange', label = 'train')
-    plt.legend()
-    plt.xlabel('Epoch')
-    plt.title('Accuracy')
+        This will generate confusion matrices for both test sites.
 
-    plt.subplot(222)
-    plt.plot(np.arange(0,len(val_loss)), val_loss, color = 'purple', label = 'val')
-    plt.plot(np.arange(0,len(train_loss)), train_loss, color = 'orange', label = 'train')
-    plt.xlabel('Epoch')
-    plt.title('Loss')
 
-    plt.subplot(212)
-    plt.table(cellText = confusion_text, rowLabels = class_names_withacc[:-1], colLabels = class_names_withacc, loc = 'center' )
-    plt.axis('off')
+        '''
+        class_names = ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']
 
-    plt.suptitle(title)
+        for model in self.modelnames:
+            plot_fname = self.plot_folder + model + 'conf_matrix.png'
 
-    plt.savefig(plot_fname, dpi = 600)
+            with open(self.out_folder + '{}/cnn_preds.pickle'.format(model), 'rb') as f:
+                predictions = pickle.load(f)
+
+            fig, ax = pl.subplots(2,1)
+            for ti,testsite in enumerate(['duck', 'nbn']):
+                if 'duck' in testsite:
+                    cmap = "Blues"
+
+                if 'nbn' in testsite:
+                    cmap = "Reds"
+
+
+                cnn_preds = predictions['{}_CNN'.format(testsite)]
+                true =  predictions['{}_truth'.format(testsite)]
+
+                cnn_preds = [cc.item() for cc in cnn_preds]
+                true = [cc.item() for cc in true]
+
+                conf_matrix = metrics.confusion_matrix(true, cnn_preds)
+
+                title = 'test on {}'.format(testsite)
+                self.confusionTable(conf_matrix, class_names, title, ax[ti], cmap)
+
+            pl.suptitle(model)
+
+            pl.savefig(plot_fname)
+            print('Printed Confusion Matrix for {}'.format(model))
 
 
 def trainInfo(val_acc, train_acc, val_loss, train_loss, plot_fname, title):
 
-    fig = plt.figure()
-    plt.clf()
-    plt.subplot(121)
-    plt.plot(np.arange(0,len(val_acc)), val_acc, color= 'purple', label = 'val')
-    plt.plot(np.arange(0,len(val_acc)), train_acc, color = 'orange', label = 'train')
-    plt.legend()
-    plt.xlabel('Epoch')
-    plt.title('Accuracy')
+    fig = pl.figure()
+    pl.clf()
+    pl.subplot(121)
+    pl.plot(np.arange(0,len(val_acc)), val_acc, color= 'purple', label = 'val')
+    pl.plot(np.arange(0,len(val_acc)), train_acc, color = 'orange', label = 'train')
+    pl.legend()
+    pl.xlabel('Epoch')
+    pl.title('Accuracy')
 
-    plt.subplot(122)
-    plt.plot(np.arange(0,len(val_loss)), val_loss, color = 'purple', label = 'val')
-    plt.plot(np.arange(0,len(train_loss)), train_loss, color = 'orange', label = 'train')
-    plt.xlabel('Epoch')
-    plt.title('Loss')
+    pl.subplot(122)
+    pl.plot(np.arange(0,len(val_loss)), val_loss, color = 'purple', label = 'val')
+    pl.plot(np.arange(0,len(train_loss)), train_loss, color = 'orange', label = 'train')
+    pl.xlabel('Epoch')
+    pl.title('Loss')
 
-    plt.suptitle(title)
+    pl.suptitle(title)
 
-    plt.savefig(plot_fname, dpi = 600)
+    pl.savefig(plot_fname, dpi = 600)
 
-
-
-
-def confusionTable(conf_dt, class_names, plot_fname, title):
-    confusion_matrix = torch.Tensor(conf_dt.values)
-    class_acc = confusion_matrix.diag()/confusion_matrix.sum(1)
-    confusion_matrix = confusion_matrix.numpy()
-    confusion_text = []
-    for row in confusion_matrix:
-        confusion_text.append(['%1d' %x for x in row])
-    for ri,rr in enumerate(class_acc):
-        confusion_text[ri].append('{0:1.1f}'.format(rr*100))
-
-    class_names.append('Acc')
-    fig = plt.figure()
-    plt.table(cellText = confusion_text, rowLabels = class_names[:-1], colLabels = class_names, loc = 'center' )
-    plt.axis('off')
-    plt.suptitle(title)
-    plt.savefig(plot_fname, dpi = 600)
-
-
-def confPercent(confpercent_dt, class_names, plot_fname, title):
-    confusion_matrix = torch.Tensor(confpercent_dt.values)
-    confusion_matrix = confusion_matrix.numpy()
-    confusion_text = []
-    for row in confusion_matrix:
-        confusion_text.append(['%1.2f' %x for x in row])
-
-    fig = plt.figure()
-    plt.subplot(211)
-    plt.table(cellText = confusion_text, rowLabels = class_names, colLabels = class_names, loc = 'center' )
-
-    plt.subplot(212)
-    plt.pcolor(np.flipud(confusion_matrix))
-    plt.colorbar()
-
-
-    plt.axis('off')
-    plt.suptitle(title)
-    plt.savefig(plot_fname,dpi = 600)
-
-def poster_conf_table(confusion):
-    #If you provide a confusion table array, this will plot the confusion table with the numbers labelled within the cells
-    fig, ax = pl.subplots(1,1)
-    fig.set_size_inches(7,4)
-    a1 = ax.pcolor(confusion, cmap = 'Greys')
-    for row in np.arange(len(confusion)):
-        for col in np.arange(len(confusion)):
-            if confusion[row,col] >= 30:
-                ax.text(row +0.35, col+0.65, str(int(confusion[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
-            if confusion[row,col] < 30:
-                ax.text(row+0.35, col+0.65, str(int(confusion[row, col])), fontsize = 20, fontweight = 'bold')
-    ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
-    ax.xaxis.tick_top()                     # and move the X-Axis
-    ax.yaxis.tick_left()
-    ax.set_xticklabels([''])
-    ax.set_yticklabels([''])

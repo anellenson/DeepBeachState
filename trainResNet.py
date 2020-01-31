@@ -8,14 +8,13 @@ import time
 import os
 import copy
 import pickle
-import postResnet as post
 from torch.autograd import Variable
 
 ###Data info
 
 #load the labels dataframe
 
-pid_df_dict = {'duck':'labels/duck_daytimex_labels_df.pickle', 'nbn':'nbn_daytimex_labels.pickle'} ############no longer need this, since we're doing it all with dictionaries
+pid_df_dict = {'train_on_duck':'labels/duck_daytimex_labels_df.pickle', 'train_on_nbn':'nbn_daytimex_labels.pickle'} ############no longer need this, since we're doing it all with dictionaries
 #load the validation files
 valfilename = 'labels/nbn_daytimex_valfiles.aug_imgs.pickle'
 valfile_duck = 'labels/duck_daytimex_valfiles.aug_imgs.pickle'
@@ -33,36 +32,45 @@ class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states lis
 res_height = 512 #height
 res_width = 512 #width
 batch_size = 16
-lr = 0.01
+
 gray = True #This is a switch for grayscale or not
 momentum = 0.9
 gamma = 0.1
 equalize_classes = True
-no_epochs = 100
+no_epochs = 150
 step_size = 15 #when to decay the learning rate
 mean = duck_gray_mean
 std = duck_gray_std
 waveparams = []
-pretrained = False
-train_earlier_layers = False
+#pretrained = True
+train_earlier_layers = True
+old_model = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/resnet_models/train_on_nbn/aug_pretrained_resnet50.pth'
 multilabel_bool = False
-CNNtype = 'inception'
-train_site = 'duck'
+CNNtype = 'inception_resnet'
+train_site = 'nbn'
+aug = 'aug'
+pretrained = True
+lr = 0.001
 ##saveout info
+model_name = 'earlier_layer_aug_pretrained_resnet50'
 
-model_name = 'train_no_normalization_{}'.format(train_site)
-basedirs = ['/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/',
+basedirs = ['/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
             '/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/']
-conf_folder = 'confusion_table_results/{}/'.format(train_site) + model_name[:-5] + '/'
-if not os.path.exists(conf_folder):
-    os.mkdir(conf_folder)
+
+out_folder = 'model_output/train_on_{}/{}/'.format(train_site,  model_name)
+
+if not os.path.exists(out_folder):
+    os.mkdir(out_folder)
 
 def load_train_and_valfiles(train_site):
 
-    with open('labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(train_site), 'rb') as f:
+    valfiles = {'aug':'labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(train_site), 'no_aug':'labels/{}_daytimex_valfiles.pickle'.format(train_site)}
+    trainfiles = {'aug':'labels/{}_daytimex_trainfiles.aug_imgs.pickle'.format(train_site), 'no_aug':'labels/{}_daytimex_trainfiles.pickle'.format(train_site)}
+
+    with open(valfiles[aug], 'rb') as f:
         valfile = pickle.load(f)
 
-    with open('labels/{}_daytimex_trainfiles.aug_imgs.pickle'.format(train_site), 'rb') as f:
+    with open(trainfiles[aug], 'rb') as f:
          trainfile = pickle.load(f)
 
     return valfile, trainfile
@@ -119,32 +127,32 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 nb_classes = len(class_names)
 if pretrained == True:
     model_conv = models.resnet50(pretrained = True)
-    num_ftrs = model_conv.fc.in_features
-    nb_classes = len(class_names)
-    model_conv.fc = nn.Linear(num_ftrs, nb_classes)
-    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=lr, momentum=momentum)
-
-
-if train_earlier_layers == True:
-    model_conv.load_state_dict(torch.load(old_model_dir + old_model_name))
-    #This is to unfreeze earlier layers
-    # Parameters of newly constructed modules have requires_grad=True by default
-    # Observe that only parameters of final layer are being optimized as
-    # opposed to before.
-    for c in list(model_conv.children()):
-        for p in c.parameters():
-            p.requires_grad = True
-
-
 if pretrained == False:
     if CNNtype == 'resnet':
         model_conv = models.resnet50()
     if CNNtype == 'inception':
         model_conv = models.inception_v3()
-    num_ftrs = model_conv.fc.in_features
-    nb_classes = len(class_names)
-    model_conv.fc = nn.Linear(num_ftrs, nb_classes)
-    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=lr, momentum=momentum)
+    if CNNtype == 'inception_resnet':
+        from pretrainedmodels import inceptionresnetv2
+        model_conv = inceptionresnetv2()
+
+
+num_ftrs = model_conv.fc.in_features
+nb_classes = len(class_names)
+model_conv.fc = nn.Linear(num_ftrs, nb_classes)
+optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=lr, momentum=momentum)
+
+
+if train_earlier_layers == True:
+    model_conv.load_state_dict(torch.load(old_model))
+    #This is to unfreeze earlier layers
+    # Parameters of newly constructed modules have requires_grad=True by default
+    # Observe that only parameters of final layer are being optimized as
+    # opposed to before.
+    c = list(model_conv.children())[-3]
+    for p in c.parameters():
+        p.requires_grad = True
+
 
 model_conv = model_conv.to(device)
 criterion = nn.CrossEntropyLoss()
@@ -262,15 +270,57 @@ def train_model(model, criterion, optimizer, scheduler, CNNtype, num_epochs):
     model.load_state_dict(best_model_wts)
     return model, val_loss, val_acc, train_acc, train_loss
 
+def confusion_results(test_site):
+    with open('labels/{}_daytimex_valfiles.pickle'.format(test_site)) as f:
+        valfiles = pickle.load(f)
+
+    val_ds = ArgusDS.ArgusTrainDS(basedirs, valfiles, labels_dict, transform = test_transform)
+    val_dl = torch.utils.data.DataLoader(val_ds, batch_size = batch_size, shuffle = True)
+
+    CNN_preds = []
+    truth = []
+
+    with torch.no_grad():
+        for inputs, id, labels in val_dl:
+            inputs = inputs.to(device)
+            labels = labels.to(device, dtype = torch.int64)
+
+            outputs = model_conv(inputs)
+            _, preds = torch.max(outputs,1)
+
+            truth += list(labels.cpu().numpy())
+            CNN_preds += list(preds.cpu().numpy())
+
+    return CNN_preds, truth
+
 
 model_conv, val_loss, val_acc, train_acc, train_loss = train_model(model_conv, criterion, optimizer_conv, exp_lr_scheduler, CNNtype, num_epochs=no_epochs)
 torch.save(model_conv.state_dict(), 'resnet_models/train_on_{}/{}.pth'.format(train_site, model_name))
+
+
+#Save out train info
 train_info_dict = {'val_loss':val_loss, 'val_acc':val_acc, 'train_acc':train_acc, 'train_loss':train_loss}
-with open('model_output/{}/{}.pickle'.format(train_site, model_name), 'wb') as f:
+with open(out_folder + 'train_specs.pickle'.format(train_site, model_name), 'wb') as f:
     pickle.dump(train_info_dict, f)
 
+# #Produce predictions for each site
 
-#model_conv.load_state_dict(torch.load('resnet_models/' + model_name + '.pth'))
-# conf_dt = post.calcConfusion(model_conv, dataloaders, class_names, device, mean, std, labels_df, waveparams, model_name, plotimgs  = False)
-# conf_dt.to_pickle(conf_folder + model_name + '.pickle')
+# CNN_results = {}
+for test_site in ['duck', 'nbn']:
+    CNN_site_preds, truth_site = confusion_results(test_site)
+
+    CNN_results.update({'{}_CNN'.format(test_site):CNN_site_preds, '{}_truth'.format(test_site):truth_site})
+
+with open(out_folder + 'cnn_preds.pickle', 'wb') as f:
+    pickle.dump(CNN_results, f)
+
+
+specs = ['Resolution: h{} x w{}'.format(res_height, res_width), 'num_epochs: {}'.format(no_epochs), 'batch_size: {}'.format(batch_size), 'learning_rate: {}'.format(lr)]
+
+with open(out_folder + 'model_info.txt', 'wb') as f:
+    for spec in specs:
+        f.writelines(spec + '\n')
+
+
+
 torch.cuda.empty_cache()
