@@ -2,9 +2,10 @@ import matplotlib.pyplot as pl
 import plotTools as pt
 import pickle
 import seaborn as sns
+import os
 
 
-modelnames = ['aug_pretrained_resnet50', 'aug_fulltrained_resnet50', 'no_aug_pretrained_resnet50', 'no_aug_fulltrained_resnet50']
+modelnames = ['inception_resnet_aug_fulltrained', 'inception_resnet_no_aug_fulltrained', 'resnet_aug_fulltrained', 'resnet_no_aug_fulltrained']
 
 ####traininfo
 for model in modelnames:
@@ -25,8 +26,9 @@ out_folder = 'model_output/train_on_nbn/'
 skc = pt.skillComp(modelnames, plot_folder, out_folder)
 results_df = skc.gen_skill_df()
 
-fig, ax = pl.subplots(3,1)
+fig, ax = pl.subplots(3,1, sharex = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
     sns.barplot(x = 'model', y = metric, hue = 'test_site', data = results_df, ax = ax[mi])
+pl.xticks(rotation = 45)
 
 skc.gen_conf_matrix()

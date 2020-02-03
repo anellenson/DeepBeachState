@@ -2,7 +2,6 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 from PIL import Image
 from torchvision import transforms
-import preResnet as pre
 import pickle
 import os
 import numpy as np
@@ -223,12 +222,15 @@ class File_setup():
         #save out new labels dictionary
 
 
+site = 'duck'
+img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
+labels_df = pd.read_pickle(labels_pickle)
 
-labels_pickle = 'labels/nbn_daytimex_labels_df.pickle'
-labels_dict_filename = 'labels/nbn_labels_dict.pickle'
-img_folder = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
-valfilename = 'labels/nbn_daytimex_valfiles.pickle'
-trainfilename = 'labels/nbn_daytimex_trainfiles.pickle'
+labels_dict_filename = 'labels/{}_labels_dict.pickle'.format(site)
+img_folder = img_dirs[site]
+valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
+trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
 
