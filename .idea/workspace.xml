@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea5c92a5-9e95-4f8a-a632-99895f91a0a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pytorchtools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
@@ -13,7 +14,6 @@
       <change beforePath="$PROJECT_DIR$/ArgusDS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArgusDS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CAMplot.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/TiledArgusDS.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/augment_imgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/augment_imgs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno0.pikl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno1.pikl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno2.pikl" beforeDir="false" />
@@ -180,25 +180,12 @@
       <change beforePath="$PROJECT_DIR$/kfold_train_testsplit.mat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/kfold_train_testsplit_multilabel.mat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/kfold_traintestsplit.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_daytimex_labels_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_labels_df.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_daytimex_trainfiles.aug_imgs.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_trainfiles.aug_imgs.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_daytimex_trainfiles.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_trainfiles.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_daytimex_valfiles.aug_imgs.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_valfiles.aug_imgs.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_daytimex_valfiles.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_daytimex_valfiles.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/duck_labels_dict.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/duck_labels_dict.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_daytimex_labels_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_daytimex_labels_df.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_daytimex_trainfiles.aug_imgs.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_daytimex_trainfiles.aug_imgs.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_daytimex_trainfiles.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_daytimex_trainfiles.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_daytimex_valfiles.aug_imgs.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_daytimex_valfiles.aug_imgs.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_daytimex_valfiles.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_daytimex_valfiles.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labels/nbn_labels_dict.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/labels/nbn_labels_dict.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/numlabel_dict.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/oldlabels_copy.pikl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/prob_majvote_df.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/prob_majvote_dict.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/prob_pid_dict.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/labels/strlabel_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_compare.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multilabel/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/multilabel/multilabel_df.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/multilabel/multilabel_dict.pickle" beforeDir="false" />
@@ -207,7 +194,6 @@
       <change beforePath="$PROJECT_DIR$/plotTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postResnet.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/preResnet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prep_files/rename_labels.py" beforeDir="false" afterPath="$PROJECT_DIR$/prep_files/rename_labels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/process_results.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testResNet.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNet.py" afterDir="false" />
@@ -216,7 +202,6 @@
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/trainResNet_tiled.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/trainResNet_tiled_withWaves.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualize_CNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualize_CNN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../prepDataLib.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -254,11 +239,32 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trainResNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            <state relative-caret-position="141">
+              <caret line="261" selection-start-line="261" selection-end-line="261" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pytorchtools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/plotTools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="72" selection-start-line="59" selection-end-line="72" />
             </state>
           </provider>
         </entry>
@@ -309,8 +315,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grad_cam.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="37" />
+            <state relative-caret-position="645">
+              <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
               <folding>
                 <element signature="e#133#165#0" expanded="true" />
               </folding>
@@ -386,15 +392,16 @@
         <option value="$PROJECT_DIR$/prep_files/rename_labels.py" />
         <option value="$PROJECT_DIR$/augment_imgs.py" />
         <option value="$PROJECT_DIR$/visualize_CNN.py" />
+        <option value="$PROJECT_DIR$/pytorchtools.py" />
         <option value="$PROJECT_DIR$/trainResNet.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="-3" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1948" />
+    <option name="y" value="24" />
     <option name="width" value="1920" />
-    <option name="height" value="1087" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectId" id="1OmoIdVHAa1SoVLK9HVHsLN4jPn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -441,7 +448,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/prep_files/rename_labels.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Uncertainty/code" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -622,13 +629,13 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.testResNet" />
-      <item itemvalue="Python.visualize_CNN" />
-      <item itemvalue="Python.rename_labels" />
       <item itemvalue="Python.augment_imgs" />
       <item itemvalue="Python.generate_image_ts" />
       <item itemvalue="Python.model_compare" />
+      <item itemvalue="Python.rename_labels" />
+      <item itemvalue="Python.testResNet" />
       <item itemvalue="Python.trainResNet" />
+      <item itemvalue="Python.visualize_CNN" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -646,20 +653,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="-3" width="1920" height="1087" extended-state="6" />
+    <frame x="1948" y="24" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25851065" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32742316" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35404456" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3985932" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.34751773" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39834514" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Educational.CheckDetails" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32890365" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3286052" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32945284" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32668883" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -742,6 +749,11 @@
           <url>file://$PROJECT_DIR$/prep_files/rename_labels.py</url>
           <line>64</line>
           <option name="timeStamp" value="266" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/trainResNet.py</url>
+          <line>261</line>
+          <option name="timeStamp" value="278" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -886,16 +898,6 @@
     <entry file="file://$PROJECT_DIR$/model_output/train_on_nbn/aug_pretrained_resnet50/model_info.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/plotTools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="72" selection-start-line="59" selection-end-line="72" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ArgusDS.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="683">
@@ -933,16 +935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grad_cam.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="37" />
-          <folding>
-            <element signature="e#133#165#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/visualize_CNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
@@ -964,10 +956,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/plotTools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="72" selection-start-line="59" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grad_cam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+          <folding>
+            <element signature="e#133#165#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pytorchtools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/trainResNet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        <state relative-caret-position="141">
+          <caret line="261" selection-start-line="261" selection-end-line="261" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>

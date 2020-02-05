@@ -9,6 +9,10 @@ import os
 import copy
 import pickle
 from torch.autograd import Variable
+from pytorchtools import EarlyStopping
+
+
+
 
 ###Data info
 
@@ -37,7 +41,7 @@ gray = True #This is a switch for grayscale or not
 momentum = 0.9
 gamma = 0.1
 equalize_classes = True
-no_epochs = 1
+no_epochs = 120
 step_size = 15 #when to decay the learning rate
 mean = duck_gray_mean
 std = duck_gray_std
@@ -47,14 +51,14 @@ multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
 for train_site in ['nbn', 'duck', 'nbn_duck']:
-    for CNNtype in ['mobilenet', 'resnet', 'inception_resnet']:
-        for aug in ['aug', 'no_aug']:
+    for CNNtype in ['inception_resnet']:
+        for aug in ['no_aug']:
             lr = 0.01
-
-
 
             ##saveout info
             model_name = '{}_{}_fulltrained'.format(CNNtype, aug)
+
+
 
             basedirs = ['/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
                         '/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/']
@@ -127,6 +131,8 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
 
             device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
             nb_classes = len(class_names)
+
+
             if pretrained == True:
                 if CNNtype == 'resnet':
                     model_conv = models.resnet50(pretrained = True)
@@ -174,6 +180,8 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
             optimizer_conv = optim.SGD(filter(lambda p: p.requires_grad, model_conv.parameters()), lr=lr, momentum=momentum)
             # Decay LR by a factor of gamma every step_size epochs
             exp_lr_scheduler = lr_scheduler.ReduceLROnPlateau(optimizer_conv, 'min', factor=gamma, verbose=True, patience=8)
+
+            early_stopping = EarlyStopping()
             ##################################################################################################################################################################
             ######################################################################################################################
             ######################################################################################################################
@@ -251,6 +259,7 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                         if phase == 'val':
                             val_loss.append(epoch_loss)
                             val_acc.append(epoch_acc)
+                            early_stopping(epoch_loss)
 
                         if phase == 'train':
                             train_loss.append(epoch_loss)
@@ -263,6 +272,11 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                         if phase == 'val' and epoch_acc > best_acc:
                             best_acc = epoch_acc
                             best_model_wts = copy.deepcopy(model.state_dict())
+
+
+                        if early_stopping.early_stop:
+                            print("Early Stopping")
+                            break
 
                     print()
 
