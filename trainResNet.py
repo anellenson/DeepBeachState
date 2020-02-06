@@ -51,8 +51,8 @@ multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
 for train_site in ['nbn', 'duck', 'nbn_duck']:
-    for CNNtype in ['inception_resnet']:
-        for aug in ['no_aug']:
+    for CNNtype in ['resnet50']:
+        for aug in ['no_aug', 'aug']:
             lr = 0.01
 
             ##saveout info
@@ -143,7 +143,7 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
 
 
             if pretrained == False:
-                if CNNtype == 'resnet':
+                if CNNtype == 'resnet50':
                     model_conv = models.resnet50()
 
                 if CNNtype == 'inception':
@@ -156,7 +156,7 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                 if CNNtype == 'mobilenet':
                     model_conv = models.mobilenet_v2()
 
-            if CNNtype == 'resnet':
+            if CNNtype == 'resnet50':
                 num_ftrs = model_conv.fc.in_features
                 model_conv.fc = nn.Linear(num_ftrs, nb_classes)
 
@@ -259,7 +259,9 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                         if phase == 'val':
                             val_loss.append(epoch_loss)
                             val_acc.append(epoch_acc)
-                            early_stopping(epoch_loss)
+
+                            if scheduler._last_lr[0] < 1E-3:
+                                early_stopping(epoch_loss)
 
                         if phase == 'train':
                             train_loss.append(epoch_loss)
@@ -274,9 +276,9 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                             best_model_wts = copy.deepcopy(model.state_dict())
 
 
-                        if early_stopping.early_stop:
-                            print("Early Stopping")
-                            break
+                    if early_stopping.early_stop:
+                        print("Early Stopping")
+                        break
 
                     print()
 

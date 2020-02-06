@@ -5,7 +5,7 @@ import seaborn as sns
 import os
 
 
-modelnames = ['inception_resnet_aug_fulltrained', 'inception_resnet_no_aug_fulltrained', 'resnet_aug_fulltrained', 'resnet_no_aug_fulltrained']
+modelnames = ['inception_resnet_aug_fulltrained', 'inception_resnet_no_aug_fulltrained', 'resnet_aug_fulltrained',  'resnet_no_aug_fulltrained', 'resnet50_aug_fulltrained', 'resnet50_no_aug_fulltrained', 'mobilenet_aug_fulltrained', 'mobilenet_no_aug_fulltrained']
 
 ####traininfo
 for model in modelnames:
@@ -26,9 +26,12 @@ out_folder = 'model_output/train_on_nbn/'
 skc = pt.skillComp(modelnames, plot_folder, out_folder)
 results_df = skc.gen_skill_df()
 
-fig, ax = pl.subplots(3,1, sharex = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
+sns.set_color_codes('pastel')
+fig, ax = pl.subplots(1,3, sharey = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
-    sns.barplot(x = 'model', y = metric, hue = 'test_site', data = results_df, ax = ax[mi])
+    a = sns.barplot(x = metric, y ='model_type', hue = 'test_site', data = results_df, ax = ax[mi])
+    a.legend_.remove()
+    a.grid()
 pl.xticks(rotation = 45)
 
 skc.gen_conf_matrix()

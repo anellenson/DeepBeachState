@@ -14,14 +14,21 @@ from torchvision import models, transforms
 from grad_cam import BackPropagation, GuidedBackPropagation, GradCAM, Deconvnet
 import pickle
 import cv2
-from shutil import copyfile
+import shutil
 import argparse
 
 
 # parser = argparse.ArgumentParser(description = 'specify which model')
 # parser.add_argument('-m', '--modelname')
+# parser.add_argument('-state', '--beachstate')
+# parser.add_argument('-ii', '--start_index', type = int)
 # args = parser.parse_args()
 # modelname = args.modelname
+# beachstate = args.beachstate
+# ii = args.start_index
+modelname = 'mobilenet_no_aug_fulltrained'
+beachstate = 'LBT-FG'
+ii = 0
 
 def load_images(test_IDs, resolution, mean, std):
     images = []
@@ -73,10 +80,9 @@ trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
 mean = 0.5199 # pull in from train_on_nbn/train_on_duck
 std = 0.2319 #This is from the 'calc mean'
-topk = 1 #only ask for the top choice
+topk = 3 #only ask for the top choice
 imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
-modelname = 'resnet_aug_fulltrained'
 torch.cuda.empty_cache()
 
 modelpath= '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
@@ -86,8 +92,8 @@ resolution = 512
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 nb_classes = len(classes)
 
-if 'inception' not in modelname:
-    model_conv = models.resnet50()
+if 'resnet' in modelname:
+    model_conv = models.resnet18()
     num_ftrs = model_conv.fc.in_features
     model_conv.fc = nn.Linear(num_ftrs, nb_classes) # check is there really drop out
 
@@ -96,6 +102,9 @@ if 'inception' in modelname:
     from pretrainedmodels import inceptionresnetv2
     model_conv = inceptionresnetv2(pretrained=None, num_classes = nb_classes)
 
+if 'mobilenet' in modelname:
+    model_conv = models.mobilenet_v2()
+    model_conv.classifier[1].out_features = nb_classes
 
 
 model_conv.load_state_dict(torch.load(modelpath))
@@ -104,7 +113,9 @@ model_conv.eval()
 
 output_dir = 'model_output/train_on_{}/{}/'.format(trainsite,modelname)
 vis_dir = output_dir + 'visualize/'
-full_test_dir = vis_dir +'test_on_{}'.format(testsite)
+full_test_dir = vis_dir +'test_on_{}/'.format(testsite,beachstate)
+
+#Remove all files that might already be there:
 
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
@@ -112,6 +123,11 @@ if not os.path.exists(output_dir):
 
 if not os.path.exists(vis_dir):
     os.mkdir(vis_dir)
+
+if not os.path.exists(full_test_dir):
+    os.mkdir(full_test_dir)
+
+full_test_dir = full_test_dir  + beachstate + '/'
 
 if not os.path.exists(full_test_dir):
     os.mkdir(full_test_dir)
@@ -126,12 +142,12 @@ valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])
 with open('labels/{}_labels_dict.pickle'.format(testsite), 'rb') as f:
     labels_dict = pickle.load(f)
 
-#filter so you get two images per class
+#filter so you get each class
 test_labels = np.array([labels_dict[pid] for pid in valfiles])
 test_IDs = []
-for i in range(5):
-    class_pids = np.where(test_labels == i)[0]
-    test_IDs += [valfiles[cc] for cc in class_pids[:2]]
+beachstatenum = classes.index(beachstate)
+class_pids = np.where(test_labels == beachstatenum)[0]
+test_IDs += [valfiles[cc] for cc in class_pids[ii:ii+5]]
 
 test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
 
@@ -151,36 +167,19 @@ for j, image in enumerate(images):
     gbp = GuidedBackPropagation(model=model_conv)
     _ = gbp.forward(image)
 
-    deconv = Deconvnet(model=model_conv)
-    _ = deconv.forward(image)
-
-    if 'inception' not in modelname:
+    if 'resnet' in modelname:
         target_layer = 'layer4'
 
     if 'inception' in modelname:
         target_layer = 'conv2d_7b'
 
-
+    if 'mobilenet' in modelname:
+        target_layer = 'features.18.2'
     #target_layer = 'layer4' #which layer to pull from
 
     for i in range(topk):
 
         torch.cuda.empty_cache()
-
-        #Deconvolution
-        deconv.backward(ids=ids[:, [i]])
-        gradients = deconv.generate()
-
-        save_gradient(
-            filename=osp.join(
-                full_test_dir,
-                "{}-{}-deconvnet-{}.png".format(j, modelname, classes[ids[0, i]]),
-            ),
-            gradient=gradients[0],
-        )
-
-        print('Deonv net printed')
-        deconv.remove_hook()
 
         # Guided Backpropagation
         gbp.backward(ids=ids[:, [i]])
@@ -190,14 +189,14 @@ for j, image in enumerate(images):
         gcam.backward(ids=ids[:, [i]])
         regions = gcam.generate(target_layer=target_layer)
 
-        print("\t#{}: {} ({:.5f})".format(j, classes[ids[0, i]], probs[0, i]))
+        print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], probs[0, i]))
 
 
         # Guided Backpropagation
         save_gradient(
             filename=osp.join(
                 full_test_dir,
-                "{}-{}-guided-{}.png".format(j, modelname, classes[ids[0, i]]),
+                "{}-{}-guided-{}.png".format(ii + j, modelname, classes[ids[0, i]]),
             ),
             gradient=gradients[0],
         )
@@ -207,7 +206,7 @@ for j, image in enumerate(images):
             filename=osp.join(
                 full_test_dir,
                 "{}-{}-gradcam-{}-{}.png".format(
-                    j, modelname, target_layer, classes[ids[0, i]]
+                    ii + j, modelname, target_layer, classes[ids[0, i]]
                 ),
             ),
             gcam=regions[0,0],
@@ -219,7 +218,7 @@ for j, image in enumerate(images):
             filename=osp.join(
                 full_test_dir,
                 "{}-{}-guided_gradcam-{}-{}.png".format(
-                    j, modelname, target_layer, classes[ids[0, i]]
+                    ii + j, modelname, target_layer, classes[ids[0, i]]
                 ),
             ),
             gradient=torch.mul(regions, gradients)[0],
@@ -227,6 +226,6 @@ for j, image in enumerate(images):
 
         img = cv2.imread(test_IDs[j])
         img = cv2.resize(img, (resolution, resolution))
-        cv2.imwrite(osp.join(full_test_dir, "{}_original_image.jpg".format(j)), img)
+        cv2.imwrite(osp.join(full_test_dir, "{}_original_image.jpg".format(ii + j)), img)
 
 

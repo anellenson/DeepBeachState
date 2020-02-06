@@ -28,7 +28,7 @@ class skillComp():
         It uses 'gen skill score'
 
         '''
-        results_df = pd.DataFrame(columns = ['test_site','corr-coeff', 'f1', 'nmi', 'model'])
+        results_df = pd.DataFrame(columns = ['test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 
         for model in self.modelnames:
             with open(self.out_folder +'{}/cnn_preds.pickle'.format(model), 'rb') as f:
@@ -45,7 +45,7 @@ class skillComp():
 
                 f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
 
-                results = {'model':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
+                results = {'model_type':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
                 results_df = results_df.append(results, ignore_index = True)
 
 
@@ -65,7 +65,6 @@ class skillComp():
                 if confusion_matrix[row,col] < 30:
                     ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
         ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
-        ax.xaxis.tick_top()                     # and move the X-Axis
         ax.yaxis.tick_left()
         ax.set_xticklabels(class_names)
         ax.set_yticklabels(class_names)
@@ -88,7 +87,7 @@ class skillComp():
             with open(self.out_folder + '{}/cnn_preds.pickle'.format(model), 'rb') as f:
                 predictions = pickle.load(f)
 
-            fig, ax = pl.subplots(2,1)
+            fig, ax = pl.subplots(2,1, tight_layout = {'rect':[0, 0, 1, 0.95]}, sharex = True)
             for ti,testsite in enumerate(['duck', 'nbn']):
                 if 'duck' in testsite:
                     cmap = "Blues"
