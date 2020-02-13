@@ -8,7 +8,7 @@ import cv2
 import scipy.io as sio
 
 labels_df = pd.read_pickle('../labels/nbn_labels_cleaned_165.pickle')
-imgdir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full'
+imgdir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz'
 
 def transfer_pids_and_labels(labels_df):
 
@@ -78,3 +78,7 @@ nbn_labels.to_pickle('../labels/duck_daytimex_labels_df.pickle')
 #
 # #How many entries of each class?
 # daytimex_labels.to_pickle('labels/nbn_daytimex_labels.pickle')
+
+spz_files = os.listdir(imgdir)
+nbn_labels = pd.read_pickle('../nbn_daytimex_labels_df.pickle')
+extensions = ['erase', 'gamma', 'vflip', 'hflip', 'rot']

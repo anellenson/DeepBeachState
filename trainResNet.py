@@ -33,7 +33,7 @@ duck_gray_std = [0.2319, 0.2319, 0.2319]
 rgb_mean = [0.4066, 0.4479, 0.4734]
 rgb_std = [0.2850, 0.3098, 0.3322]
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states list to dashes from matfile
-res_height = 512 #height
+res_height = 171 #height
 res_width = 512 #width
 batch_size = 4
 
@@ -50,13 +50,13 @@ waveparams = []
 multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
-for train_site in ['nbn', 'duck', 'nbn_duck']:
-    for CNNtype in ['resnet50']:
+for train_site in ['duck', 'nbn_duck']:
+    for CNNtype in ['resnet']:
         for aug in ['no_aug', 'aug']:
             lr = 0.01
 
             ##saveout info
-            model_name = '{}_{}_fulltrained'.format(CNNtype, aug)
+            model_name = '{}_{}_stretched'.format(CNNtype, aug)
 
 
 
@@ -135,7 +135,7 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
 
             if pretrained == True:
                 if CNNtype == 'resnet':
-                    model_conv = models.resnet50(pretrained = True)
+                    model_conv = models.resnet18(pretrained = True)
 
                 if CNNtype == 'inception_resnet':
                     from pretrainedmodels import inceptionresnetv2
@@ -143,7 +143,7 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
 
 
             if pretrained == False:
-                if CNNtype == 'resnet50':
+                if CNNtype == 'resnet':
                     model_conv = models.resnet50()
 
                 if CNNtype == 'inception':
@@ -156,12 +156,19 @@ for train_site in ['nbn', 'duck', 'nbn_duck']:
                 if CNNtype == 'mobilenet':
                     model_conv = models.mobilenet_v2()
 
-            if CNNtype == 'resnet50':
+                if CNNtype == 'alexnet':
+                    model_conv = models.alexnet()
+
+
+            if CNNtype == 'resnet':
                 num_ftrs = model_conv.fc.in_features
                 model_conv.fc = nn.Linear(num_ftrs, nb_classes)
 
             if CNNtype == 'mobilenet':
                 model_conv.classifier[1].out_features = nb_classes
+
+            if CNNtype == 'alexnet':
+                model_conv.classifier[6].out_features = nb_classes
 
 
             if train_earlier_layers == True:

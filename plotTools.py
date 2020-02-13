@@ -1,3 +1,4 @@
+from __future__ import division
 from matplotlib import pyplot as pl
 import numpy as np
 from sklearn import metrics
@@ -7,10 +8,11 @@ import pickle
 
 class skillComp():
 
-    def __init__(self, modelnames, plot_folder, out_folder):
+    def __init__(self, modelnames, plot_folder, out_folder, trainsite):
         self.modelnames = modelnames
         self.plot_folder = plot_folder
         self.out_folder = out_folder
+        self.trainsite = trainsite
 
 
     def gen_skill_score(self, true_labels, pred_labels):
@@ -20,6 +22,18 @@ class skillComp():
         nmi = metrics.normalized_mutual_info_score(true_labels, pred_labels)
 
         return f1, corrcoeff, nmi
+
+    def gen_acc(self, true_labels, pred_labels):
+
+
+
+        f1 = metrics.f1_score(true_labels, pred_labels, average='weighted')
+        corrcoeff = metrics.matthews_corrcoef(true_labels, pred_labels)
+        nmi = metrics.normalized_mutual_info_score(true_labels, pred_labels)
+
+        return f1, corrcoeff, nmi
+
+
 
     def gen_skill_df(self):
         '''
@@ -54,21 +68,25 @@ class skillComp():
         return results_df
 
 
-    def confusionTable(self, confusion_matrix, class_names, title, ax, cmap):
-        class_acc = confusion_matrix.diagonal()/np.sum(confusion_matrix, axis =1)
+    def confusionTable(self, confusion_matrix, class_names, ax, cmap, testsite):
+        acc = confusion_matrix.diagonal().sum()/np.sum(confusion_matrix)
+        class_acc = confusion_matrix.diagonal()/np.sum(confusion_matrix, axis = 1)
 
         ax.pcolor(confusion_matrix, cmap = cmap)
         for row in np.arange(len(confusion_matrix)):
             for col in np.arange(len(confusion_matrix)):
-                if confusion_matrix[row, col] >= 30:
-                    ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
-                if confusion_matrix[row,col] < 30:
-                    ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
+                if row == col:
+                    ax.text(col +0.35, row+0.65, str(np.round(class_acc[row], 2)), fontsize = 20, fontweight = 'bold', color = 'white')
+                # if confusion_matrix[row, col] >= 30:
+                #     ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
+                # if confusion_matrix[row,col] < 30:
+                #     ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
         ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
         ax.yaxis.tick_left()
         ax.set_xticklabels(class_names)
         ax.set_yticklabels(class_names)
-        ax.set_title(title)
+        ax.set_title('Test on {0} Accuracy: {1:0.2f}'.format(testsite, acc))
+
 
 
 
@@ -104,10 +122,10 @@ class skillComp():
 
                 conf_matrix = metrics.confusion_matrix(true, cnn_preds)
 
-                title = 'test on {}'.format(testsite)
-                self.confusionTable(conf_matrix, class_names, title, ax[ti], cmap)
+                title = '{} Train on {}'.format(model, self.trainsite)
+                self.confusionTable(conf_matrix, class_names, ax[ti], cmap, testsite)
 
-            pl.suptitle(model)
+            pl.suptitle(title)
 
             pl.savefig(plot_fname)
             print('Printed Confusion Matrix for {}'.format(model))

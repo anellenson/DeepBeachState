@@ -1,13 +1,14 @@
 from torch.utils.data import Dataset, DataLoader
 import pandas as pd
-from PIL import Image
+from PIL import Image, ImageFilter
 from torchvision import transforms
 import pickle
 import os
 import numpy as np
 from PIL import Image
 import random
-
+import cv2
+import imutils
 
 class MyDataset(Dataset):
     def __init__(self, list_IDs, basedir, transform = None):
@@ -28,6 +29,45 @@ class MyDataset(Dataset):
 
     def __len__(self):
         return len(self.list_IDs)
+
+
+class augmentFcns():
+
+    def streaks(self, image):
+        # This adds diagonal streaks by rotating the image 40 degrees, adding the streaks vertical, then unrotating it
+        # The streaks are blurred parts of the image, and the returned image is slightly cropped.
+        # Returns a PIL image
+
+        #noise type options are gauss, s&p, speckle and poisson
+        im_array = np.array(image)
+
+        im_blur = image.filter(ImageFilter.GaussianBlur(radius = 20))
+        im_blur_array = np.array(im_blur)
+
+        im_rotate = imutils.rotate_bound(im_array, 40)
+        im_blur_rotate = imutils.rotate_bound(im_blur_array, 40)
+
+        #randomly generate a number of columns to choose to add streaks to:
+        col_centers = np.random.randint(low = 50, high = 350, size = 2)
+        cols = []
+
+        for cc in col_centers:
+            new_cols = list(np.arange(cc-3,cc+3))
+            cols += new_cols
+
+        cols = np.array(cols)
+
+        im_rotate[:, cols] = im_blur_rotate[:, cols]
+
+
+        im_straight = imutils.rotate_bound(im_rotate, -40)
+        im_straight = im_straight[180:300, 50:400]
+
+        im_straight = Image.fromarray(im_straight)
+
+        return im_straight
+
+
 
 
 #This will calculate the mean and standard deviation
@@ -77,6 +117,8 @@ class File_setup():
         return mean, std
 
 
+
+
 ############set up validation dataset
 
     def set_up_train_val(self, valfilename, trainfilename, num_train_imgs, num_val_imgs):
@@ -94,6 +136,7 @@ class File_setup():
             trainfilename  =    picklename for trainfiles.
                                 The number of images per class = num_train_images
         '''
+
 
         files = os.listdir(self.img_dir)
         missing_files = [ff for ff in self.labels_df.pid if ff not in files]
@@ -153,21 +196,20 @@ class File_setup():
         return labels_dict
 
 
-    def augment_imgs(self, labels_dict_filename):
+    def augment_imgs(self, labels_dict_filename, augmentations):
 
+        #Receives choice of augmentations
 
         #partition the files FIRST
         #Create the labels dictionary FIRST
 
-
-        trans = [transforms.RandomHorizontalFlip(p = 1), transforms.RandomVerticalFlip(p = 1),
-                                            transforms.RandomRotation(15,fill=(0,)),
-                                            transforms.Compose([transforms.ToTensor(),
+        af = augmentFcns()
+        trans_options = {'hflip': transforms.RandomHorizontalFlip(p = 1), 'vflip': transforms.RandomVerticalFlip(p = 1), 'rot':transforms.RandomRotation(15,fill=(0,)),
+                         'erase':           transforms.Compose([transforms.ToTensor(),
                                             transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
                                             transforms.RandomErasing(p = 1, scale = (0.02, 0.08), ratio = (0.3, 3)),
-                                            transforms.ToPILImage()])]
-
-        trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
+                                            transforms.ToPILImage()]),
+                         'affine':transforms.RandomAffine(0, translate = (.15, .20))}
 
         #loop through this twice (for valfiles and trainfiles)
 
@@ -177,11 +219,11 @@ class File_setup():
         for filenames in [self.valfiles_aug, self.trainfiles_aug]:
 
 
-            for ti, name in enumerate(trans_names):
+            for ti, name in enumerate(augmentations):
 
                 for imgname in filenames:
 
-                    if any([sub in imgname for sub in trans_names]):
+                    if any([sub in imgname for sub in augmentations]):
                         continue
 
                     label = self.labels_dict[imgname]
@@ -191,14 +233,50 @@ class File_setup():
                     with open(path, 'rb') as f:
                         img = Image.open(f)
 
-                        if ti < 4:
-                            T = trans[ti]
+                        if name in trans_options.keys():
+                            T = trans_options[name]
                             img = T(img)
+                            img.show()
 
-                        if ti == 4:
+                        elif 'streaks' in name:
+                            img = af.streaks(img)
+
+                        elif 'spz' in name:
+                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
+                            img_path = spz_path + imgname
+
+                            try:
+                                with open(img_path, 'rb') as f:
+                                    img = Image.open(f)
+
+                            except:
+                                print('No SPZ file for {}'.format(imgname))
+                                continue
+
+                        elif 'gamma' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
 
+                        elif 'vcut' in name:
+                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+
+                        elif 'vcut.spz.streaks' in name:
+
+                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
+                            img_path = spz_path + imgname
+
+                            try:
+                                with open(img_path, 'rb') as f:
+                                    img = Image.open(f)
+
+                            except:
+                                print('No SPZ file for {}'.format(imgname))
+                                continue
+
+                            img = af.streaks(img)
+                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+
                         img = img.convert("L")
+
                     #save out image file
                         filename = imgname[:-3] + name + '.jpg'
                         img.save(self.img_dir + filename)
@@ -222,7 +300,7 @@ class File_setup():
         #save out new labels dictionary
 
 
-site = 'duck'
+site = 'nbn'
 img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
@@ -233,10 +311,10 @@ valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
-
+augmentations = ['streaks', 'vcut', 'spz', 'vcut.spz.streaks']
 
 
 F = File_setup(img_folder, labels_pickle)
 F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
 F.create_labels_dict(labels_dict_filename)
-F.augment_imgs(labels_dict_filename)
+F.augment_imgs(labels_dict_filename, augmentations)
