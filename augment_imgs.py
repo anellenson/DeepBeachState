@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset, DataLoader
+import fnmatch
 import pandas as pd
 from PIL import Image, ImageFilter
 from torchvision import transforms
@@ -9,6 +10,9 @@ from PIL import Image
 import random
 import cv2
 import imutils
+import skimage
+import numpy as np
+import copy
 
 class MyDataset(Dataset):
     def __init__(self, list_IDs, basedir, transform = None):
@@ -48,7 +52,7 @@ class augmentFcns():
         im_blur_rotate = imutils.rotate_bound(im_blur_array, 40)
 
         #randomly generate a number of columns to choose to add streaks to:
-        col_centers = np.random.randint(low = 50, high = 350, size = 2)
+        col_centers = np.random.randint(low = 50, high = 150, size = 2)
         cols = []
 
         for cc in col_centers:
@@ -67,6 +71,41 @@ class augmentFcns():
 
         return im_straight
 
+    def find_spz(self, imgname):
+        spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
+        img_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
+        path = img_dir + imgname
+
+
+        img_files = os.listdir(spz_path)
+
+        filename = imgname.split('.')
+        days = filename[3].split('_')
+        day = days[0]
+
+        pattern = '*' + filename[2] + '.' + day + '*' + filename[-4] + '*'
+
+        spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            day_ = '{0:02d}'.format(int(day) + 1)
+            pattern = '*' + filename[2] + '.' + day_ + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            _day = '{0:02d}'.format(int(day) - 1)
+            pattern = '*' + filename[2] + '.' + _day + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        try:
+            img_path = spz_path + spzname[0]
+            return img_path
+
+        except:
+
+            print('No SPZ file for {}'.format(imgname))
 
 
 
@@ -167,6 +206,23 @@ class File_setup():
 
         self.save_train_val(self.valfilename, self.trainfilename, self.valfiles, self.trainfiles)
 
+    def load_train_val(self, valfilename, trainfilename):
+
+        with open(valfilename, 'rb') as f:
+            valfiles = pickle.load(f)
+
+        self.valfiles = valfiles
+
+        with open(trainfilename, 'rb') as f:
+            trainfiles = pickle.load(f)
+
+        self.trainfiles = trainfiles
+
+        self.valfilename = valfilename
+        self.trainfilename = trainfilename
+
+
+
     def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles):
 
             with open(valfilename, 'wb') as f:
@@ -213,13 +269,17 @@ class File_setup():
 
         #loop through this twice (for valfiles and trainfiles)
 
-        self.valfiles_aug = self.valfiles[:]
-        self.trainfiles_aug = self.trainfiles[:]
 
-        for filenames in [self.valfiles_aug, self.trainfiles_aug]:
+        filenames = self.valfiles + self.trainfiles
 
 
-            for ti, name in enumerate(augmentations):
+        for augname in augmentations:
+            #Each set of trainfiles are saved separately. The labels dictionary has all the augmentations ever made in it.
+
+            self.trainfiles_aug = copy.copy(self.trainfiles)
+            self.valfiles_aug = copy.copy(self.valfiles)
+
+            for filenames in [self.trainfiles_aug, self.valfiles_aug]: #outer loop to keep consistency of trainfiles/valfiles
 
                 for imgname in filenames:
 
@@ -230,57 +290,56 @@ class File_setup():
 
                     path = self.img_dir + imgname
 
-                    with open(path, 'rb') as f:
-                        img = Image.open(f)
+                    f = open(path, 'rb')
+                    img = Image.open(f)
+                    fi = None
 
-                        if name in trans_options.keys():
-                            T = trans_options[name]
-                            img = T(img)
-                            img.show()
+                    if augname in trans_options.keys():
+                        T = trans_options[augname]
+                        img = T(img)
+                        img.show()
 
-                        elif 'streaks' in name:
-                            img = af.streaks(img)
+                    elif augname == 'streaks':
+                        img = af.streaks(img)
 
-                        elif 'spz' in name:
-                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
-                            img_path = spz_path + imgname
+                    elif augname == 'spz':
+                        img_path = af.find_spz(imgname)
+                        if img_path is not None:
+                            fi = open(img_path, 'rb')
+                            img = Image.open(fi)
 
-                            try:
-                                with open(img_path, 'rb') as f:
-                                    img = Image.open(f)
+                        elif img_path is None:
+                            continue
 
-                            except:
-                                print('No SPZ file for {}'.format(imgname))
-                                continue
+                    elif augname == 'gamma':
+                        img = transforms.functional.adjust_gamma(img, gamma = 1.5)
 
-                        elif 'gamma' in name:
-                            img = transforms.functional.adjust_gamma(img, gamma = 1.5)
+                    elif augname == 'vcut':
+                        img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
 
-                        elif 'vcut' in name:
-                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+                    elif augname == 'noise':
+                        img = np.array(img)
+                        img = skimage.util.random_noise(img, mode = 'gaussian', var = 0.001)
+                        img = (img*255).astype(np.uint8)
+                        img = Image.fromarray(img)
 
-                        elif 'vcut.spz.streaks' in name:
+                    elif augname == 'noise.vcut.streaks':
+                        img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+                        img = af.streaks(img)
+                        img = np.array(img)
+                        img = skimage.util.random_noise(img, mode = 'gaussian', var = 0.001)
+                        img = (img*255).astype(np.uint8)
+                        img = Image.fromarray(img)
 
-                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
-                            img_path = spz_path + imgname
+                    img = img.convert("L")
 
-                            try:
-                                with open(img_path, 'rb') as f:
-                                    img = Image.open(f)
+                #save out image file
+                    filename = imgname[:-3] + augname + '.jpg'
+                    img.save(self.img_dir + filename)
 
-                            except:
-                                print('No SPZ file for {}'.format(imgname))
-                                continue
-
-                            img = af.streaks(img)
-                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
-
-                        img = img.convert("L")
-
-                    #save out image file
-                        filename = imgname[:-3] + name + '.jpg'
-                        img.save(self.img_dir + filename)
-
+                    f.close()
+                    if fi is not None:
+                        fi.close()
                     # add to files list
 
                     filenames.append(filename)
@@ -288,10 +347,8 @@ class File_setup():
                     self.labels_dict.update(entry)
 
 
-                print('Finished producing images from ' + name + 'transformation')
-
-        # save out train and val files
-        self.save_train_val(self.valfilename[:-6]+ 'aug_imgs.pickle', self.trainfilename[:-6]+ 'aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
+            self.save_train_val(self.valfilename[:-13] + augname + '.pickle', self.trainfilename[:-13] + augname + '.pickle', self.valfiles_aug, self.trainfiles_aug)
+            print('Finished producing/saving images from ' + augname + 'transformation')
 
         with open(labels_dict_filename, 'wb') as f:
             pickle.dump(self.labels_dict, f)
@@ -307,14 +364,16 @@ labels_df = pd.read_pickle(labels_pickle)
 
 labels_dict_filename = 'labels/{}_labels_dict.pickle'.format(site)
 img_folder = img_dirs[site]
-valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
+valfilename = 'labels/{}_daytimex_valfiles.no_aug.pickle'.format(site)
+trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
-augmentations = ['streaks', 'vcut', 'spz', 'vcut.spz.streaks']
+augmentations = ['flips', 'rotate_darken', 'random_erasing']
 
 
 F = File_setup(img_folder, labels_pickle)
+#F.load_train_val(valfilename, trainfilename)
 F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
+# be careful to not write over the validation files that you already have
 F.create_labels_dict(labels_dict_filename)
 F.augment_imgs(labels_dict_filename, augmentations)

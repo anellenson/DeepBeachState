@@ -30,11 +30,11 @@ import argparse
 # ii = args.start_index
 # testsite = args.testsite
 # trainsite = args.trainsite
-modelname = 'resnet_aug_fulltrained'
+modelname = 'resnet_spz'
 ii = 0
 beachstate = 'Ref'
 trainsite = 'nbn'
-testsite = 'nbn'
+testsite = 'duck'
 print('Visualizing for model {}'.format(modelname))
 
 def load_images(test_IDs, res_height, res_width, mean, std):
