@@ -3,3 +3,4 @@ model_output/
 plots/
 resnet_models/
 *.pyc
+labels/

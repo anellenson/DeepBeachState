@@ -33,13 +33,13 @@ duck_gray_std = [0.2319, 0.2319, 0.2319]
 rgb_mean = [0.4066, 0.4479, 0.4734]
 rgb_std = [0.2850, 0.3098, 0.3322]
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states list to dashes from matfile
-res_height = 171 #height
-res_width = 512 #width
+res_height = 256 #height
+res_width = 256 #width
 batch_size = 4
 
 gray = True #This is a switch for grayscale or not
 momentum = 0.9
-gamma = 0.1
+gamma = 0.5
 equalize_classes = True
 no_epochs = 120
 step_size = 15 #when to decay the learning rate
@@ -50,13 +50,14 @@ waveparams = []
 multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
-for train_site in ['duck', 'nbn_duck']:
-    for CNNtype in ['resnet']:
-        for aug in ['no_aug', 'aug']:
+CNNtype = 'resnet'
+for train_site in ['nbn', 'duck', 'nbn_duck']:
+    for augtype in ['noaug', 'three_aug', 'five_aug']:
+        for runno in range(10):
             lr = 0.01
 
             ##saveout info
-            model_name = '{}_{}_stretched'.format(CNNtype, aug)
+            model_name = 'resnet_{}_{}'.format(augtype, runno)
 
 
 
@@ -70,13 +71,13 @@ for train_site in ['duck', 'nbn_duck']:
 
             def load_train_and_valfiles(train_site):
 
-                valfiles = {'aug':'labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(train_site), 'no_aug':'labels/{}_daytimex_valfiles.pickle'.format(train_site)}
-                trainfiles = {'aug':'labels/{}_daytimex_trainfiles.aug_imgs.pickle'.format(train_site), 'no_aug':'labels/{}_daytimex_trainfiles.pickle'.format(train_site)}
+                valfiles = 'labels/{}_daytimex_valfiles.{}_imgs.pickle'.format(train_site, augtype)
+                trainfiles = 'labels/{}_daytimex_trainfiles.{}_imgs.pickle'.format(train_site, augtype)
 
-                with open(valfiles[aug], 'rb') as f:
+                with open(valfiles, 'rb') as f:
                     valfile = pickle.load(f)
 
-                with open(trainfiles[aug], 'rb') as f:
+                with open(trainfiles, 'rb') as f:
                      trainfile = pickle.load(f)
 
                 return valfile, trainfile
@@ -89,13 +90,17 @@ for train_site in ['duck', 'nbn_duck']:
                 valfiles += valfile
                 trainfiles += trainfile
 
-            with open('labels/duck_labels_dict.pickle', 'rb') as f:
+            print('Trainfiles length: {}'.format(len(trainfiles)))
+            print('Valfiles length: {}'.format(len(valfiles)))
+
+            with open('labels/duck_labels_dict_{}.pickle'.format(augtype), 'rb') as f:
                 labels_dict = pickle.load(f)
 
-            with open('labels/nbn_labels_dict.pickle', 'rb') as f:
+            with open('labels/nbn_labels_dict_{}.pickle'.format(augtype), 'rb') as f:
                 nbn_dict = pickle.load(f)
 
             labels_dict.update(nbn_dict)
+            print('labels dictionary length: {}'.format(len(list(labels_dict.keys()))))
 
 
             ######################################################################################################################
@@ -135,7 +140,7 @@ for train_site in ['duck', 'nbn_duck']:
 
             if pretrained == True:
                 if CNNtype == 'resnet':
-                    model_conv = models.resnet18(pretrained = True)
+                    model_conv = models.resnet50(pretrained = True)
 
                 if CNNtype == 'inception_resnet':
                     from pretrainedmodels import inceptionresnetv2
@@ -299,7 +304,7 @@ for train_site in ['duck', 'nbn_duck']:
                 return model, val_loss, val_acc, train_acc, train_loss
 
             def confusion_results(test_site):
-                with open('labels/{}_daytimex_valfiles.pickle'.format(test_site)) as f:
+                with open('labels/{}_daytimex_valfiles.noaug_imgs.pickle'.format(test_site)) as f:
                     valfiles = pickle.load(f)
 
                 val_ds = ArgusDS.ArgusTrainDS(basedirs, valfiles, labels_dict, transform = test_transform)

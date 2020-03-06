@@ -74,11 +74,12 @@ class augmentFcns():
 
 class File_setup():
 
-    def __init__(self, img_dir, labels_pickle):
+    def __init__(self, img_dir, labels_pickle, site):
 
         self.labels_df = pd.read_pickle(labels_pickle)
         self.class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
         self.img_dir = img_dir
+        self.site = site
 
 
 
@@ -209,7 +210,7 @@ class File_setup():
                                             transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
                                             transforms.RandomErasing(p = 1, scale = (0.02, 0.08), ratio = (0.3, 3)),
                                             transforms.ToPILImage()]),
-                         'affine':transforms.RandomAffine(0, translate = (.15, .20))}
+                         'translate':transforms.RandomAffine(0, translate = (.15, .20))}
 
         #loop through this twice (for valfiles and trainfiles)
 
@@ -236,7 +237,25 @@ class File_setup():
                         if name in trans_options.keys():
                             T = trans_options[name]
                             img = T(img)
-                            img.show()
+
+
+                        elif 'flips' in name:
+                            T = trans_options['hflip']
+                            img = T(img)
+                            T = trans_options['vflip']
+                            img = T(img)
+
+                        elif 'darken_rotate' in name:
+                            img = transforms.functional.adjust_gamma(img, gamma = 1.5)
+                            T = trans_options['rot']
+                            img = T(img)
+
+                        elif 'erase_shift' in name:
+                            T = trans_options['erase']
+                            img = T(img)
+                            T = trans_options['translate']
+                            img = T(img)
+
 
                         elif 'streaks' in name:
                             img = af.streaks(img)
@@ -291,8 +310,9 @@ class File_setup():
                 print('Finished producing images from ' + name + 'transformation')
 
         # save out train and val files
-        self.save_train_val(self.valfilename[:-6]+ 'aug_imgs.pickle', self.trainfilename[:-6]+ 'aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
+        self.save_train_val(self.valfilename[:-6]+ 'three_aug_imgs.pickle', self.trainfilename[:-6]+ 'three_aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
 
+        # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
             pickle.dump(self.labels_dict, f)
 
@@ -305,16 +325,16 @@ img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/nor
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
 
-labels_dict_filename = 'labels/{}_labels_dict.pickle'.format(site)
+labels_dict_filename = 'labels/{}_labels_dict_three_aug.pickle'.format(site)
 img_folder = img_dirs[site]
 valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
-augmentations = ['streaks', 'vcut', 'spz', 'vcut.spz.streaks']
+augmentations = ['darken_rotate', 'erase_shift', 'flips']
 
 
-F = File_setup(img_folder, labels_pickle)
+F = File_setup(img_folder, labels_pickle, site)
 F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
 F.create_labels_dict(labels_dict_filename)
 F.augment_imgs(labels_dict_filename, augmentations)

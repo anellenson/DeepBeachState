@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 import cv2
 import scipy.io as sio
+import pickle
 
 labels_df = pd.read_pickle('../labels/nbn_labels_cleaned_165.pickle')
 imgdir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz'
@@ -78,7 +79,45 @@ nbn_labels.to_pickle('../labels/duck_daytimex_labels_df.pickle')
 #
 # #How many entries of each class?
 # daytimex_labels.to_pickle('labels/nbn_daytimex_labels.pickle')
+#
 
-spz_files = os.listdir(imgdir)
-nbn_labels = pd.read_pickle('../nbn_daytimex_labels_df.pickle')
-extensions = ['erase', 'gamma', 'vflip', 'hflip', 'rot']
+# spz_files = os.listdir(imgdir)
+# nbn_labels = pd.read_pickle('../nbn_daytimex_labels_df.pickle')
+# extensions = ['erase', 'gamma', 'vflip', 'hflip', 'rot']
+
+#load val files, save images to a directory, then write out csv with names
+import pickle
+import random
+import shutil
+
+for trainsite in ['duck', 'nbn']:
+
+    imgdirs = {'nbn': '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
+                'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+
+    with open('labels/{}_daytimex_valfiles.no_aug.pickle'.format(trainsite), 'rb') as f:
+        files = pickle.load(f)
+
+    outdir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/valfiles/{}_images/'.format(trainsite)
+    txtfname = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/valfiles/{}_images.txt'.format(trainsite)
+
+    f = open(txtfname, 'wb')
+
+    random.shuffle(files)
+    for fi, file in enumerate(files):
+        if trainsite == 'nbn':
+            names = file.split('_')
+            number = names[1].split('.')[0]
+
+        if trainsite == 'duck':
+            names = file.split('.')
+            number = names[0]
+        f.writelines('{0}.img.{1:02d}.{2}\n'.format(trainsite, fi, number))
+        src = imgdirs[trainsite] + file
+        dest = outdir + '{0}.img.{1:02d}.{2}.jpg'.format(trainsite, fi, number)
+        shutil.copyfile(src,dest)
+
+    f.close()
+
+
+
