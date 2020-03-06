@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ea5c92a5-9e95-4f8a-a632-99895f91a0a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -14,7 +13,6 @@
       <change beforePath="$PROJECT_DIR$/ArgusDS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArgusDS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CAMplot.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/TiledArgusDS.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/augment_imgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/augment_imgs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno0.pikl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno1.pikl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/confusion_table_results/hist_tiled/confdt.hist_tiled.512.512.lr0.01.ss10.bs4mo0.9gamma0.3foldno2.pikl" beforeDir="false" />
@@ -198,7 +196,6 @@
       <change beforePath="$PROJECT_DIR$/process_results.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testResNet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNetWaveParams.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_kfold.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/__init__.py" beforeDir="false" />
@@ -217,7 +214,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/augment_imgs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
+            <state relative-caret-position="33">
               <caret line="315" selection-start-line="315" selection-end-line="315" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
@@ -612,7 +609,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="32" width="1920" height="1137" extended-state="7" />
+    <frame x="0" y="32" width="1920" height="1137" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.28085107" />
@@ -744,12 +741,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trainResNet.py</url>
-          <line>336</line>
+          <line>337</line>
           <option name="timeStamp" value="380" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/trainResNet.py</url>
-          <line>97</line>
+          <line>94</line>
           <option name="timeStamp" value="390" />
         </line-breakpoint>
       </breakpoints>
@@ -1026,7 +1023,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/augment_imgs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
+        <state relative-caret-position="33">
           <caret line="315" selection-start-line="315" selection-end-line="315" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
