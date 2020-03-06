@@ -59,9 +59,15 @@ class ArgusTestDS(D.Dataset):
     def __init__(self, basedir, list_IDs, transform = None):
         """ Intialize the dataset
         """
+
         self.list_IDs = list_IDs
         self.transform = transform
-        self.basedir = basedir
+        for bb in basedir:
+            if 'Narrabeen' in bb:
+                self.basedir_nbn = bb
+            if 'north' in bb:
+                self.basedir_duck = bb
+
 
 
     def __len__(self):
@@ -74,7 +80,12 @@ class ArgusTestDS(D.Dataset):
         ID = self.list_IDs[index]
         ID = unicode(ID)
 
-        path = self.basedir + ID
+        if 'c5' in ID:
+            path = self.basedir_nbn + ID
+
+        if 'argus02' in ID:
+            path = self.basedir_duck + ID
+
 
         with open(path, 'rb') as f:
             X = Image.open(f)
