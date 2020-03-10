@@ -4,14 +4,14 @@ import pickle
 import seaborn as sns
 import os
 
-trainsite = 'nbn'
+trainsite = 'nbn_duck'
 modelnames = os.listdir('resnet_models/train_on_{}/'.format(trainsite))
-modelnames = ['resnet_noise_0', 'resnet_noise_1', 'resnet_noise_2', 'resnet_noise_3', 'resnet_noise_4', 'resnet_noise_5']
+modelnames = ['resnet_noaug', 'resnet_five_aug', 'resnet_three_aug']
 
 ####traininfo
 for model in modelnames:
 
-    with open('model_output/train_on_{}/{}/train_specs.pickle'.format(trainsite,model), 'rb') as f:
+    with open('model_output/train_on_{}/{}_0/train_specs.pickle'.format(trainsite,model), 'rb') as f:
         trainInfo = pickle.load(f)
 
     plot_fname = 'plots/train_on_{}/train_info/{}.png'.format(trainsite,model)
@@ -38,4 +38,17 @@ pl.xticks(rotation = 45)
 pl.suptitle('Trained on {}, tested on duck/nbn'.format(trainsite))
 pl.savefig(plot_folder + '{}_SkillScore.png'.format(model))
 
-skc.gen_conf_matrix()
+best_model = skc.gen_conf_matrix(ensemble = False)
+
+
+
+for test_site in ['duck', 'nbn']:
+    for metric in ['f1', 'corr-coeff', 'nmi']:
+        print('{} scores for {}'.format(metric, test_site))
+
+        mean = results_df[(results_df.model_type == 'resnet_five_aug') & (results_df.test_site == test_site)][metric].mean()
+        std = results_df[(results_df.model_type == 'resnet_five_aug') & (results_df.test_site == test_site)][metric].std()
+
+        print('mean is {} +/- {}'.format(mean, std))
+
+    print('Best Performing Model for {0}, \n ============== \n f1: {1:0.2f} \n nmi : {2:0.2f} \n corr-coeff: {3:0.2f}'.format(test_site, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]].f1, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]].nmi, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]]['corr-coeff']))

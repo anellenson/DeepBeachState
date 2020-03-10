@@ -45,22 +45,23 @@ class skillComp():
         results_df = pd.DataFrame(columns = ['test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 
         for model in self.modelnames:
-            with open(self.out_folder +'{}/cnn_preds.pickle'.format(model), 'rb') as f:
-                predictions = pickle.load(f)
+            for run in range(5):
+                with open(self.out_folder +'{}_{}/cnn_preds.pickle'.format(model, run), 'rb') as f:
+                    predictions = pickle.load(f)
 
-            for testsite in ['duck', 'nbn']:
-                cnn_preds = predictions['{}_CNN'.format(testsite)]
-                true =  predictions['{}_truth'.format(testsite)]
+                for testsite in ['duck', 'nbn']:
+                    cnn_preds = predictions['{}_CNN'.format(testsite)]
+                    true =  predictions['{}_truth'.format(testsite)]
 
-                #Will throw an error when this is no longer a tensor
+                    #Will throw an error when this is no longer a tensor
 
-                cnn_preds = [cc.item() for cc in cnn_preds]
-                true = [tt.item() for tt in true]
+                    cnn_preds = [cc.item() for cc in cnn_preds]
+                    true = [tt.item() for tt in true]
 
-                f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
+                    f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
 
-                results = {'model_type':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
-                results_df = results_df.append(results, ignore_index = True)
+                    results = {'model_type':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
+                    results_df = results_df.append(results, ignore_index = True)
 
 
         self.results_df = results_df
@@ -68,29 +69,63 @@ class skillComp():
         return results_df
 
 
-    def confusionTable(self, confusion_matrix, class_names, ax, cmap, testsite):
-        acc = confusion_matrix.diagonal().sum()/np.sum(confusion_matrix)
-        class_acc = confusion_matrix.diagonal()/np.sum(confusion_matrix, axis = 1)
+    def confusionTable(self, confusion_matrix, class_names, ax, testsite, ensemble = True):
 
-        ax.pcolor(confusion_matrix, cmap = cmap)
-        for row in np.arange(len(confusion_matrix)):
-            for col in np.arange(len(confusion_matrix)):
+        cmap_dict = {'duck':'Blues', 'nbn':'Reds'}
+        cmap = cmap_dict[testsite]
+
+        if ensemble:
+            class_acc = confusion_matrix[0,:,:].diagonal()/np.sum(confusion_matrix[0,:,:], axis = 1)
+            for matrix in confusion_matrix:
+                class_acc = np.vstack((class_acc, matrix.diagonal()/np.sum(matrix, axis = 1)))
+
+            acc = np.sum(confusion_matrix, axis = 0)/np.sum(np.sum(confusion_matrix, axis = 0), axis = 1)
+            im = ax.pcolor(np.sum(confusion_matrix, axis = 0), cmap = cmap)
+
+
+        else:
+            confusion_matrix = confusion_matrix/np.sum(confusion_matrix, axis = 1)
+            class_acc = confusion_matrix.diagonal()
+            im = ax.pcolor(confusion_matrix, cmap = cmap)
+
+
+        for row in np.arange(confusion_matrix.shape[0]):
+            for col in np.arange(confusion_matrix.shape[1]):
                 if row == col:
-                    ax.text(col +0.35, row+0.65, str(np.round(class_acc[row], 2)), fontsize = 20, fontweight = 'bold', color = 'white')
+                    if ensemble:
+                        mean = class_acc[:,row].mean()
+                        std  = class_acc[:,row].std()
+                        ax.text(col +0.05, row+0.65, '{0:.2f} +/- {1:.2f}'.format(mean, std), fontsize = 9, fontweight = 'bold', color = 'white')
+
+                    else:
+                        mean = class_acc[row]
+                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = 'white')
                 # if confusion_matrix[row, col] >= 30:
                 #     ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
                 # if confusion_matrix[row,col] < 30:
                 #     ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
+
         ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
         ax.yaxis.tick_left()
-        ax.set_xticklabels(class_names)
-        ax.set_yticklabels(class_names)
-        ax.set_title('Test on {0} Accuracy: {1:0.2f}'.format(testsite, acc))
+        ax.set_xticklabels(class_names, fontsize = 10, weight = 'bold')
+        ax.set_yticklabels(class_names, fontsize = 10, weight = 'bold')
+        ax.set_ylabel('Truth', fontsize = 12, weight = 'bold')
+        ax.set_xlabel('CNN', fontsize = 12, weight = 'bold')
+        ax.set_title('Test on {0}'.format(testsite, class_acc.mean()))
+        pl.colorbar(im)
 
 
+    def load_conf_table(self, model, run, testsite):
 
+        with open(self.out_folder + '{}_{}/cnn_preds.pickle'.format(model, run), 'rb') as f:
+            predictions = pickle.load(f)
 
-    def gen_conf_matrix(self):
+        cnn_preds = predictions['{}_CNN'.format(testsite)]
+        true =  predictions['{}_truth'.format(testsite)]
+
+        return cnn_preds, true
+
+    def gen_conf_matrix(self, ensemble = True):
         '''
 
         This will generate confusion matrices for both test sites.
@@ -98,37 +133,64 @@ class skillComp():
 
         '''
         class_names = ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']
+        best_models = []
 
         for model in self.modelnames:
+            print(model)
             plot_fname = self.plot_folder + model + 'conf_matrix.png'
 
-            with open(self.out_folder + '{}/cnn_preds.pickle'.format(model), 'rb') as f:
-                predictions = pickle.load(f)
-
             fig, ax = pl.subplots(2,1, tight_layout = {'rect':[0, 0, 1, 0.95]}, sharex = True)
+
+            f1 = np.zeros((2,10))
             for ti,testsite in enumerate(['duck', 'nbn']):
-                if 'duck' in testsite:
-                    cmap = "Blues"
 
-                if 'nbn' in testsite:
-                    cmap = "Reds"
+                for run in range(10):
+
+                   cnn_preds, true = self.load_conf_table(model, run, testsite)
+
+                   f1[ti, run] = metrics.f1_score(true, cnn_preds, average='weighted')
+
+                   cnn_preds = [cc.item() for cc in cnn_preds]
+                   true = [cc.item() for cc in true]
 
 
-                cnn_preds = predictions['{}_CNN'.format(testsite)]
-                true =  predictions['{}_truth'.format(testsite)]
+                   if run == 0:
+                    conf_matrix = metrics.confusion_matrix(true, cnn_preds)
+                    conf_matrix = np.expand_dims(conf_matrix, axis = 0)
 
-                cnn_preds = [cc.item() for cc in cnn_preds]
-                true = [cc.item() for cc in true]
+                   if run > 0:
+                    conf_matrix_ = metrics.confusion_matrix(true, cnn_preds)
+                    conf_matrix_ = np.expand_dims(conf_matrix_, axis = 0)
 
-                conf_matrix = metrics.confusion_matrix(true, cnn_preds)
+                    conf_matrix = np.concatenate((conf_matrix, conf_matrix_), axis = 0)
 
                 title = '{} Train on {}'.format(model, self.trainsite)
-                self.confusionTable(conf_matrix, class_names, ax[ti], cmap, testsite)
+
+                if ensemble:
+                    self.confusionTable(conf_matrix, class_names, ax[ti], testsite, ensemble = ensemble)
+
+
+            if not ensemble:
+                f1_mean = np.mean(f1, axis = 0) #choose the best performing model and reload the predictions to plot them.
+                best_model_index = np.argwhere(f1_mean == np.max(f1_mean))[0][0]
+                best_models.append(best_model_index) #return the best performing ensemble member for each model type
+
+                for ti, testsite in enumerate(['duck', 'nbn']):
+                    #load the data
+                    cnn_preds, true = self.load_conf_table(model, best_model_index, testsite)
+                    cnn_preds = [cc.item() for cc in cnn_preds]
+                    true = [cc.item() for cc in true]
+
+                    conf_matrix = metrics.confusion_matrix(true, cnn_preds)
+                    self.confusionTable(conf_matrix, class_names, ax[ti], testsite, ensemble = ensemble)
+
 
             pl.suptitle(title)
 
             pl.savefig(plot_fname)
             print('Printed Confusion Matrix for {}'.format(model))
+
+        return best_models
 
 
 def trainInfo(val_acc, train_acc, val_loss, train_loss, plot_fname, title):

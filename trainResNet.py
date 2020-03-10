@@ -53,7 +53,7 @@ train_earlier_layers = False
 CNNtype = 'resnet'
 for train_site in ['nbn', 'duck', 'nbn_duck']:
     for augtype in ['noaug', 'three_aug', 'five_aug']:
-        for runno in range(10):
+        for runno in range(5):
             lr = 0.01
 
             ##saveout info
