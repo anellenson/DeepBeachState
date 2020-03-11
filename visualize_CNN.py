@@ -30,19 +30,23 @@ import argparse
 # ii = args.start_index
 # testsite = args.testsite
 # trainsite = args.trainsite
-modelname = 'resnet_spz'
-ii = 0
-beachstate = 'Ref'
-trainsite = 'nbn'
+modelname = 'resnet512_five_aug_'
+ii = 1
+beachstate = 'synthetic'
+trainsite = 'nbn_duck'
 testsite = 'duck'
+runno = 1
+modelname = modelname + str(runno)
+synthetic = True #if synthetic is false, then it will go to determine if it is plot one state
+plot_one_state = False
 print('Visualizing for model {}'.format(modelname))
 
-def load_images(test_IDs, res_height, res_width, mean, std):
+def load_images(test_IDs, res_height, res_width):
     images = []
     raw_images = []
 
     for ID in test_IDs:
-        image, raw_image = preprocess(ID, res_height, res_width, mean, std)
+        image, raw_image = preprocess(ID, res_height, res_width)
         images.append(image)
         raw_images.append(raw_image)
 
@@ -50,7 +54,7 @@ def load_images(test_IDs, res_height, res_width, mean, std):
 
 
 
-def preprocess(image_path, res_height, res_width, mean, std):
+def preprocess(image_path, res_height, res_width):
     transform = transforms.Compose([transforms.Resize((res_height,res_width)), transforms.ToTensor()])
                                         #transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
 
@@ -58,7 +62,7 @@ def preprocess(image_path, res_height, res_width, mean, std):
         image = Image.open(f)
         image = image.convert("RGB")
         raw_image = transform(image)
-        #image = transforms.Normalize([mean, mean, mean],[std, std, std])(raw_image)
+
 
     return raw_image, raw_image
 
@@ -84,9 +88,7 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
 
 
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
-classes = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
-mean = 0.5199 # pull in from train_on_nbn/train_on_duck
-std = 0.2319 #This is from the 'calc mean'
+classes = ['Ref','LTT','TBR','RBB','LBT']
 topk = 3 #only ask for the top choice
 imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/test/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
@@ -122,7 +124,12 @@ model_conv.eval()
 
 output_dir = 'model_output/train_on_{}/{}/'.format(trainsite,modelname)
 vis_dir = output_dir + 'visualize/'
-vis_test_dir = vis_dir +'test_on_{}/'.format(testsite,beachstate)
+
+if plot_one_state:
+    vis_test_dir = vis_dir +'test_on_{}/'.format(testsite,beachstate)
+
+else:
+    vis_test_dir = vis_dir
 
 #Remove all files that might already be there:
 
@@ -136,38 +143,42 @@ if not os.path.exists(vis_dir):
 if not os.path.exists(vis_test_dir):
     os.mkdir(vis_test_dir)
 
-# beachstate_dir = full_test_dir  + beachstate + '/'
-#
-# if not os.path.exists(beachstate_dir):
-#     os.mkdir(beachstate_dir)
+if synthetic:
+    allimgs = os.listdir(imgdir['duck'])
+    test_IDs = [f for f in allimgs if 'synthetic' in f]
+    test_IDs = test_IDs[ii:ii+5]
 
-
+else:
 ##load images here, preprocess all of them (don't do a dataset)
-with open('labels/{}_daytimex_valfiles.aug_imgs.pickle'.format(testsite), 'rb') as f:
-    test_IDs = pickle.load(f)
+    with open('labels/{}_daytimex_valfiles.no_aug.pickle'.format(testsite), 'rb') as f:
+        test_IDs = pickle.load(f)
 
-valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
+    valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
 
 
-with open('labels/{}_labels_dict.pickle'.format(testsite), 'rb') as f:
-    labels_dict = pickle.load(f)
+    with open('labels/{}_labels_dict.pickle'.format(testsite), 'rb') as f:
+        labels_dict = pickle.load(f)
 
-#filter so you get each class
-test_labels = np.array([labels_dict[pid] for pid in valfiles])
-test_IDs = []
-beachstatenum = classes.index(beachstate)
-class_pids = np.where(test_labels == beachstatenum)[0]
-test_IDs += [valfiles[cc] for cc in class_pids[ii:ii+5]]
+    #filter so you get each class
+    test_labels= np.array([labels_dict[pid] for pid in valfiles])
+    test_IDs = []
+    class_pids = []
+    if plot_one_state:
+        beachstatenum = classes.index(beachstate)
+        class_pids = np.where(test_labels == beachstatenum)[0]
+        test_IDs += [valfiles[cc] for cc in class_pids[ii:ii+5]]
 
-# all_imgs = os.listdir('/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/test/')
-# test_IDs = [tt for tt in all_imgs if 'synthetic' in tt]
-# test_IDs = test_IDs[ii:ii+5]
+    elif not plot_one_state:
+        for beachstatenum in range(len(classes)):
+            all_pids_for_class = np.where(test_labels == beachstatenum)[0]
+            class_pids.append(all_pids_for_class[ii])
 
+        test_IDs += [valfiles[cc] for cc in class_pids]
 
 test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
 
 
-images, raw_images = load_images(test_IDs, res_height, res_width, mean, std)
+images, raw_images = load_images(test_IDs, res_height, res_width)
 images = torch.stack(images).to(device)
 
 fig_cam, ax_cam = pl.subplots(5, topk + 1, figsize = [15,15])
@@ -186,7 +197,14 @@ for j, image in enumerate(images):
     for ax in [ax_cam, ax_gbp, ax_gbpcam]:
         ax[j,0].imshow(image.squeeze().cpu().numpy().transpose(1,2,0))
         ax[j,0].axis('off')
-        ax[j,0].set_title(beachstate)
+        if synthetic:
+            ax[j,0].set_title('Mixed State', fontsize = 18)
+        else:
+            if plot_one_state:
+                ax[j,0].set_title(beachstate, fontsize = 18)
+
+            elif not plot_one_state:
+                ax[j,0].set_title(classes[j], fontsize = 18)
 
     bp = BackPropagation(model=model_conv)
     probs, ids = bp.forward(image) #generate the top predictions
@@ -214,7 +232,7 @@ for j, image in enumerate(images):
         prediction = classes[ids[0, i]]
 
         for ax in [ax_cam, ax_gbp, ax_gbpcam]:
-            ax[j,i+1].set_title(prediction)
+            ax[j,i+1].set_title(prediction, fontsize = 22)
             #ax[j,i+1].imshow(image.detach().squeeze().cpu().numpy().transpose(1,2,0))
             ax[j,i+1].axis('off')
 
@@ -233,23 +251,28 @@ for j, image in enumerate(images):
         # Guided Backpropagation
         gbp_gradient = gradient_im(gradients[0])
         ax_gbp[j,i+1].imshow(gbp_gradient)
-        ax_gbp[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        # ax_gbp[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        ax_gbp[j,i+1].set_title('{0}'.format(prediction))
 
         #Grad-Cam
         grad_cam = regions[0,0].cpu().numpy()
         ax_cam[j,i+1].pcolor(np.flipud(grad_cam), alpha = 0.4, cmap = 'jet')
-        ax_cam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        # ax_cam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        ax_cam[j,i+1].set_title('{0}'.format(prediction))
 
         # Guided Grad-CAM
         guided_gradcam = gradient_im(torch.mul(regions, gradients)[0])
         ax_gbpcam[j,i+1].imshow(guided_gradcam)
-        ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        # ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
 
 
-for fig in [fig_cam, fig_gbp, fig_gbpcam]:
-    fig.suptitle(modelname)
+if plot_one_state:
+    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
 
-fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
-fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
-fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
-
+elif not plot_one_state:
+    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')

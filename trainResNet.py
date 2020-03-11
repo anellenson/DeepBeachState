@@ -33,13 +33,13 @@ duck_gray_std = [0.2319, 0.2319, 0.2319]
 rgb_mean = [0.4066, 0.4479, 0.4734]
 rgb_std = [0.2850, 0.3098, 0.3322]
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states list to dashes from matfile
-res_height = 256 #height
-res_width = 256 #width
+res_height = 512 #height
+res_width = 512 #width
 batch_size = 4
 
 gray = True #This is a switch for grayscale or not
 momentum = 0.9
-gamma = 0.5
+gamma = 0.1
 equalize_classes = True
 no_epochs = 120
 step_size = 15 #when to decay the learning rate
@@ -51,13 +51,13 @@ multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
 CNNtype = 'resnet'
-for train_site in ['nbn', 'duck', 'nbn_duck']:
-    for augtype in ['noaug', 'three_aug', 'five_aug']:
-        for runno in range(5):
+for train_site in ['nbn', 'nbn_duck']:
+    for augtype in ['nbn_to_duck_aug']:
+        for runno in range(10):
             lr = 0.01
 
             ##saveout info
-            model_name = 'resnet_{}_{}'.format(augtype, runno)
+            model_name = 'resnet512_{}_{}'.format(augtype, runno)
 
 
 

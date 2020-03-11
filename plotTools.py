@@ -69,7 +69,7 @@ class skillComp():
         return results_df
 
 
-    def confusionTable(self, confusion_matrix, class_names, ax, testsite, ensemble = True):
+    def confusionTable(self, confusion_matrix, class_names, fig, ax, testsite, ensemble = True):
 
         cmap_dict = {'duck':'Blues', 'nbn':'Reds'}
         cmap = cmap_dict[testsite]
@@ -95,11 +95,19 @@ class skillComp():
                     if ensemble:
                         mean = class_acc[:,row].mean()
                         std  = class_acc[:,row].std()
-                        ax.text(col +0.05, row+0.65, '{0:.2f} +/- {1:.2f}'.format(mean, std), fontsize = 9, fontweight = 'bold', color = 'white')
+                        if mean >= 0.5:
+                            color = 'white'
+                        else:
+                            color = 'black'
+                        ax.text(col +0.05, row+0.65, '{0:.2f} +/- {1:.2f}'.format(mean, std), fontsize = 9, fontweight = 'bold', color = color)
 
                     else:
                         mean = class_acc[row]
-                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = 'white')
+                        if mean >= 0.5:
+                            color = 'white'
+                        else:
+                            color = 'black'
+                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = color)
                 # if confusion_matrix[row, col] >= 30:
                 #     ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
                 # if confusion_matrix[row,col] < 30:
@@ -112,7 +120,9 @@ class skillComp():
         ax.set_ylabel('Truth', fontsize = 12, weight = 'bold')
         ax.set_xlabel('CNN', fontsize = 12, weight = 'bold')
         ax.set_title('Test on {0}'.format(testsite, class_acc.mean()))
-        pl.colorbar(im)
+        cb = fig.colorbar(im, ax = ax, ticks = [0, 0.2, 0.4, 0.6, 0.8, 1])
+        cb.ax.set_yticklabels(['0', '0.2', '0.4', '0.6', '0.8', '1'])
+
 
 
     def load_conf_table(self, model, run, testsite):
@@ -132,7 +142,7 @@ class skillComp():
 
 
         '''
-        class_names = ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']
+        class_names = ['Ref', 'LTT', 'TBR', 'RBB', 'LBT']
         best_models = []
 
         for model in self.modelnames:
@@ -144,7 +154,7 @@ class skillComp():
             f1 = np.zeros((2,10))
             for ti,testsite in enumerate(['duck', 'nbn']):
 
-                for run in range(10):
+                for run in range(5):
 
                    cnn_preds, true = self.load_conf_table(model, run, testsite)
 
@@ -167,7 +177,7 @@ class skillComp():
                 title = '{} Train on {}'.format(model, self.trainsite)
 
                 if ensemble:
-                    self.confusionTable(conf_matrix, class_names, ax[ti], testsite, ensemble = ensemble)
+                    self.confusionTable(conf_matrix, class_names, fig, ax[ti], testsite, ensemble = ensemble)
 
 
             if not ensemble:
@@ -182,7 +192,7 @@ class skillComp():
                     true = [cc.item() for cc in true]
 
                     conf_matrix = metrics.confusion_matrix(true, cnn_preds)
-                    self.confusionTable(conf_matrix, class_names, ax[ti], testsite, ensemble = ensemble)
+                    self.confusionTable(conf_matrix, class_names, fig, ax[ti], testsite, ensemble = ensemble)
 
 
             pl.suptitle(title)

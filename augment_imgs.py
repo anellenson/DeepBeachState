@@ -7,7 +7,7 @@ import os
 import numpy as np
 from PIL import Image
 import random
-import cv2
+import fnmatch
 import imutils
 
 class MyDataset(Dataset):
@@ -67,6 +67,41 @@ class augmentFcns():
 
         return im_straight
 
+    def find_spz(self, imgname):
+        spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
+        img_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
+        path = img_dir + imgname
+
+
+        img_files = os.listdir(spz_path)
+
+        filename = imgname.split('.')
+        days = filename[3].split('_')
+        day = days[0]
+
+        pattern = '*' + filename[2] + '.' + day + '*' + filename[-4] + '*'
+
+        spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            day_ = '{0:02d}'.format(int(day) + 1)
+            pattern = '*' + filename[2] + '.' + day_ + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            _day = '{0:02d}'.format(int(day) - 1)
+            pattern = '*' + filename[2] + '.' + _day + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        try:
+            img_path = spz_path + spzname[0]
+            return img_path
+
+        except:
+
+            print('No SPZ file for {}'.format(imgname))
 
 
 
@@ -261,22 +296,24 @@ class File_setup():
                             img = af.streaks(img)
 
                         elif 'spz' in name:
-                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
-                            img_path = spz_path + imgname
+                            img_path = af.find_spz(imgname)
 
-                            try:
-                                with open(img_path, 'rb') as f:
-                                    img = Image.open(f)
+                            if img_path is not None:
+                                fi = open(img_path, 'rb')
+                                img = Image.open(fi)
 
-                            except:
-                                print('No SPZ file for {}'.format(imgname))
+                            elif img_path is None:
                                 continue
+
 
                         elif 'gamma' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
 
-                        elif 'vcut' in name:
+                        elif 'vcut.translate' in name:
                             img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+                            T = trans_options['translate']
+                            img = T(img)
+
 
                         elif 'vcut.spz.streaks' in name:
 
@@ -310,7 +347,7 @@ class File_setup():
                 print('Finished producing images from ' + name + 'transformation')
 
         # save out train and val files
-        self.save_train_val(self.valfilename[:-6]+ 'three_aug_imgs.pickle', self.trainfilename[:-6]+ 'three_aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
+        self.save_train_val(self.valfilename[:-6]+ 'nbn_to_duck_aug_imgs.pickle', self.trainfilename[:-6]+ 'nbn_to_duck_aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
 
         # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
@@ -325,13 +362,13 @@ img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/nor
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
 
-labels_dict_filename = 'labels/{}_labels_dict_three_aug.pickle'.format(site)
+labels_dict_filename = 'labels/{}_labels_dict_nbn_to_duck_aug.pickle'.format(site)
 img_folder = img_dirs[site]
 valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
-augmentations = ['darken_rotate', 'erase_shift', 'flips']
+augmentations = ['darken', 'spz', 'vcut.translate', 'flips', 'rot']
 
 
 F = File_setup(img_folder, labels_pickle, site)

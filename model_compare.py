@@ -6,7 +6,7 @@ import os
 
 trainsite = 'nbn_duck'
 modelnames = os.listdir('resnet_models/train_on_{}/'.format(trainsite))
-modelnames = ['resnet_noaug', 'resnet_five_aug', 'resnet_three_aug']
+modelnames = ['resnet512_noaug', 'resnet512_five_aug']
 
 ####traininfo
 for model in modelnames:
@@ -41,14 +41,15 @@ pl.savefig(plot_folder + '{}_SkillScore.png'.format(model))
 best_model = skc.gen_conf_matrix(ensemble = False)
 
 
-
+best_model_name = modelnames[1]
+best_ensemble_member = best_model[1]
 for test_site in ['duck', 'nbn']:
-    for metric in ['f1', 'corr-coeff', 'nmi']:
+    for metric in ['f1', 'nmi', 'corr-coeff']:
         print('{} scores for {}'.format(metric, test_site))
 
-        mean = results_df[(results_df.model_type == 'resnet_five_aug') & (results_df.test_site == test_site)][metric].mean()
-        std = results_df[(results_df.model_type == 'resnet_five_aug') & (results_df.test_site == test_site)][metric].std()
+        mean = results_df[(results_df.model_type == best_model_name) & (results_df.test_site == test_site)][metric].mean()
+        std = results_df[(results_df.model_type == best_model_name) & (results_df.test_site == test_site)][metric].std()
 
-        print('mean is {} +/- {}'.format(mean, std))
+        print('mean is {0:0.2f} +/- {1:0.2f}'.format(mean, std))
 
-    print('Best Performing Model for {0}, \n ============== \n f1: {1:0.2f} \n nmi : {2:0.2f} \n corr-coeff: {3:0.2f}'.format(test_site, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]].f1, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]].nmi, results_df[(results_df.test_site == test_site) & (results_df.model_type == 'resnet_five_aug')].iloc[best_model[1]]['corr-coeff']))
+    print('Best Performing Model for {0} is run {1}, \n ============== \n f1: {2:0.2f} \n nmi : {3:0.2f} \n corr-coeff: {4:0.2f}'.format(test_site, best_ensemble_member, results_df[(results_df.test_site == test_site) & (results_df.model_type == best_model_name)].iloc[best_ensemble_member].f1, results_df[(results_df.test_site == test_site) & (results_df.model_type == best_model_name)].iloc[best_ensemble_member].nmi, results_df[(results_df.test_site == test_site) & (results_df.model_type == best_model_name)].iloc[best_ensemble_member]['corr-coeff']))
