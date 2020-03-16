@@ -41,7 +41,7 @@ gray = True #This is a switch for grayscale or not
 momentum = 0.9
 gamma = 0.1
 equalize_classes = True
-no_epochs = 120
+no_epochs = 1
 step_size = 15 #when to decay the learning rate
 mean = duck_gray_mean
 std = duck_gray_std
@@ -51,13 +51,13 @@ multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
 CNNtype = 'resnet'
-for train_site in ['nbn', 'nbn_duck']:
-    for augtype in ['nbn_to_duck_aug']:
+for train_site in ['nbn_duck', 'nbn', 'duck']:
+    for augtype in ['five_aug', 'no_aug']:
         for runno in range(10):
             lr = 0.01
 
             ##saveout info
-            model_name = 'resnet512_{}_{}'.format(augtype, runno)
+            model_name = 'resnet_withHolman_{}_{}'.format(augtype, runno)
 
 
 
@@ -71,8 +71,8 @@ for train_site in ['nbn', 'nbn_duck']:
 
             def load_train_and_valfiles(train_site):
 
-                valfiles = 'labels/{}_daytimex_valfiles.{}_imgs.pickle'.format(train_site, augtype)
-                trainfiles = 'labels/{}_daytimex_trainfiles.{}_imgs.pickle'.format(train_site, augtype)
+                valfiles = 'labels/{}_daytimex_valfiles.{}.pickle'.format(train_site, augtype)
+                trainfiles = 'labels/{}_daytimex_trainfiles.{}.pickle'.format(train_site, augtype)
 
                 with open(valfiles, 'rb') as f:
                     valfile = pickle.load(f)
@@ -304,7 +304,7 @@ for train_site in ['nbn', 'nbn_duck']:
                 return model, val_loss, val_acc, train_acc, train_loss
 
             def confusion_results(test_site):
-                with open('labels/{}_daytimex_valfiles.noaug_imgs.pickle'.format(test_site)) as f:
+                with open('labels/{}_daytimex_valfiles.final.pickle'.format(test_site)) as f:
                     valfiles = pickle.load(f)
 
                 val_ds = ArgusDS.ArgusTrainDS(basedirs, valfiles, labels_dict, transform = test_transform)

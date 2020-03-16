@@ -152,9 +152,6 @@ class File_setup():
 
         return mean, std
 
-
-
-
 ############set up validation dataset
 
     def set_up_train_val(self, valfilename, trainfilename, num_train_imgs, num_val_imgs):
@@ -181,15 +178,18 @@ class File_setup():
         print('Missing {} files from the labelled dataframe'.format(len(missing_files)))
 
         trainfiles = []
-        valfiles = []
+
+        with open(valfilename, 'rb') as f:
+            valfiles =  pickle.load(f)
 
         for ci in self.class_names: ####TO DO : make this so that it works with the labels dictionary, not necessarily a labels dataframe
 
             pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
 
+            #filter out any files that are in the validation set
+            trainpids = [pp for pp in pids if pp not in valfiles]
 
-            trainfiles += pids[:num_train_imgs]
-            valfiles += pids[num_train_imgs:num_train_imgs + num_val_imgs]
+            trainfiles += trainpids[:num_train_imgs]
 
             print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
             print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
@@ -199,20 +199,20 @@ class File_setup():
         self.valfiles = valfiles
 
         self.trainfilename = trainfilename
-        self.valfilename = valfilename
+        self.valfilename = valfilename.split('.')[0] + '.no_aug.pickle'
 
         self.save_train_val(self.valfilename, self.trainfilename, self.valfiles, self.trainfiles)
 
-    def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles):
+    def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles, new_val = False):
 
-            with open(valfilename, 'wb') as f:
-                pickle.dump(valfiles, f)
-            print('saved val files')
+        with open(valfilename, 'wb') as f:
+            pickle.dump(valfiles, f)
+        print('saved val files')
 
-            with open(trainfilename, 'wb') as f:
-                pickle.dump(trainfiles, f)
+        with open(trainfilename, 'wb') as f:
+            pickle.dump(trainfiles, f)
 
-            print('saved train files')
+        print('saved train files')
 
     def create_labels_dict(self, labels_dict_filename):
 
@@ -347,7 +347,9 @@ class File_setup():
                 print('Finished producing images from ' + name + 'transformation')
 
         # save out train and val files
-        self.save_train_val(self.valfilename[:-6]+ 'nbn_to_duck_aug_imgs.pickle', self.trainfilename[:-6]+ 'nbn_to_duck_aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
+        new_valname = self.valfilename.split('.')[0] + '.five_aug.pickle'
+        new_trainname = self.trainfilename.split('.')[0] + '.five_aug.pickle'
+        self.save_train_val(new_valname, new_trainname, self.valfiles_aug, self.trainfiles_aug)
 
         # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
@@ -357,18 +359,18 @@ class File_setup():
         #save out new labels dictionary
 
 
-site = 'nbn'
+site = 'duck'
 img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
 
-labels_dict_filename = 'labels/{}_labels_dict_nbn_to_duck_aug.pickle'.format(site)
+labels_dict_filename = 'labels/{}_labels_dict_five_aug.pickle'.format(site)
 img_folder = img_dirs[site]
-valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
+valfilename = 'labels/{}_daytimex_valfiles.final.pickle'.format(site)
+trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
 num_train_imgs = 100
 num_val_imgs = 15
-augmentations = ['darken', 'spz', 'vcut.translate', 'flips', 'rot']
+augmentations = ['flips', 'rot', 'erase', 'gamma', 'translate']
 
 
 F = File_setup(img_folder, labels_pickle, site)

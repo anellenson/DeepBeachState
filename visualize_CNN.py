@@ -56,13 +56,12 @@ def load_images(test_IDs, res_height, res_width):
 
 def preprocess(image_path, res_height, res_width):
     transform = transforms.Compose([transforms.Resize((res_height,res_width)), transforms.ToTensor()])
-                                        #transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+                                       #transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
 
     with open(image_path, 'rb') as f:
         image = Image.open(f)
         image = image.convert("RGB")
         raw_image = transform(image)
-
 
     return raw_image, raw_image
 
@@ -84,13 +83,14 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
         gcam = alpha * cmap + (1 - alpha) * raw_image
     else:
         gcam = (cmap.astype(np.float) + raw_image.numpy().transpose(1,2,0)) / 2
+
     cv2.imwrite(filename, np.uint8(gcam))
 
 
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT','TBR','RBB','LBT']
 topk = 3 #only ask for the top choice
-imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/test/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
 torch.cuda.empty_cache()
 

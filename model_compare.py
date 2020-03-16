@@ -6,7 +6,7 @@ import os
 
 trainsite = 'nbn_duck'
 modelnames = os.listdir('resnet_models/train_on_{}/'.format(trainsite))
-modelnames = ['resnet512_noaug', 'resnet512_five_aug']
+modelnames = ['resnet512_noaug', 'resnet512_five_aug', 'resnet512_nbn_to_duck_aug']
 
 ####traininfo
 for model in modelnames:
