@@ -41,7 +41,7 @@ gray = True #This is a switch for grayscale or not
 momentum = 0.9
 gamma = 0.1
 equalize_classes = True
-no_epochs = 1
+no_epochs = 120
 step_size = 15 #when to decay the learning rate
 mean = duck_gray_mean
 std = duck_gray_std
@@ -51,7 +51,7 @@ multilabel_bool = False
 pretrained = False
 train_earlier_layers = False
 CNNtype = 'resnet'
-for train_site in ['nbn_duck', 'nbn', 'duck']:
+for train_site in ['duck', 'nbn_duck', 'nbn']:
     for augtype in ['five_aug', 'no_aug']:
         for runno in range(10):
             lr = 0.01

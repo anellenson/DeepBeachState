@@ -374,6 +374,6 @@ augmentations = ['flips', 'rot', 'erase', 'gamma', 'translate']
 
 
 F = File_setup(img_folder, labels_pickle, site)
+F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
 F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
-F.create_labels_dict(labels_dict_filename)
 F.augment_imgs(labels_dict_filename, augmentations)

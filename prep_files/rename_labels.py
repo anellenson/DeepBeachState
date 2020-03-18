@@ -48,7 +48,7 @@ def count_labels_per_class(labels_df):
 labels_df = pd.read_pickle('../labels/duck_daytimex_labels_df.pickle')
 
 
-additional_labels = sio.loadmat('/home/server/pi/homes/aellenso/Research/DeepBeach/matlab/HolmanEra_new_labelled_imgs_duck.mat')
+additional_labels = sio.loadmat('/home/server/pi/homes/aellenso/Research/DeepBeach/matlab/HolmanEra_new_labelled_imgs_duck_0.mat')
 pid = additional_labels['pid'][0]
 pid = [pp[0] for pp in pid]
 

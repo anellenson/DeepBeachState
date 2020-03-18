@@ -42,7 +42,7 @@ class skillComp():
         It uses 'gen skill score'
 
         '''
-        results_df = pd.DataFrame(columns = ['test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
+        results_df = pd.DataFrame(columns = ['train_site', 'test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 
         for model in self.modelnames:
             for run in range(5):
@@ -60,7 +60,7 @@ class skillComp():
 
                     f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
 
-                    results = {'model_type':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
+                    results = {'train_site':self.trainsite, 'model_type':model, 'f1':f1, 'nmi':nmi, 'corr-coeff':corrcoeff,'test_site':testsite}
                     results_df = results_df.append(results, ignore_index = True)
 
 
@@ -86,7 +86,7 @@ class skillComp():
         else:
             confusion_matrix = confusion_matrix/np.sum(confusion_matrix, axis = 1)
             class_acc = confusion_matrix.diagonal()
-            im = ax.pcolor(confusion_matrix, cmap = cmap)
+            im = ax.pcolor(confusion_matrix, cmap = cmap, vmin = 0, vmax = 1)
 
 
         for row in np.arange(confusion_matrix.shape[0]):
