@@ -154,7 +154,7 @@ class File_setup():
 
 ############set up validation dataset
 
-    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs, num_val_imgs):
+    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs):
 
         '''
         This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe
@@ -253,7 +253,6 @@ class File_setup():
         self.trainfiles_aug = self.trainfiles[:]
 
         for filenames in [self.valfiles_aug, self.trainfiles_aug]:
-
 
             for ti, name in enumerate(augmentations):
 
@@ -359,7 +358,7 @@ class File_setup():
         #save out new labels dictionary
 
 
-site = 'duck'
+site = 'nbn'
 img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
@@ -369,11 +368,10 @@ img_folder = img_dirs[site]
 valfilename = 'labels/{}_daytimex_valfiles.final.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
 num_train_imgs = 100
-num_val_imgs = 15
 augmentations = ['flips', 'rot', 'erase', 'gamma', 'translate']
 
 
 F = File_setup(img_folder, labels_pickle, site)
 F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
-F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
+F.set_up_train_val(valfilename, trainfilename, num_train_imgs)
 F.augment_imgs(labels_dict_filename, augmentations)

@@ -14,6 +14,8 @@ from torchvision import models, transforms
 from grad_cam import BackPropagation, GuidedBackPropagation, GradCAM, Deconvnet
 import pickle
 import cv2
+from collections import Counter
+
 import shutil
 import argparse
 
@@ -31,14 +33,16 @@ import argparse
 # testsite = args.testsite
 # trainsite = args.trainsite
 modelname = 'resnet512_five_aug_'
+beachstate = 'All'
 ii = 1
-beachstate = 'synthetic'
-trainsite = 'nbn_duck'
-testsite = 'duck'
 runno = 1
 modelname = modelname + str(runno)
-synthetic = True #if synthetic is false, then it will go to determine if it is plot one state
+statenum = {'Ref':'1396645228', 'LTT':'1358024426', 'TBR':'1382475627', 'RBB':'1331586028', 'LBT':'1379624427'}
+trainsite = 'nbn_duck'
+testsite = 'nbn'
+synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = False
+
 print('Visualizing for model {}'.format(modelname))
 
 def load_images(test_IDs, res_height, res_width):
@@ -89,11 +93,10 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
 
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT','TBR','RBB','LBT']
-topk = 3 #only ask for the top choice
+topk = 2 #only ask for the top choice
 imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
 torch.cuda.empty_cache()
-
 modelpath= '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
 res_height = 512 #height
 res_width = 512 #width
@@ -154,9 +157,10 @@ else:
         test_IDs = pickle.load(f)
 
     valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
+    valfiles.sort()
 
 
-    with open('labels/{}_labels_dict.pickle'.format(testsite), 'rb') as f:
+    with open('labels/{}_labels_dict_no_aug.pickle'.format(testsite), 'rb') as f:
         labels_dict = pickle.load(f)
 
     #filter so you get each class
@@ -169,11 +173,9 @@ else:
         test_IDs += [valfiles[cc] for cc in class_pids[ii:ii+5]]
 
     elif not plot_one_state:
-        for beachstatenum in range(len(classes)):
-            all_pids_for_class = np.where(test_labels == beachstatenum)[0]
-            class_pids.append(all_pids_for_class[ii])
-
-        test_IDs += [valfiles[cc] for cc in class_pids]
+        for beachstate in classes:
+            class_pids = [aa for aa in valfiles if statenum[beachstate] in aa]
+            test_IDs += class_pids
 
 test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
 
@@ -181,30 +183,34 @@ test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
 images, raw_images = load_images(test_IDs, res_height, res_width)
 images = torch.stack(images).to(device)
 
-fig_cam, ax_cam = pl.subplots(5, topk + 1, figsize = [15,15])
-fig_cam.subplots_adjust(0,0,0.9,1)
-
-fig_gbp, ax_gbp = pl.subplots(5, topk + 1, figsize = [15,15])
-fig_gbp.subplots_adjust(0,0,0.9,1)
+# fig_cam, ax_cam = pl.subplots(5, topk + 1, figsize = [15,15])
+# fig_cam.subplots_adjust(0,0,0.9,1)
+#
+# fig_gbp, ax_gbp = pl.subplots(5, topk + 1, figsize = [15,15])
+# fig_gbp.subplots_adjust(0,0,0.9,1)
 
 fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, figsize = [15,15])
 fig_gbpcam.subplots_adjust(0,0,0.9,1)
 
-for j, image in enumerate(images):
+for j, (image, ID) in enumerate(zip(images, test_IDs)):
     image = image.unsqueeze(dim = 0)
 
+    ID = ID.split('/')[-1]
+    ID = ID.split('.')[0]
+    ID = ID.split('_')[1]
 
-    for ax in [ax_cam, ax_gbp, ax_gbpcam]:
+    #for ax in [ax_cam, ax_gbp, ax_gbpcam]:
+    for ax in [ax_gbpcam]:
         ax[j,0].imshow(image.squeeze().cpu().numpy().transpose(1,2,0))
         ax[j,0].axis('off')
         if synthetic:
-            ax[j,0].set_title('Mixed State', fontsize = 18)
+            ax[j,0].set_title('Mixed State {}'.format(ID), fontsize = 18)
         else:
             if plot_one_state:
-                ax[j,0].set_title(beachstate, fontsize = 18)
+                ax[j,0].set_title('{} {}'.format(beachstate, ID), fontsize = 18)
 
             elif not plot_one_state:
-                ax[j,0].set_title(classes[j], fontsize = 18)
+                ax[j,0].set_title('{} {}'.format(classes[j], ID), fontsize = 18)
 
     bp = BackPropagation(model=model_conv)
     probs, ids = bp.forward(image) #generate the top predictions
@@ -231,9 +237,10 @@ for j, image in enumerate(images):
 
         prediction = classes[ids[0, i]]
 
-        for ax in [ax_cam, ax_gbp, ax_gbpcam]:
+        #for ax in [ax_cam, ax_gbp, ax_gbpcam]:
+        for ax in [ax_gbpcam]:
             ax[j,i+1].set_title(prediction, fontsize = 22)
-            #ax[j,i+1].imshow(image.detach().squeeze().cpu().numpy().transpose(1,2,0))
+            ax[j,i+1].imshow(image.detach().squeeze().cpu().numpy().transpose(1,2,0))
             ax[j,i+1].axis('off')
 
 
@@ -249,30 +256,39 @@ for j, image in enumerate(images):
         print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], probs[0, i]))
 
         # Guided Backpropagation
-        gbp_gradient = gradient_im(gradients[0])
-        ax_gbp[j,i+1].imshow(gbp_gradient)
+        # gbp_gradient = gradient_im(gradients[0])
+        # ax_gbp[j,i+1].imshow(gbp_gradient)
         # ax_gbp[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-        ax_gbp[j,i+1].set_title('{0}'.format(prediction))
+        #ax_gbp[j,i+1].set_title('{0}'.format(prediction))
 
         #Grad-Cam
-        grad_cam = regions[0,0].cpu().numpy()
-        ax_cam[j,i+1].pcolor(np.flipud(grad_cam), alpha = 0.4, cmap = 'jet')
+        # grad_cam = regions[0,0].cpu().numpy()
+        # ax_cam[j,i+1].pcolor(np.flipud(grad_cam), alpha = 0.4, cmap = 'jet')
         # ax_cam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-        ax_cam[j,i+1].set_title('{0}'.format(prediction))
+       # ax_cam[j,i+1].set_title('{0}'.format(prediction))
 
         # Guided Grad-CAM
         guided_gradcam = gradient_im(torch.mul(regions, gradients)[0])
-        ax_gbpcam[j,i+1].imshow(guided_gradcam)
-        # ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-        ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
+        guided_gradcam = guided_gradcam[:,:,0]
+        #find the mode and zero it
+        counts = Counter(list(guided_gradcam.flatten()))
+        max_count = np.max(counts.values())
+        mode = [k for k,v in counts.items() if v == max_count][0]
+        #guided_gradcam[guided_gradcam>100] = 100
+        guided_gradcam = guided_gradcam-mode
+        #guided_gradcam[guided_gradcam<0] = 0
+
+        ax_gbpcam[j, i+1].imshow(guided_gradcam, cmap = 'hot', alpha = 0.4, vmin = 0, vmax = 100)
+        ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        #ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
 
 
 if plot_one_state:
-    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
-    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
 
 elif not plot_one_state:
-    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
-    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')

@@ -1,9 +1,11 @@
 from __future__ import division
 from matplotlib import pyplot as pl
+import matplotlib
 import numpy as np
 from sklearn import metrics
 import pandas as pd
 import pickle
+import matplotlib.ticker as ticker
 
 
 class skillComp():
@@ -75,12 +77,11 @@ class skillComp():
         cmap = cmap_dict[testsite]
 
         if ensemble:
-            class_acc = confusion_matrix[0,:,:].diagonal()/np.sum(confusion_matrix[0,:,:], axis = 1)
-            for matrix in confusion_matrix:
-                class_acc = np.vstack((class_acc, matrix.diagonal()/np.sum(matrix, axis = 1)))
-
-            acc = np.sum(confusion_matrix, axis = 0)/np.sum(np.sum(confusion_matrix, axis = 0), axis = 1)
-            im = ax.pcolor(np.sum(confusion_matrix, axis = 0), cmap = cmap)
+            sum_confusion_matrix = confusion_matrix.sum(axis = 0)
+            v = sum_confusion_matrix.sum(axis = 1)
+            confusion_matrix = sum_confusion_matrix/v[:,]
+            class_acc = confusion_matrix.diagonal()
+            im = ax.pcolor(confusion_matrix, cmap = cmap, vmin = 0, vmax =1)
 
 
         else:
@@ -93,13 +94,12 @@ class skillComp():
             for col in np.arange(confusion_matrix.shape[1]):
                 if row == col:
                     if ensemble:
-                        mean = class_acc[:,row].mean()
-                        std  = class_acc[:,row].std()
+                        mean = class_acc[row]
                         if mean >= 0.5:
                             color = 'white'
                         else:
                             color = 'black'
-                        ax.text(col +0.05, row+0.65, '{0:.2f} +/- {1:.2f}'.format(mean, std), fontsize = 9, fontweight = 'bold', color = color)
+                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = color)
 
                     else:
                         mean = class_acc[row]
@@ -108,19 +108,25 @@ class skillComp():
                         else:
                             color = 'black'
                         ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = color)
-                # if confusion_matrix[row, col] >= 30:
-                #     ax.text(col +0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold', color = 'white')
-                # if confusion_matrix[row,col] < 30:
-                #     ax.text(col+0.35, row+0.65, str(int(confusion_matrix[row, col])), fontsize = 20, fontweight = 'bold')
+
 
         ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
         ax.yaxis.tick_left()
-        ax.set_xticklabels(class_names, fontsize = 10, weight = 'bold')
-        ax.set_yticklabels(class_names, fontsize = 10, weight = 'bold')
+        ax.xaxis.set_major_formatter(ticker.NullFormatter())
+        ax.xaxis.set_minor_locator(ticker.FixedLocator([0.5, 1.5, 2.5, 3.5, 4.5]))
+        ax.xaxis.set_minor_formatter(ticker.FixedFormatter(class_names))
+
+
+        ax.yaxis.set_major_formatter(ticker.NullFormatter())
+        ax.yaxis.set_minor_locator(ticker.FixedLocator([0.5, 1.5, 2.5, 3.5, 4.5]))
+        ax.yaxis.set_minor_formatter(ticker.FixedFormatter(class_names))
+
+
         ax.set_ylabel('Truth', fontsize = 12, weight = 'bold')
         ax.set_xlabel('CNN', fontsize = 12, weight = 'bold')
         ax.set_title('Test on {0}'.format(testsite, class_acc.mean()))
-        cb = fig.colorbar(im, ax = ax, ticks = [0, 0.2, 0.4, 0.6, 0.8, 1])
+        #ax.set_title('CNN Confusion Matrix')
+        cb = fig.colorbar(im, ax = ax)
         cb.ax.set_yticklabels(['0', '0.2', '0.4', '0.6', '0.8', '1'])
 
 
@@ -195,7 +201,7 @@ class skillComp():
                     self.confusionTable(conf_matrix, class_names, fig, ax[ti], testsite, ensemble = ensemble)
 
 
-            pl.suptitle(title)
+            pl.suptitle('CNN Confusion Matrix')
 
             pl.savefig(plot_fname)
             print('Printed Confusion Matrix for {}'.format(model))

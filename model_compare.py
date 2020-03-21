@@ -34,20 +34,27 @@ for ti, trainsite in enumerate(['duck', 'nbn', 'nbn_duck']):
         all_results_df = pd.concat((all_results_df, skc.gen_skill_df()))
 
 
-sns.set_color_codes('pastel')
+sns.set_color_codes('bright')
 model = 'resnet512_five_aug'
 fig, ax = pl.subplots(1,3, sharey = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 fig.set_size_inches(10, 2.5)
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
-    a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi])
+    a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi], palette = {'b', 'salmon'}, )
     a.legend_.remove()
     a.grid()
 pl.xticks(rotation = 45)
 ax[0].set_xlim((0, 0.8))
 ax[1].set_xlim((0, 0.8))
 ax[2].set_xlim((0, 0.6))
-pl.suptitle('Trained on {}, tested on duck/nbn'.format(trainsite))
-pl.savefig(plot_folder + '{}_SkillScore.png'.format(model))
+ax[2].set_ylabel('')
+ax[1].set_ylabel('')
+ax[0].set_yticklabels(['Duck', 'Nbn', 'Combined'])
+ax[0].set_xlabel('F1')
+ax[1].set_xlabel('Corr-Coeff')
+ax[2].set_xlabel('NMI')
+ax[0].set_ylabel('Train Site')
+pl.suptitle('CNN Skill', fontsize = 14, fontname = 'Helvetica')
+pl.savefig('/home/server/pi/homes/aellenso/Research/DeepBeach/resnet_manuscript/plots/overall_skillscore.png')
 
 
 for trainsite in ['duck', 'nbn', 'nbn_duck']:
