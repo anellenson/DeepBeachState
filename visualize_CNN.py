@@ -1,9 +1,8 @@
-from __future__ import print_function
+from __future__ import print_function, division
 
 import copy
 import os.path as osp
 import os
-import click
 from PIL import Image
 import matplotlib.pyplot as pl
 import numpy as np
@@ -32,16 +31,17 @@ import argparse
 # ii = args.start_index
 # testsite = args.testsite
 # trainsite = args.trainsite
-modelname = 'resnet512_five_aug_'
-beachstate = 'All'
-ii = 1
-runno = 1
-modelname = modelname + str(runno)
-statenum = {'Ref':'1396645228', 'LTT':'1358024426', 'TBR':'1382475627', 'RBB':'1331586028', 'LBT':'1379624427'}
-trainsite = 'nbn_duck'
-testsite = 'nbn'
+modelbasename = 'resnet512_five_aug_'
+beachstate = 'LBT'
+ii = 10
+runno = 7
+modelname = modelbasename + str(runno)
+statenum_duck = {'Ref':'1330534800', 'LTT':'1357232400', 'TBR':'1404403200', 'RBB':'1393347600', 'LBT':'1390323600'}
+statenum = {'Ref':'1431309606', 'LTT':'1383512428', 'TBR':'1383166828', 'RBB':'1331586028', 'LBT':'1390078828'}
+trainsite = 'duck'
+testsite = 'duck'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
-plot_one_state = False
+plot_one_state = True
 
 print('Visualizing for model {}'.format(modelname))
 
@@ -94,17 +94,37 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT','TBR','RBB','LBT']
 topk = 2 #only ask for the top choice
-imgdir = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
-basedir = '/home/server/pi/homes/aellenso/Research/DeepBeach/python/ResNet/'
+imgdir = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/test/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+basedir = '/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/'
 torch.cuda.empty_cache()
-modelpath= '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
+modelpath = '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
 res_height = 512 #height
 res_width = 512 #width
-
+out_folder = 'model_output/train_on_{}/'.format(trainsite)
 ##load model
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 nb_classes = len(classes)
+
+def generate_img_probs(out_folder, modelbasename, img_id, testsite, classes, numruns=10):
+    labels = []
+    for rr in range(numruns):
+        with open(out_folder + modelbasename + '{}/cnn_preds.pickle'.format(rr), 'rb') as f:
+            cnn_preds = pickle.load(f)
+
+        img_dict = cnn_preds['{}_imglabels'.format(testsite)]
+        img_fname = [ii for ii in list(img_dict.keys()) if img_id in ii][0]
+        labels.append(img_dict[img_fname])
+
+    ensemble_probs = {}
+    for ci, state in enumerate(classes):
+        stateprobs = labels.count(ci)/numruns
+        ensemble_probs[state] = stateprobs
+
+    return ensemble_probs
+
+
+
 
 if 'resnet' in modelname:
     model_conv = models.resnet50()
@@ -153,14 +173,14 @@ if synthetic:
 
 else:
 ##load images here, preprocess all of them (don't do a dataset)
-    with open('labels/{}_daytimex_valfiles.no_aug.pickle'.format(testsite), 'rb') as f:
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
         test_IDs = pickle.load(f)
 
     valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
     valfiles.sort()
 
 
-    with open('labels/{}_labels_dict_no_aug.pickle'.format(testsite), 'rb') as f:
+    with open('labels/{}_labels_dict_five_aug.pickle'.format(testsite), 'rb') as f:
         labels_dict = pickle.load(f)
 
     #filter so you get each class
@@ -193,11 +213,14 @@ fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, figsize = [15,15])
 fig_gbpcam.subplots_adjust(0,0,0.9,1)
 
 for j, (image, ID) in enumerate(zip(images, test_IDs)):
-    image = image.unsqueeze(dim = 0)
 
+    image = image.unsqueeze(dim = 0)
     ID = ID.split('/')[-1]
     ID = ID.split('.')[0]
-    ID = ID.split('_')[1]
+    if testsite == 'nbn':
+        ID = ID.split('_')[1]
+
+    #ensemble_probs = generate_img_probs(out_folder, modelbasename, ID, testsite, classes, numruns=10)
 
     #for ax in [ax_cam, ax_gbp, ax_gbpcam]:
     for ax in [ax_gbpcam]:
@@ -243,8 +266,6 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
             ax[j,i+1].imshow(image.detach().squeeze().cpu().numpy().transpose(1,2,0))
             ax[j,i+1].axis('off')
 
-
-
         # Guided Backpropagation
         gbp.backward(ids=ids[:, [i]])
         gradients = gbp.generate()
@@ -253,7 +274,8 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         gcam.backward(ids=ids[:, [i]])
         regions = gcam.generate(target_layer=target_layer)
 
-        print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], probs[0, i]))
+        #print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], ensemble_probs[prediction]))
+        print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], probs[0,i]))
 
         # Guided Backpropagation
         # gbp_gradient = gradient_im(gradients[0])
@@ -277,10 +299,11 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         #guided_gradcam[guided_gradcam>100] = 100
         guided_gradcam = guided_gradcam-mode
         #guided_gradcam[guided_gradcam<0] = 0
+        #pl.imshow(guided_gradcam, cmap = 'hot', alpha = 0.4, vmin = 0, vmax = 100)
 
-        ax_gbpcam[j, i+1].imshow(guided_gradcam, cmap = 'hot', alpha = 0.4, vmin = 0, vmax = 100)
-        ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-        #ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
+        ax_gbpcam[j, i+1].imshow(guided_gradcam, alpha = 0.4, cmap = 'hot', vmin = 0, vmax = 100)
+        #ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, ensemble_probs[prediction]))
+        ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
 
 
 if plot_one_state:
@@ -291,4 +314,4 @@ if plot_one_state:
 elif not plot_one_state:
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
     # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
-    fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}_withimg.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')

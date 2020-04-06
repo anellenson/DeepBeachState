@@ -7,35 +7,31 @@ import pandas as pd
 
 all_results_df = pd.DataFrame(columns = ['train_site', 'test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 
-for ti, trainsite in enumerate(['duck', 'nbn', 'nbn_duck']):
+trainsite = 'nbn_duck'
+model = 'resnet512_five_aug_fold0'
+
+with open('model_output/train_on_{}/{}/train_specs.pickle'.format(trainsite,model), 'rb') as f:
+    trainInfo = pickle.load(f)
+
+plot_fname = 'plots/train_on_{}/train_info/{}.png'.format(trainsite,model)
+
+pt.trainInfo(trainInfo['val_acc'], trainInfo['train_acc'], trainInfo['val_loss'], trainInfo['train_loss'], plot_fname, model)
+
+for ti, trainsite in enumerate(['nbn', 'duck', 'nbn_duck']):
     modelnames = os.listdir('resnet_models/train_on_{}/'.format(trainsite))
-    modelnames = ['resnet512_five_aug', 'resnet512_noaug']
-
-    ####traininfo
-    for model in modelnames:
-
-        with open('model_output/train_on_{}/{}_0/train_specs.pickle'.format(trainsite,model), 'rb') as f:
-            trainInfo = pickle.load(f)
-
-        plot_fname = 'plots/train_on_{}/train_info/{}.png'.format(trainsite,model)
-
-
-        pt.trainInfo(trainInfo['val_acc'], trainInfo['train_acc'], trainInfo['val_loss'], trainInfo['train_loss'], plot_fname, model)
-
-
+    modelnames = ['resnet512_five_aug_']
     ########
     plot_folder = 'plots/train_on_{}/skill_compare/'.format(trainsite)
     out_folder = 'model_output/train_on_{}/'.format(trainsite)
 
     skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite)
     if ti == 0:
-        all_results_df = skc.gen_skill_df()
+        all_results_df = skc.gen_skill_df(ensemble = True)
     if ti >0:
-        all_results_df = pd.concat((all_results_df, skc.gen_skill_df()))
-
+        all_results_df = pd.concat((all_results_df, skc.gen_skill_df(ensemble=True)))
 
 sns.set_color_codes('bright')
-model = 'resnet512_five_aug'
+model = 'resnet512_five_aug_'
 fig, ax = pl.subplots(1,3, sharey = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 fig.set_size_inches(10, 2.5)
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
@@ -43,27 +39,33 @@ for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
     a.legend_.remove()
     a.grid()
 pl.xticks(rotation = 45)
-ax[0].set_xlim((0, 0.8))
-ax[1].set_xlim((0, 0.8))
-ax[2].set_xlim((0, 0.6))
+ax[0].set_xlim((0, 1))
+ax[1].set_xlim((0, 1))
+ax[2].set_xlim((0, 1))
 ax[2].set_ylabel('')
 ax[1].set_ylabel('')
-ax[0].set_yticklabels(['Duck', 'Nbn', 'Combined'])
+ax[0].set_yticklabels(['Nbn', 'Duck', 'Combined'])
 ax[0].set_xlabel('F1')
 ax[1].set_xlabel('Corr-Coeff')
 ax[2].set_xlabel('NMI')
 ax[0].set_ylabel('Train Site')
 pl.suptitle('CNN Skill', fontsize = 14, fontname = 'Helvetica')
-pl.savefig('/home/server/pi/homes/aellenso/Research/DeepBeach/resnet_manuscript/plots/overall_skillscore.png')
+pl.savefig('/home/aquilla/aellenso/Research/DeepBeach/resnet_manuscript/plots/overall_skillscore.png')
 
 
-for trainsite in ['duck', 'nbn', 'nbn_duck']:
+
+test_type = 'val' #'transfer' or 'val', tells the function which file to pull
+testsites = [['nbn', 'duck'], ['nbn', 'duck'], ['nbn', 'duck']]
+#The ensemble switch will show the average (True) or the best performing model (False)
+modelnames = ['resnet512_five_aug_']
+for ti, trainsite in enumerate(['nbn', 'duck', 'nbn_duck']):
+
     plot_folder = 'plots/train_on_{}/skill_compare/'.format(trainsite)
     out_folder = 'model_output/train_on_{}/'.format(trainsite)
 
     skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite)
 
-    best_model = skc.gen_conf_matrix(ensemble = False)
+    best_model = skc.gen_conf_matrix(test_type, testsites[ti], 10, average = True)
 
 
 best_model_name = modelnames[0]
