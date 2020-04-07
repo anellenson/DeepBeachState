@@ -7,35 +7,27 @@ import pandas as pd
 
 all_results_df = pd.DataFrame(columns = ['train_site', 'test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 
-trainsite = 'nbn_duck'
-model = 'resnet512_five_aug_fold0'
-
-with open('model_output/train_on_{}/{}/train_specs.pickle'.format(trainsite,model), 'rb') as f:
-    trainInfo = pickle.load(f)
-
-plot_fname = 'plots/train_on_{}/train_info/{}.png'.format(trainsite,model)
-
-pt.trainInfo(trainInfo['val_acc'], trainInfo['train_acc'], trainInfo['val_loss'], trainInfo['train_loss'], plot_fname, model)
-
-for ti, trainsite in enumerate(['nbn', 'duck', 'nbn_duck']):
+for ti, trainsite in enumerate(['nbn_duck']):
     modelnames = os.listdir('resnet_models/train_on_{}/'.format(trainsite))
-    modelnames = ['resnet512_five_aug_']
+    modelnames = ['resnet512_percentage_0.05_','resnet512_percentage_0.1_','resnet512_percentage_0.25_', 'resnet512_percentage_0.5_', 'resnet512_percentage_0.75_']
+    #modelnames = ['resnet512_five_aug_']
     ########
     plot_folder = 'plots/train_on_{}/skill_compare/'.format(trainsite)
     out_folder = 'model_output/train_on_{}/'.format(trainsite)
 
-    skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite)
+    skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite, numruns = 2, valfile = 'cnn_preds')
     if ti == 0:
         all_results_df = skc.gen_skill_df(ensemble = True)
     if ti >0:
         all_results_df = pd.concat((all_results_df, skc.gen_skill_df(ensemble=True)))
 
 sns.set_color_codes('bright')
-model = 'resnet512_five_aug_'
+model = 'resnet512_stretched_'
 fig, ax = pl.subplots(1,3, sharey = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 fig.set_size_inches(10, 2.5)
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
-    a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi], palette = {'b', 'salmon'}, )
+    a = sns.barplot(x = metric, y ='model_type', hue = 'test_site', data = all_results_df, ax = ax[mi], palette = {'b', 'salmon'})
+    #a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi], palette = {'b', 'salmon'}, )
     a.legend_.remove()
     a.grid()
 pl.xticks(rotation = 45)
@@ -50,22 +42,21 @@ ax[1].set_xlabel('Corr-Coeff')
 ax[2].set_xlabel('NMI')
 ax[0].set_ylabel('Train Site')
 pl.suptitle('CNN Skill', fontsize = 14, fontname = 'Helvetica')
-pl.savefig('/home/aquilla/aellenso/Research/DeepBeach/resnet_manuscript/plots/overall_skillscore.png')
+#pl.savefig('/home/aquilla/aellenso/Research/DeepBeach/research_notes/Apr2020/stretched_percentages_results/percentage_overall_skillscore.png')
 
 
 
 test_type = 'val' #'transfer' or 'val', tells the function which file to pull
 testsites = [['nbn', 'duck'], ['nbn', 'duck'], ['nbn', 'duck']]
 #The ensemble switch will show the average (True) or the best performing model (False)
-modelnames = ['resnet512_five_aug_']
-for ti, trainsite in enumerate(['nbn', 'duck', 'nbn_duck']):
-
+for ti, trainsite in enumerate(['duck']):
+    modelnames = ['resnet512_five_aug_']
     plot_folder = 'plots/train_on_{}/skill_compare/'.format(trainsite)
     out_folder = 'model_output/train_on_{}/'.format(trainsite)
 
-    skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite)
+    skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite, numruns = 3, valfile = 'cnn_preds_vcut')
 
-    best_model = skc.gen_conf_matrix(test_type, testsites[ti], 10, average = True)
+    best_model = skc.gen_conf_matrix(test_type, testsites[ti], average = True)
 
 
 best_model_name = modelnames[0]

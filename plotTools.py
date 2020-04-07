@@ -10,11 +10,14 @@ import matplotlib.ticker as ticker
 
 class skillComp():
 
-    def __init__(self, modelnames, plot_folder, out_folder, trainsite):
+    def __init__(self, modelnames, plot_folder, out_folder, trainsite, numruns =10, valfile = 'cnn_preds'):
         self.modelnames = modelnames
         self.plot_folder = plot_folder
         self.out_folder = out_folder
         self.trainsite = trainsite
+        self.numruns = numruns
+        self.valfile = valfile
+
 
 
     def gen_skill_score(self, true_labels, pred_labels):
@@ -48,8 +51,8 @@ class skillComp():
         for model in self.modelnames:
 
             if ensemble:
-                for run in range(10):
-                    with open(self.out_folder +'{}{}/cnn_preds.pickle'.format(model, run), 'rb') as f:
+                for run in range(self.numruns):
+                    with open(self.out_folder +'{}{}/{}.pickle'.format(model, run, self.valfile), 'rb') as f:
                         predictions = pickle.load(f)
 
                     for testsite in ['duck', 'nbn']:
@@ -67,7 +70,7 @@ class skillComp():
                         results_df = results_df.append(results, ignore_index = True)
 
             else:
-                with open(self.out_folder +'{}/cnn_preds.pickle'.format(model), 'rb') as f:
+                with open(self.out_folder +'{}/{}.pickle'.format(model, self.valfile), 'rb') as f:
                         predictions = pickle.load(f)
 
                 for testsite in ['duck', 'nbn']:
@@ -99,6 +102,7 @@ class skillComp():
             sum_confusion_matrix = confusion_matrix.sum(axis = 0)
             v = sum_confusion_matrix.sum(axis = 1)
             confusion_matrix = sum_confusion_matrix/v[:,]
+            print("num images confused as LBT: {}".format(sum_confusion_matrix.sum(axis = 0)[-1]/sum_confusion_matrix.sum()))
             class_acc = confusion_matrix.diagonal()
             im = ax.pcolor(confusion_matrix, cmap = cmap, vmin = 0, vmax =1)
 
@@ -160,7 +164,7 @@ class skillComp():
 
         return cnn_preds, true
 
-    def gen_conf_matrix(self, testtype, testsites, numruns, average = True):
+    def gen_conf_matrix(self, testtype, testsites, average = True):
         '''
 
         This will generate confusion matrices for both test sites.
@@ -171,7 +175,7 @@ class skillComp():
         best_models = []
 
         if testtype == 'val':
-            filename = 'cnn_preds'
+            filename = self.valfile
 
         if testtype == 'transfer':
             filename = 'predictions_{}'.format(testsite)
@@ -192,7 +196,7 @@ class skillComp():
                     ax = axes[ti]
 
 
-                for run in range(numruns):
+                for run in range(self.numruns):
 
 
                     cnn_preds, true = self.load_conf_table(model, run, testsite, filename)

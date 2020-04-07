@@ -19,30 +19,31 @@ import shutil
 import argparse
 
 
-# parser = argparse.ArgumentParser(description = 'specify which model')
-# parser.add_argument('-m', '--modelname')
-# parser.add_argument('-state', '--beachstate')
-# parser.add_argument('-ii', '--start_index', type = int)
-# parser.add_argument('-testsite', '--testsite')
-# parser.add_argument('-trainsite', '--trainsite')
-# args = parser.parse_args()
-# modelname = args.modelname
-# beachstate = args.beachstate
-# ii = args.start_index
-# testsite = args.testsite
-# trainsite = args.trainsite
-modelbasename = 'resnet512_five_aug_'
-beachstate = 'LBT'
-ii = 10
-runno = 7
-modelname = modelbasename + str(runno)
-statenum_duck = {'Ref':'1330534800', 'LTT':'1357232400', 'TBR':'1404403200', 'RBB':'1393347600', 'LBT':'1390323600'}
-statenum = {'Ref':'1431309606', 'LTT':'1383512428', 'TBR':'1383166828', 'RBB':'1331586028', 'LBT':'1390078828'}
-trainsite = 'duck'
-testsite = 'duck'
+parser = argparse.ArgumentParser(description = 'specify which model')
+parser.add_argument('-m', '--modelname')
+parser.add_argument('-state', '--beachstate')
+parser.add_argument('-ii', '--start_index', type = int)
+parser.add_argument('-testsite', '--testsite')
+parser.add_argument('-trainsite', '--trainsite')
+args = parser.parse_args()
+modelname = args.modelname
+beachstate = args.beachstate
+ii = args.start_index
+testsite = args.testsite
+trainsite = args.trainsite
+
+# modelbasename = 'resnet512_percentage_0.05_'
+# beachstate = 'LBT'
+# ii = 10
+# runno = 0
+# modelname = modelbasename + str(runno)
+# statenum_duck = {'Ref':'1330534800', 'LTT':'1357232400', 'TBR':'1404403200', 'RBB':'1393347600', 'LBT':'1390323600'}
+# statenum = {'Ref':'1431309606', 'LTT':'1383512428', 'TBR':'1383166828', 'RBB':'1331586028', 'LBT':'1390078828'}
+# trainsite = 'nbn_duck'
+# testsite = 'nbn'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = True
-
+vcut = True
 print('Visualizing for model {}'.format(modelname))
 
 def load_images(test_IDs, res_height, res_width):
@@ -175,6 +176,9 @@ else:
 ##load images here, preprocess all of them (don't do a dataset)
     with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
         test_IDs = pickle.load(f)
+
+    if vcut:
+        valfiles = [tt[:-3] + 'vcut.jpg' for tt in test_IDs]
 
     valfiles = [tt for tt in test_IDs if not any([sub in tt for sub in trans_names])]
     valfiles.sort()
@@ -310,6 +314,8 @@ if plot_one_state:
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    if vcut:
+        fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_vcut.png'.format(beachstate,ii), bbox_inches = 'tight')
 
 elif not plot_one_state:
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
