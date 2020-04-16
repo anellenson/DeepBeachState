@@ -101,16 +101,28 @@ import pickle
 import random
 import shutil
 
+testsite = 'duck'
+for testsite in ['duck','nbn']:
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
+        test_IDs = pickle.load(f)
+
+    valfiles = list(np.unique(test_IDs))
+
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'wb') as f:
+        pickle.dump(valfiles, f)
+
+
+
 for trainsite in ['duck', 'nbn']:
 
-    imgdirs = {'nbn': '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
-                'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+    imgdirs = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
+                'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
 
-    with open('labels/{}_daytimex_valfiles.no_aug.pickle'.format(trainsite), 'rb') as f:
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'rb') as f:
         files = pickle.load(f)
 
-    outdir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/valfiles/{}_images/'.format(trainsite)
-    txtfname = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/valfiles/{}_images.txt'.format(trainsite)
+    outdir = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images/'.format(trainsite)
+    txtfname = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images.txt'.format(trainsite)
 
     f = open(txtfname, 'wb')
 

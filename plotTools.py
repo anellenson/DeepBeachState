@@ -60,9 +60,9 @@ class skillComp():
                         true =  predictions['{}_truth'.format(testsite)]
 
                         #Will throw an error when this is no longer a tensor
-
-                        cnn_preds = [cc.item() for cc in cnn_preds]
-                        true = [tt.item() for tt in true]
+                        if testsite not in self.valfile:
+                            cnn_preds = [cc.item() for cc in cnn_preds]
+                            true = [tt.item() for tt in true]
 
                         f1,corrcoeff,nmi = self.gen_skill_score(true, cnn_preds)
 
@@ -174,11 +174,6 @@ class skillComp():
         class_names = ['Ref', 'LTT', 'TBR', 'RBB', 'LBT']
         best_models = []
 
-        if testtype == 'val':
-            filename = self.valfile
-
-        if testtype == 'transfer':
-            filename = 'predictions_{}'.format(testsite)
 
         for model in self.modelnames:
             print(model)
@@ -199,7 +194,7 @@ class skillComp():
                 for run in range(self.numruns):
 
 
-                    cnn_preds, true = self.load_conf_table(model, run, testsite, filename)
+                    cnn_preds, true = self.load_conf_table(model, run, testsite, self.valfile)
 
                     f1[ti, run] = metrics.f1_score(true, cnn_preds, average='weighted')
 
@@ -239,7 +234,7 @@ class skillComp():
                 else:
                     ax = axes[ti]          #load the data
 
-                cnn_preds, true = self.load_conf_table(model, best_model_index, testsite,  filename)
+                cnn_preds, true = self.load_conf_table(model, best_model_index, testsite,  self.valfile)
                 if testtype == 'val':
                     cnn_preds = [cc.item() for cc in cnn_preds]
                     true = [cc.item() for cc in true]

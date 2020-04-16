@@ -18,7 +18,7 @@ from collections import Counter
 import shutil
 import argparse
 
-
+#
 parser = argparse.ArgumentParser(description = 'specify which model')
 parser.add_argument('-m', '--modelname')
 parser.add_argument('-state', '--beachstate')
@@ -32,18 +32,18 @@ ii = args.start_index
 testsite = args.testsite
 trainsite = args.trainsite
 
-# modelbasename = 'resnet512_percentage_0.05_'
+# modelbasename = 'resnet512_five_aug_'
 # beachstate = 'LBT'
 # ii = 10
 # runno = 0
 # modelname = modelbasename + str(runno)
 # statenum_duck = {'Ref':'1330534800', 'LTT':'1357232400', 'TBR':'1404403200', 'RBB':'1393347600', 'LBT':'1390323600'}
-# statenum = {'Ref':'1431309606', 'LTT':'1383512428', 'TBR':'1383166828', 'RBB':'1331586028', 'LBT':'1390078828'}
+# statenum = {'Ref':'1458334806', 'LTT':'1358370027', 'TBR':'1387054828', 'RBB':'1375650027', 'LBT':'1446773407'}
 # trainsite = 'nbn_duck'
-# testsite = 'nbn'
+# testsite = 'duck'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = True
-vcut = True
+vcut = False
 print('Visualizing for model {}'.format(modelname))
 
 def load_images(test_IDs, res_height, res_width):
@@ -216,6 +216,7 @@ images = torch.stack(images).to(device)
 fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, figsize = [15,15])
 fig_gbpcam.subplots_adjust(0,0,0.9,1)
 
+all_gradcams = []
 for j, (image, ID) in enumerate(zip(images, test_IDs)):
 
     image = image.unsqueeze(dim = 0)
@@ -309,13 +310,21 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         #ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, ensemble_probs[prediction]))
         ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
 
+        if i == 0:
+            all_gradcams.append(guided_gradcam)
 
+
+all_gradcams = np.array(all_gradcams)
 if plot_one_state:
+
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     if vcut:
         fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_vcut.png'.format(beachstate,ii), bbox_inches = 'tight')
+    with open(vis_test_dir + '/BackCam_{}_{}.pickle'.format(beachstate, ii), 'wb') as f:
+        pickle.dump(all_gradcams, f)
+
 
 elif not plot_one_state:
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
