@@ -95,7 +95,7 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
 trans_names = ['hflip', 'vflip', 'rot', 'erase', 'gamma']
 classes = ['Ref','LTT','TBR','RBB','LBT']
 topk = 2 #only ask for the top choice
-imgdir = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/test/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+
 basedir = '/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/'
 torch.cuda.empty_cache()
 modelpath = '{}/resnet_models/train_on_{}/{}.pth'.format(basedir, trainsite, modelname)
@@ -243,7 +243,7 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
     bp = BackPropagation(model=model_conv)
     probs, ids = bp.forward(image) #generate the top predictions
 
-    gcam = GradCAM(model=model_conv)
+    gcam = GradCAM(model=model_conv) 
     _ = gcam.forward(image)
 
     gbp = GuidedBackPropagation(model=model_conv)

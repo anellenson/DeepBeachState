@@ -101,6 +101,8 @@ import pickle
 import random
 import shutil
 
+
+
 testsite = 'duck'
 for testsite in ['duck','nbn']:
     with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
