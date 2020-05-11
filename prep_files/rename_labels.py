@@ -62,17 +62,17 @@ nbn_labels['label'] = [ll.split()[0] for ll in nbn_labels.label]
 sorted_idx = np.argsort(nbn_labels.pid)
 nbn_labels = nbn_labels.iloc[sorted_idx]
 
+
+trainsite = 'duck'
 allfiles = os.listdir(imgdirs[trainsite])
-newlabels = ['1394226027','1394658027','1396645228', '1400187607', '1400706007',
-             '1427765407', '1431309606', '1433813407', '1436477406', '1458334806',
-              '1462325407', '1462914006', '1475458207', '1525467606', '1529182806']
+newlabels = ['1359824400','1385226000','1385744400','1385830800','1390582800','1393261200','1422032400']
 for ni, num in enumerate(newlabels):
     pid = [pp for pp in allfiles if num in pp][0]
-    labels_df.loc[labels_df.index.max() + ni + 1] = ['Ref', pid]
+    labels_df.loc[labels_df.index.max() + ni + 1] = ['RBB-E', pid]
 
 labels_df = labels_df.drop_duplicates('pid')
 
-labels_df.to_pickle('../labels/nbn_daytimex_labels_df.pickle')
+labels_df.to_pickle('labels/duck_daytimex_labels_df.pickle')
 # with open('missing_pids_labels.txt', 'wb') as f:
 #     for pid in missing_pids:
 #         f.write(pid + '\n')
@@ -121,15 +121,23 @@ for trainsite in ['duck', 'nbn']:
                 'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
 
     with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'rb') as f:
-        files = pickle.load(f)
+        valfiles = pickle.load(f)
 
     outdir = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images/'.format(trainsite)
-    txtfname = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images.txt'.format(trainsite)
+    txtfname = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images_addl.txt'.format(trainsite)
+
+    allfiles = os.listdir(outdir)
+    old_valfiles = os.listdir(outdir)
+    datenum = [ss.split('.')[3] for ss in old_valfiles]
+
+    old_pids = [pp for pp in valfiles if any([imgnum in pp for imgnum in datenum])]
+    files = [vv for vv in valfiles if vv not in old_pids]
 
     f = open(txtfname, 'wb')
 
     random.shuffle(files)
     for fi, file in enumerate(files):
+        fi = fi + 76
         if trainsite == 'nbn':
             names = file.split('_')
             number = names[1].split('.')[0]
@@ -148,43 +156,51 @@ for trainsite in ['duck', 'nbn']:
 
 import matplotlib.pyplot as pl
 from PIL import Image
+import pandas as pd
 import numpy as np
+import pickle
+import os
+import scipy.io as sio
+import shutil
 
-trainsite = 'nbn'
+trainsite = 'duck'
 
-imgdirs = {'nbn': '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
-            'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+valfiles = 'labels/{}_daytimex_valfiles.final.pickle'.format(trainsite)
+with open(valfiles, 'rb') as f:
+    valfiles = pickle.load(f)
+
+
+trainfiles = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(trainsite)
+with open(trainfiles, 'rb') as f:
+    trainfiles = pickle.load(f)
+
 
 labels_df = pd.read_pickle('labels/{}_daytimex_labels_df.pickle'.format(trainsite))
-labels_df = labels_df.drop_duplicates('pid')
-
-for pid in labels_df[labels_df.label == 'RBB-E'].pid:
-
-    if pid in valfiles:
-
-        image = Image.open(imgdirs[trainsite] + pid)
-        fig, ax = pl.subplots(1,1)
-        ax.set_title(pid)
-        ax.imshow(image)
 
 
-
-remove_imgs = ['1244667628', '1237669228', '1232571627', '1246136428', '1243371628', '1233954027', '1364763627', '1364158827']
+remove_imgs = ['1416157200','1383843600','1397577600','1396972800']
 pids = [pp for pp in valfiles if any([imgnum in pp for imgnum in remove_imgs])]
 drop_inds = [labels_df[labels_df.pid == pp].index for pp in pids]
-drop_inds = [107,295]
+drop_inds = [dd[0] for dd in drop_inds]
 labels_df = labels_df.drop(index = drop_inds)
 
-labels_df.drop(labels_df.index[drop_inds])
-pids = [pp for pp in valfiles if '1252357227' in pp]
-labels_df.loc[labels_df['pid'] == pids[0], 'label'] = 'LBT-FG'
+for pp in pids:
+    valfiles.remove(pp)
+
+labels = []
+for vv in valfiles:
+    ll = labels_df[labels_df.pid == vv].label.values
+    labels.append(ll[0])
 
 
-####Remake valfiles
-valfiles = []
+for classname in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
+    print(len(np.where(np.array(labels) == classname)[0]))
+
+
+
 for classname in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
     pids = labels_df[labels_df.label == classname].pid.values
-    valfiles += list(pids[-15:])
+    print(len(pids))
 
 
 
@@ -205,6 +221,16 @@ for classname in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
     print(valfiles_class[-1])
 
 
+def return_datenum(tt, trainsite):
+    if trainsite == 'nbn':
+        tt = int(tt.split('.')[0].split('_')[1])
+
+    if trainsite == 'duck':
+        tt = int(tt.split('.')[0])
+
+    return tt
+
+
 def sort_pids(pids, trainsite):
     if trainsite == 'nbn':
         pids = [tt.split('.')[0] for tt in pids]
@@ -220,18 +246,25 @@ def sort_pids(pids, trainsite):
 
 
 
-trainsite = 'nbn'
-with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'wb') as f:
-    pickle.dump(valfiles, f)
+trainsite = 'duck'
 
+labels_df = pd.read_pickle('../labels/{}_daytimex_labels_df.pickle'.format(trainsite))
+
+with open('labels/{}_daytimex_labels_df.pickle'.format(trainsite), 'wb') as f:
+    pickle.dump(labels_df, f)
 
 for state in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
+    labels_df = pd.read_pickle('../labels/{}_daytimex_labels_df.pickle'.format(trainsite))
+
+    with open('labels/{}_daytimex_labels_df.pickle'.format(trainsite), 'wb') as f:
+        pickle.dump(labels_df, f)
+
 #Check they're from different eras
     with open('labels/{}_daytimex_trainfiles.no_aug.pickle'.format(trainsite), 'rb') as f:
         trainfiles = pickle.load(f)
 
 
-    with open('labels/{}_daytimex_valfiles.no_aug.pickle'.format(trainsite), 'rb') as f:
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'rb') as f:
         valfiles = pickle.load(f)
 
     pids = list(labels_df[labels_df.label == state].pid)
@@ -244,4 +277,37 @@ for state in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
     print(state + '\n ==================')
     print(trainfiles_class[-1]<valfiles_class[0])
 
+trainsite = 'nbn'
+addl_valfiles = []
+for state in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
+    labels_df = pd.read_pickle('../labels/{}_daytimex_labels_df.pickle'.format(trainsite))
+    print(len(labels_df[labels_df.label == state]))
 
+#Check they're from different eras
+    with open('labels/{}_daytimex_trainfiles.no_aug.pickle'.format(trainsite), 'rb') as f:
+        trainfiles = pickle.load(f)
+
+
+    with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'rb') as f:
+        valfiles = pickle.load(f)
+
+    valfiles = np.unique(valfiles)
+
+    pids = list(labels_df[labels_df.label == state].pid)
+    valfiles_class = [vv for vv in valfiles if vv in pids]
+    trainfiles_class = [vv for vv in trainfiles if vv in pids]
+
+    valfiles_int = sort_pids(valfiles_class, trainsite)
+    trainfiles_int = sort_pids(trainfiles_class, trainsite)
+
+    print(len(pids))
+    pids = [pp for pp in pids if pp not in valfiles_class]
+    pids = [pp for pp in pids if pp not in trainfiles_class]
+    print(len(pids))
+    pids = [pp for pp in pids if return_datenum(pp, trainsite) > valfiles_int[0]]
+    print(len(pids))
+    addl_valfiles += pids[:3]
+
+valfiles = list(valfiles) + addl_valfiles
+with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'wb') as f:
+    pickle.dump(valfiles, f)

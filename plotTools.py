@@ -6,6 +6,7 @@ from sklearn import metrics
 import pandas as pd
 import pickle
 import matplotlib.ticker as ticker
+import math
 
 
 class skillComp():
@@ -39,7 +40,7 @@ class skillComp():
 
 
 
-    def gen_skill_df(self, ensemble=True):
+    def gen_skill_df(self, testsites = ['duck', 'nbn','both'], ensemble=True):
         '''
         This will produce a results dataframe with F1, NMI, and Correlation Coefficient
         The dataframe will have the 'test site' and 'model' for plotting in seaborn
@@ -55,9 +56,16 @@ class skillComp():
                     with open(self.out_folder +'{}{}/{}.pickle'.format(model, run, self.valfile), 'rb') as f:
                         predictions = pickle.load(f)
 
-                    for testsite in ['duck', 'nbn']:
-                        cnn_preds = predictions['{}_CNN'.format(testsite)]
-                        true =  predictions['{}_truth'.format(testsite)]
+                    for testsite in testsites:
+                        if testsite == 'both':
+                            cnn_preds =  []
+                            true = []
+                            for site in ['duck', 'nbn']:
+                                cnn_preds +=  predictions['{}_CNN'.format(site)]
+                                true +=  predictions['{}_truth'.format(site)]
+                        else:
+                            cnn_preds = predictions['{}_CNN'.format(testsite)]
+                            true =  predictions['{}_truth'.format(testsite)]
 
                         #Will throw an error when this is no longer a tensor
                         if testsite not in self.valfile:
@@ -73,11 +81,17 @@ class skillComp():
                 with open(self.out_folder +'{}/{}.pickle'.format(model, self.valfile), 'rb') as f:
                         predictions = pickle.load(f)
 
-                for testsite in ['duck', 'nbn']:
+                for testsite in ['duck','nbn', 'both']:
+                    if testsite == 'both':
+                        cnn_preds =  []
+                        true = []
+                        for testsite in ['duck', 'nbn']:
+                            cnn_preds +=  predictions['{}_CNN'.format(testsite)]
+                            true +=  predictions['{}_truth'.format(testsite)]
+
                     cnn_preds = predictions['{}_CNN'.format(testsite)]
                     true =  predictions['{}_truth'.format(testsite)]
 
-                    #Will throw an error when this is no longer a tensor
 
                     cnn_preds = [cc.item() for cc in cnn_preds]
                     true = [tt.item() for tt in true]
@@ -122,15 +136,17 @@ class skillComp():
                             color = 'white'
                         else:
                             color = 'black'
-                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = color)
+                        ax.text(col +0.05, row+0.65, '{0:d}%'.format(int(mean*100)), fontsize = 10, fontweight = 'bold', color = color)
 
                     else:
                         mean = class_acc[row]
+                        print(mean)
                         if mean >= 0.5:
                             color = 'white'
                         else:
                             color = 'black'
-                        ax.text(col +0.35, row+0.65, '{0:.2f}'.format(mean), fontsize = 15, fontweight = 'bold', color = color)
+                        ax.text(col +0.05, row+0.65, '{0:d}%'.format(int(mean*100)), fontsize = 10, fontweight = 'bold', color = color)
+
 
 
         ax.set_ylim(ax.get_ylim()[::-1])        # invert the axis
@@ -164,7 +180,7 @@ class skillComp():
 
         return cnn_preds, true
 
-    def gen_conf_matrix(self, testtype, testsites, average = True):
+    def gen_conf_matrix(self, testtype, testsites, plot_fname, average = True):
         '''
 
         This will generate confusion matrices for both test sites.
@@ -177,9 +193,8 @@ class skillComp():
 
         for model in self.modelnames:
             print(model)
-            plot_fname = self.plot_folder + model + 'conf_matrix.png'
 
-            fig, axes = pl.subplots(len(testsites),1, tight_layout = {'rect':[0, 0, 1, 0.95]}, sharex = True)
+            fig, axes = pl.subplots(len(testsites),1, tight_layout = {'rect':[0, 0, 1, 0.92]}, sharex = True, figsize = [3,5])
 
             f1 = np.zeros((2,10))
 
@@ -213,7 +228,7 @@ class skillComp():
 
                         conf_matrix = np.concatenate((conf_matrix, conf_matrix_), axis = 0)
 
-                title = '{} Train on {}'.format(model, self.trainsite)
+                title = 'Test at {}'.format(testsite)
 
                 if average:
                     self.confusionTable(conf_matrix, class_names, fig, ax, testsite, title, ensemble = average)
@@ -243,9 +258,9 @@ class skillComp():
                 self.confusionTable(conf_matrix, class_names, fig, ax, testsite, title, ensemble = average)
 
 
-            pl.suptitle('CNN Confusion Matrix')
+            pl.suptitle('Confusion Matrix \n trained at {}'.format(self.trainsite))
 
-            pl.savefig(plot_fname)
+            pl.savefig(self.plot_folder + plot_fname)
             print('Printed Confusion Matrix for {}'.format(model))
 
         return best_models

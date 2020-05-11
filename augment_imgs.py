@@ -358,7 +358,7 @@ class File_setup():
         #save out new labels dictionary
 
 
-site = 'nbn'
+site = 'duck'
 img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)

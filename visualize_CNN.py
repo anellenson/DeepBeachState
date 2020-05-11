@@ -18,7 +18,7 @@ from collections import Counter
 import shutil
 import argparse
 
-#
+
 parser = argparse.ArgumentParser(description = 'specify which model')
 parser.add_argument('-m', '--modelname')
 parser.add_argument('-state', '--beachstate')
@@ -35,16 +35,20 @@ trainsite = args.trainsite
 # modelbasename = 'resnet512_five_aug_'
 # beachstate = 'LBT'
 # ii = 10
-# runno = 0
+# runno = 6
 # modelname = modelbasename + str(runno)
-# statenum_duck = {'Ref':'1330534800', 'LTT':'1357232400', 'TBR':'1404403200', 'RBB':'1393347600', 'LBT':'1390323600'}
-# statenum = {'Ref':'1458334806', 'LTT':'1358370027', 'TBR':'1387054828', 'RBB':'1375650027', 'LBT':'1446773407'}
+# statenum_duck = {'Ref':'1409846400', 'LTT':'1357232400', 'TBR':'1362502800', 'RBB':'1388509200', 'LBT':'1357578000'}
+# statenum = {'Ref':'1427765407', 'LTT':'1358024426', 'TBR':'1382648427', 'RBB':'1331586028', 'LBT':'1365195627'}
 # trainsite = 'nbn_duck'
-# testsite = 'duck'
+# testsite = 'nbn'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = True
 vcut = False
 print('Visualizing for model {}'.format(modelname))
+imgdir = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
+            'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+
+manuscript_plot_dir = '/home/aquilla/aellenso/Research/DeepBeach/resnet_manuscript/plots/'
 
 def load_images(test_IDs, res_height, res_width):
     images = []
@@ -213,8 +217,15 @@ images = torch.stack(images).to(device)
 # fig_gbp, ax_gbp = pl.subplots(5, topk + 1, figsize = [15,15])
 # fig_gbp.subplots_adjust(0,0,0.9,1)
 
-fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, figsize = [15,15])
+fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, tight_layout = {'rect':[0,0, 1, 0.95]}, figsize = [10,15])
 fig_gbpcam.subplots_adjust(0,0,0.9,1)
+if testsite == 'nbn':
+    Testsite = "Narrabeen"
+if testsite == 'duck':
+    Testsite = 'Duck'
+pl.suptitle('Saliency Maps: Tested at {}'.format(Testsite), fontsize = 20)
+
+
 
 all_gradcams = []
 for j, (image, ID) in enumerate(zip(images, test_IDs)):
@@ -238,12 +249,12 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
                 ax[j,0].set_title('{} {}'.format(beachstate, ID), fontsize = 18)
 
             elif not plot_one_state:
-                ax[j,0].set_title('{} {}'.format(classes[j], ID), fontsize = 18)
+                ax[j,0].set_title('{}'.format(classes[j]), fontsize = 18)
 
     bp = BackPropagation(model=model_conv)
     probs, ids = bp.forward(image) #generate the top predictions
 
-    gcam = GradCAM(model=model_conv) 
+    gcam = GradCAM(model=model_conv)
     _ = gcam.forward(image)
 
     gbp = GuidedBackPropagation(model=model_conv)
@@ -330,3 +341,4 @@ elif not plot_one_state:
     # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
     # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}_withimg.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_gbpcam.savefig(manuscript_plot_dir + 'fig6_smap_{}.png'.format(testsite))
