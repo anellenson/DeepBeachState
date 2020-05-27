@@ -287,3 +287,27 @@ def trainInfo(val_acc, train_acc, val_loss, train_loss, plot_fname, title):
 
     pl.savefig(plot_fname, dpi = 600)
 
+
+def resize_images(cam_dir):
+
+    from skimage.transform import rescale, resize, downscale_local_mean
+    for state in ['Ref', 'LTT', 'TBR', 'RBB', 'LBT']:
+        for ii in [1, 5, 10, 15, 20]:
+            with open(cam_dir + 'BackCam_{}_{}.pickle'.format(state, ii), 'rb') as f:
+                cams = pickle.load(f)
+
+            down_cams_resize_128 = []
+            down_cams_downscale_128 = []
+            for cam in cams:
+                cam_resize = resize(cam, (128,128), preserve_range = True)
+                down_cams_resize_128.append(cam_resize)
+
+                cam_downscale = downscale_local_mean(cam, (4,4))
+                down_cams_downscale_128.append(cam_downscale)
+
+            print(len(down_cams_downscale_128))
+            with open(cam_dir + 'BackCam_{}_{}_resize_128.pickle'.format(state, ii), 'wb') as f:
+                pickle.dump(down_cams_resize_128, f)
+
+            with open(cam_dir + 'BackCam_{}_{}_downscale_128.pickle'.format(state, ii), 'wb') as f:
+                pickle.dump(down_cams_downscale_128, f)

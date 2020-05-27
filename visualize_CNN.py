@@ -32,15 +32,15 @@ ii = args.start_index
 testsite = args.testsite
 trainsite = args.trainsite
 
-# modelbasename = 'resnet512_five_aug_'
-# beachstate = 'LBT'
-# ii = 10
-# runno = 6
-# modelname = modelbasename + str(runno)
+modelbasename = 'resnet512_five_aug_'
+beachstate = 'LBT'
+ii = 10
+runno = 6
+modelname = modelbasename + str(runno)
 # statenum_duck = {'Ref':'1409846400', 'LTT':'1357232400', 'TBR':'1362502800', 'RBB':'1388509200', 'LBT':'1357578000'}
 # statenum = {'Ref':'1427765407', 'LTT':'1358024426', 'TBR':'1382648427', 'RBB':'1331586028', 'LBT':'1365195627'}
-# trainsite = 'nbn_duck'
-# testsite = 'nbn'
+trainsite = 'nbn_duck'
+testsite = 'nbn'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = True
 vcut = False
@@ -127,9 +127,6 @@ def generate_img_probs(out_folder, modelbasename, img_id, testsite, classes, num
         ensemble_probs[state] = stateprobs
 
     return ensemble_probs
-
-
-
 
 if 'resnet' in modelname:
     model_conv = models.resnet50()
@@ -228,6 +225,8 @@ pl.suptitle('Saliency Maps: Tested at {}'.format(Testsite), fontsize = 20)
 
 
 all_gradcams = []
+all_probs = {}
+
 for j, (image, ID) in enumerate(zip(images, test_IDs)):
 
     image = image.unsqueeze(dim = 0)
@@ -236,9 +235,11 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
     if testsite == 'nbn':
         ID = ID.split('_')[1]
 
-    #ensemble_probs = generate_img_probs(out_folder, modelbasename, ID, testsite, classes, numruns=10)
+    ensemble_probs = generate_img_probs(out_folder, modelbasename, ID, testsite, classes, numruns=10)
+    all_probs.update({ID:ensemble_probs})
 
-    #for ax in [ax_cam, ax_gbp, ax_gbpcam]:
+
+    for ax in [ax_cam, ax_gbp, ax_gbpcam]:
     for ax in [ax_gbpcam]:
         ax[j,0].imshow(image.squeeze().cpu().numpy().transpose(1,2,0))
         ax[j,0].axis('off')
@@ -327,9 +328,12 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
 
 all_gradcams = np.array(all_gradcams)
 if plot_one_state:
+    with open('/imgprobs.pickle'.format(beachstate, ii), 'wb') as f:
+        pickle.dump(all_gradcams, f)
 
-    # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
-    # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+
+    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
+    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     if vcut:
         fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_vcut.png'.format(beachstate,ii), bbox_inches = 'tight')
