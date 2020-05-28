@@ -103,6 +103,8 @@ def fig_8_percentage_results(plotfolder):
 
     fig, ax = pl.subplots(1,1, sharex = True, tight_layout = {'rect':[0, 0, 1, 0.97]}, figsize = [7,5])
     a = sns.lineplot(x = 'num', y ='f1', hue = 'test_site', data = all_results_df, ax = ax, palette = palette, ci = None)
+    a.set_yticks([0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6,0.7, 0.8, 0.9,1])
+    pl.grid()
     a.set_xticks(range(len(labels)))
     a.set_xticklabels(labels)
     a.legend_.remove()
@@ -112,8 +114,8 @@ def fig_8_percentage_results(plotfolder):
     ax.text(-1.5, -0.05, 'Nbn', color = 'red')
     ax.text(-1.5, -0.08, 'Duck', color = 'blue')
     ax.plot((8,8), (0,1), '--k')
-    ax.text(1, 0.9, "Add Nbn", fontsize = 14, fontweight = 'bold')
-    ax.text(10, 0.9, "Add Duck", fontsize = 14, fontweight = 'bold')
+    ax.text(1, 0.9, "Add Duck", fontsize = 14, fontweight = 'bold')
+    ax.text(10, 0.9, "Add Nbn", fontsize = 14, fontweight = 'bold')
     pl.suptitle('F1 Score')
     pl.savefig(plotfolder + 'fig8_results_line.png')
 

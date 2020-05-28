@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc70eb3e-f62e-4cf3-8004-3c120c59f43f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualize_visualizations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/ResNet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/ResNet.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../plotTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/../plotTools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../prep_files/load_labels.py" beforeDir="false" afterPath="$PROJECT_DIR$/../prep_files/load_labels.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../trainResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/../trainResNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../visualize_CNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/../visualize_CNN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../visualize_visualizations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../plotfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/../plotfile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualize_visualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualize_visualizations.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,11 +18,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/visualize_visualizations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="260" selection-start-line="256" selection-end-line="260" />
+            <state relative-caret-position="251">
+              <caret line="296" lean-forward="true" selection-start-line="296" selection-end-line="296" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#0#6#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/pandas/core/internals/construction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="364" selection-start-line="364" selection-end-line="364" />
             </state>
           </provider>
         </entry>
@@ -69,11 +69,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1885" />
-    <option name="y" value="35" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1995" />
+    <option name="y" value="32" />
     <option name="width" value="1920" />
-    <option name="height" value="1130" />
+    <option name="height" value="1016" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -96,7 +96,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -143,15 +143,15 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1885" y="35" width="1920" height="1130" extended-state="0" />
+    <frame x="1920" y="-3" width="1920" height="1087" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3400474" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39732143" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33880422" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39624855" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -169,16 +169,25 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/visualize_visualizations.py</url>
-          <line>181</line>
-          <option name="timeStamp" value="21" />
+          <line>410</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/visualize_visualizations.py</url>
-          <line>178</line>
-          <option name="timeStamp" value="27" />
+          <line>310</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>statenum == 4</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/numpy/core/_methods.py">
@@ -201,6 +210,13 @@
     <entry file="file://$PROJECT_DIR$/plots/img_variograms_nbn_RBB_1.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/pandas/core/internals/construction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="364" selection-start-line="364" selection-end-line="364" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -208,12 +224,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_exec2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/visualize_visualizations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="260" selection-start-line="256" selection-end-line="260" />
+        <state relative-caret-position="251">
+          <caret line="296" lean-forward="true" selection-start-line="296" selection-end-line="296" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#6#0" expanded="true" />
           </folding>
         </state>
       </provider>

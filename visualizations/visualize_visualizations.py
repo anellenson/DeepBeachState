@@ -1,3 +1,4 @@
+import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as pl
 import pickle
@@ -27,7 +28,7 @@ def img_votes(trainsite, testsite, model_basename):
 
         runno +=1
 
-        return master_pd
+    return master_pd
 
 def img_accuracies(master_pd):
 
@@ -102,7 +103,7 @@ def return_variograms(trainsite, testsite, imgtype, x, y, params_0_dict, params_
 
         return azi0, azi90
 
-def img_variograms(x, y, testsite, params_dict_0, params_dict_90):
+def img_variograms(x, y, testsite, params_dict):
 
     from PIL import Image
     imgdir = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
@@ -111,8 +112,7 @@ def img_variograms(x, y, testsite, params_dict_0, params_dict_90):
     with open('../labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
         test_IDs = pickle.load(f)
 
-    img_variog0 = {}
-    img_variog90 = {}
+    img_variog = {}
 
     for id in test_IDs:
         val_img = imgdir[testsite] + id
@@ -121,16 +121,15 @@ def img_variograms(x, y, testsite, params_dict_0, params_dict_90):
 
         val_df = pd.DataFrame({'x':x.flatten(), 'y':y.flatten(), 'intensity':val_img.flatten()})
 
-        lag0, gamma0, npp0 = argus_variograms(val_df, params_dict_0)
-        lag90, gamma90, npp90 = argus_variograms(val_df, params_dict_90)
+        lag, gamma, npp = argus_variograms(val_df, params_dict)
+        gamma = np.expand_dims(gamma, axis = 0)
 
-        img_variog0.update({id:gamma0})
-        img_variog90.update({id:gamma90})
+        img_variog.update({id:gamma})
 
-    img_variog0['lag0'] = lag0
-    img_variog90['lag90'] = lag90
 
-    return img_variog0, img_variog90
+    img_variog['lag'] = lag
+
+    return img_variog
 
 def variogram_chars(variog, lag):
 
@@ -173,150 +172,260 @@ def variogram_chars(variog, lag):
 
     return RVF, RSF, FDO, SDT, FML, MFM, VFM, DMF, RMM, SDF, AFM, DMS, DMM, HA
 
+def produce_omnivariograms():
+    for testsite in ['nbn', 'duck']:
+        x,y = np.meshgrid(range(128), range(128))
+        ymax = 64
+        load_variog = 0 #boolean to load finished calculations or to generate new variograms
+        for ai, azi in enumerate([0, 30, 60, 90, 120, 150]):
+            vario_params = {'lag_dist':3, 'lag_tol':1, 'ymax':ymax, 'azi':azi}
+            img_variog = img_variograms(x, y, testsite, vario_params)
 
+            if ai == 0:
+                full_variog = img_variog.copy()
+
+            if ai>0:
+                for pid in img_variog.keys():
+                    if 'lag' not in pid:
+                        full_variog[pid] = np.concatenate((full_variog[pid], img_variog[pid]), axis = 0)
+
+
+        mean_variog = {}
+        for pid in full_variog.keys():
+            mean_v = np.mean(full_variog[pid], axis = 0)
+            mean_variog.update({pid:mean_v})
+
+        variogram_pickle = {'full_variog':full_variog, 'mean_variog':mean_variog}
+        with open('{}_variograms_omnidir.pickle'.format(testsite), 'wb') as f:
+            pickle.dump(variogram_pickle, f)
+
+
+def produce_cross_shore_intensity():
+    for testsite in ['nbn', 'duck']:
+        from PIL import Image
+        imgdir = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
+                'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+
+        with open('../labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
+            test_IDs = pickle.load(f)
+
+        img_intensity = {}
+
+        for id in test_IDs:
+            val_img = imgdir[testsite] + id
+            val_img = Image.open(val_img)
+            val_img = np.array(val_img.resize((512, 512)))
+
+            val_img_x = np.mean(val_img, axis = 1)
+            val_img_x_norm = val_img_x/val_img_x.max()
+
+            img_intensity.update({id:val_img_x_norm})
+
+        with open('img_intensity_{}.pickle'.format(testsite), 'wb') as f:
+            pickle.dump(img_intensity, f)
+
+
+def intensity_CDF(img_intensity):
+
+    intensity_cdf = {}
+
+    for pid, val_img_x_norm in img_intensity.items():
+        img_cdf = np.zeros((len(val_img_x_norm)))
+
+        for vi in range(len(val_img_x_norm)):
+
+            img_cdf[vi] = val_img_x_norm[:vi]/val_img_x_norm.sum()
+
+    intensity_cdf.update({pid: img_cdf})
+
+    return intensity_cdf
+
+
+
+produce_cross_shore_intensity()
 master_pd_duck = img_votes('nbn_duck', 'duck', 'resnet512_five_aug')
 master_pd_nbn = img_votes('nbn_duck', 'nbn', 'resnet512_five_aug')
 master_pd_duck = img_accuracies(master_pd_duck)
 master_pd_nbn = img_accuracies(master_pd_nbn)
+master_pd_duck['testsite'] = 'duck'
+master_pd_nbn['testsite'] = 'nbn'
+full_img_pd = pd.concat((master_pd_duck, master_pd_nbn))
 
 imgdirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/',
            'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 states = ['Ref', 'LTT', 'TBR', 'RBB', 'LBT']
 imgtype = 'resize_128'
+maxindsdist = {}
+for testsite in ['duck', 'nbn']:
 
-for mi, master_pd in enumerate([master_pd_nbn, master_pd_duck]):
-    if mi == 0:
-        testsite = 'nbn'
-    if mi == 1:
-        testsite = 'duck'
-    with open('{}_variog.pickle'.format(testsite), 'rb') as f:
-        variogram_pickle = pickle.load(f)
-    img_variog0 = variogram_pickle['img_variog0']
-    img_variog90 = variogram_pickle['img_variog90']
-    lag0 = img_variog0['lag0']
-    lag90 = img_variog90['lag90']
+    with open('img_intensity_{}.pickle'.format(testsite), 'rb') as f:
+        img_pickle = pickle.load(f)
 
-    for vv, var_dict in enumerate([img_variog0, img_variog90]):
-        if vv == 0:
-            lag = lag0
-            az = 0
-        if vv == 1:
-            lag = lag90
-            az = 90
-        RVF_list = []
-        RSF_list = []
-        FDO_list = []
-        SDT_list = []
-        FML_list = []
-        MFM_list = []
-        VFM_list = []
-        DMF_list = []
-        RMM_list = []
-        SDF_list = []
-        AFM_list = []
-        DMS_list = []
-        DMM_list = []
-        HA_list = []
-        for pid in master_pd.index.values:
-            variog = var_dict[pid]
-            RVF, RSF, FDO, SDT, FML, MFM, VFM, DMF, RMM, SDF, AFM, DMS, DMM, HA = variogram_chars(variog[1:], lag[1:])
-            RVF_list.append(RVF)
-            RSF_list.append(RSF)
-            FDO_list.append(FDO)
-            SDT_list.append(SDT)
-            FML_list.append(FML)
-            MFM_list.append(MFM)
-            VFM_list.append(VFM)
-            DMF_list.append(DMF)
-            RMM_list.append(RMM)
-            SDF_list.append(SDF)
-            AFM_list.append(AFM)
-            DMS_list.append(DMS)
-            DMM_list.append(DMM)
-            HA_list.append(HA)
+    for statenum in range(len(states)):
+        state_pids = full_img_pd[(full_img_pd.testsite == testsite) & (full_img_pd.truth == statenum)].index
+        for i in [1,5,10,15]:
+            #fig, ax = pl.subplots(5, 2, figsize = (15,15))
+            for j in range(5):
+                xd = []
+                pid = state_pids[i+j]
+                I = img_pickle[pid]
+                img = pl.imread(imgdirs[testsite]+pid)
+                maxinds_pick = []
+                if statenum > 2:
+                    maxinds = argrelextrema(I, np.greater, order = 3)[0]
+                    maxinds_pick = np.array([mm for mm in maxinds if I[mm]>0.4])
 
-        master_pd['RVF{}'.format(az)] = RVF_list
-        master_pd['RSF{}'.format(az)] = RSF_list
-        master_pd['FDO{}'.format(az)] = FDO_list
-        master_pd['SDT{}'.format(az)] = SDT_list
-        master_pd['FML{}'.format(az)] = FML_list
-        master_pd['MFM{}'.format(az)] = MFM_list
-        master_pd['VFM{}'.format(az)] = VFM_list
-        master_pd['DMF{}'.format(az)] = DMF_list
-        master_pd['RMM{}'.format(az)] = RMM_list
-        master_pd['SDF{}'.format(az)] = SDF_list
-        master_pd['SDF{}'.format(az)] = SDF_list
-        master_pd['AFM{}'.format(az)] = AFM_list
-        master_pd['DMS{}'.format(az)] = DMS_list
-        master_pd['DMM{}'.format(az)] = DMM_list
-        master_pd['HA{}'.format(az)] = HA_list
+                    if len(maxinds_pick) > 2:
+                        sortedI = np.argsort(I[maxinds_pick])
+                        maxinds_pick = maxinds_pick[sortedI[-2:]]
+                        print(maxinds_pick)
 
-metrics = [name for name in master_pd.columns if '0' in name and 'preds' not in name and '90' not in name]
+                if statenum <= 2:
+                    maxI = np.where(I == np.max(I))
 
-metrics = [name for name in master_pd.columns if '90' in name]
-fig, axes = pl.subplots(7,2, tight_layout= True)
-for mi, metric in enumerate(metrics):
-    ax = axes.ravel('F')[mi]
-    sns.scatterplot(x = metric, y='acc', data = master_pd_duck, ax = ax, hue = 'truth', legend = False)
+                # ax[j, 0].imshow(img)
+                # ax[j, 0].set_title(pid.split('.')[0])
+                # ax[j, 1].scatter(range(512), I)
 
-    sns.scatterplot(x = metric, y = 'acc', data = master_pd_nbn, ax = ax, hue = 'truth')
+
+                # if len(maxinds_pick) > 0 and statenum > 2:
+                #     ax[j, 1].scatter(maxinds_pick, I[maxinds_pick], color = 'y')
+                #
+                if statenum <= 2:
+                    # ax[j,1].plot(maxI, I[maxI], 'yo')
+                    maxinds_pick = maxI
+
+                if len(maxinds_pick) == 2:
+                    xd = maxinds_pick[1] - maxinds_pick[0]
+
+                if len(maxinds_pick) < 2:
+                    xd = maxI
+
+                maxindsdist.update({pid: xd})
+
+
+            # fig.suptitle(testsite + ' Image I State {}'.format(states[statenum]))
+            # fig.savefig('/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/visualizations/plots/I_wpeaks{}_{}_{}.png'.format(testsite, states[statenum], i))
+
+
+for pid in full_img_pd.index:
+    full_img_pd.loc[pid, 'xd'] = maxindsdist[pid][0]
 
 
 
 
 
-
-
-
-
+#
+#
+#
+# for mi, master_pd in enumerate([master_pd_nbn, master_pd_duck]):
+#     if mi == 0:
+#         testsite = 'nbn'
+#     if mi == 1:
+#         testsite = 'duck'
+#     with open('{}_variograms_omnidir.pickle'.format(testsite), 'rb') as f:
+#         variogram_pickle = pickle.load(f)
+#     img_variog0 = variogram_pickle['mean_variog']
+#     img_variog90 = variogram_pickle['img_variog90']
+#     lag0 = img_variog0['lag0']
+#     lag90 = img_variog90['lag90']
+#
+#     for vv, var_dict in enumerate([img_variog0, img_variog90]):
+#         if vv == 0:
+#             lag = lag0
+#             az = 0
+#         if vv == 1:
+#             lag = lag90
+#             az = 90
+#         RVF_list = []
+#         RSF_list = []
+#         FDO_list = []
+#         SDT_list = []
+#         FML_list = []
+#         MFM_list = []
+#         VFM_list = []
+#         DMF_list = []
+#         RMM_list = []
+#         SDF_list = []
+#         AFM_list = []
+#         DMS_list = []
+#         DMM_list = []
+#         HA_list = []
+#         for pid in master_pd.index.values:
+#             variog = var_dict[pid]
+#             RVF, RSF, FDO, SDT, FML, MFM, VFM, DMF, RMM, SDF, AFM, DMS, DMM, HA = variogram_chars(variog[1:], lag[1:])
+#             RVF_list.append(RVF)
+#             RSF_list.append(RSF)
+#             FDO_list.append(FDO)
+#             SDT_list.append(SDT)
+#             FML_list.append(FML)
+#             MFM_list.append(MFM)
+#             VFM_list.append(VFM)
+#             DMF_list.append(DMF)
+#             RMM_list.append(RMM)
+#             SDF_list.append(SDF)
+#             AFM_list.append(AFM)
+#             DMS_list.append(DMS)
+#             DMM_list.append(DMM)
+#             HA_list.append(HA)
+#
+#         master_pd['RVF{}'.format(az)] = RVF_list
+#         master_pd['RSF{}'.format(az)] = RSF_list
+#         master_pd['FDO{}'.format(az)] = FDO_list
+#         master_pd['SDT{}'.format(az)] = SDT_list
+#         master_pd['FML{}'.format(az)] = FML_list
+#         master_pd['MFM{}'.format(az)] = MFM_list
+#         master_pd['VFM{}'.format(az)] = VFM_list
+#         master_pd['DMF{}'.format(az)] = DMF_list
+#         master_pd['RMM{}'.format(az)] = RMM_list
+#         master_pd['SDF{}'.format(az)] = SDF_list
+#         master_pd['SDF{}'.format(az)] = SDF_list
+#         master_pd['AFM{}'.format(az)] = AFM_list
+#         master_pd['DMS{}'.format(az)] = DMS_list
+#         master_pd['DMM{}'.format(az)] = DMM_list
+#         master_pd['HA{}'.format(az)] = HA_list
+#
+#
+# vis_dir = '/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/visualizations'
+#
+#
+#
+#
+#
+# metrics = [name for name in master_pd.columns if '0' in name and 'preds' not in name and '90' not in name]
+# metrics = [name for name in master_pd.columns if '90' in name]
+# fig, axes = pl.subplots(7,2, tight_layout= True)
+# for mi, metric in enumerate(metrics):
+#     ax = axes.ravel('F')[mi]
+# for metric in metrics:
+#     fig, axes = pl.subplots(5,1)
+#     for statenum in range(5):
+#         ax = axes[statenum]
+#         sns.scatterplot(x = metric, y = 'acc', data = master_pd_duck[master_pd_duck.truth == statenum], ax = ax, legend = False, color = 'blue')
+#         sns.scatterplot(x = metric, y = 'acc', data = master_pd_nbn[master_pd_nbn.truth == statenum], ax = ax, color = 'red')
+#
+# fig, ax = pl.subplots(1,1)
+# sns.scatterplot(x = 'RMM90', y = 'acc', data = master_pd_duck, hue = 'truth', marker = 'x')
+# sns.scatterplot(x = 'RMM90', y = 'acc', data = master_pd_nbn, hue = 'truth', marker = 'o')
+#
+# fig, ax = pl.subplots(1,1)
+# im = ax.scatter(master_pd_duck[master_pd_nbn.acc > 0.5].RMM90, master_pd_nbn[master_pd_nbn.acc > 0.5].RMM90, c= master_pd_nbn['acc'], cmap = 'magma')
+# pl.colorbar(im)
+# pl.plot((0, 0.01),(0,0.01))
+#
+#
+#
+#
+#
+#
 
 
 
 
 ########################################plotting
-for statenum in range(len(states)): 
-    state_pids = master_pd[master_pd.truth.values == statenum].index
-    for i in [1,5,10,15]:
-        fig, ax = pl.subplots(5, 3, figsize = (15,15))
-        for j in range(5):
-            pid = state_pids[i+j]
-            variog0 = img_variog0[pid]
-            variog90 = img_variog90[pid]
-            img = pl.imread(imgdirs[testsite]+pid)
-
-            ax[j, 0].imshow(img)
-            ax[j, 0].set_title(pid.split('.')[0])
-            ax[j, 1].scatter(lag0, variog0)
-            ax[j, 1].plot((0, lag0.max()), (1,1), 'k')
-            ax[j, 1].set_ylim(0, 1.5)
-
-            ax[j, 2].scatter(lag90, variog90)
-            ax[j, 2].plot((0, lag90.max()), (1,1), 'k')
-            ax[j, 2].set_ylim(0, 1.5)
-
-        fig.suptitle(testsite + ' Image Variograms State {}'.format(states[statenum]))
-        fig.savefig('/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/visualizations/plots/img_variograms_{}_{}_{}.png'.format(testsite, states[statenum], i))
 
 
-mm = 0
-modelname = 'resnet512_five_aug_{}'.format(mm)
-vis_dir = '/home/aquilla/aellenso/Research/DeepBeach/python/ResNet/visualizations'
 
-img_variogram_pickle = {'img_variog0':img_variog0, 'img_variog90':img_variog90}
-with open(vis_dir + 'img_variograms.pickle', 'wb') as f:
-    pickle.dump(img_variogram_pickle, f)
-
-
-x,y = np.meshgrid(range(128), range(128))
-x = 900/128*x
-y = 300/128*y
-ymax0 = 150
-ymax90 = 450
-vario_params_0 = {'lag_dist':10, 'lag_tol':5, 'ymax':ymax0, 'azi':0}
-vario_params_90 = {'lag_dist':10, 'lag_tol':5, 'ymax':ymax90, 'azi':90}
-load_variog = 0 #boolean to load finished calculations or to generate new variograms
-img_variog0, img_variog90 = img_variograms(x, y, testsite, vario_params_0, vario_params_90)
-variogram_pickle = {'img_variog0':img_variog0, 'img_variog90':img_variog90}
 
 # for trainsite in ['nbn_duck']:
 #     for testsite in ['duck', 'nbn']:

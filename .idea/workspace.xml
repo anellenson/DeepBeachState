@@ -6,10 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea5c92a5-9e95-4f8a-a632-99895f91a0a3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/visualizations/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualizations/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualizations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualizations/visualize_visualizations.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../post_resnet/.idea/encodings.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../post_resnet/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../post_resnet/.idea/misc.xml" afterDir="false" />
@@ -21,7 +17,6 @@
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ResNet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ResNet.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.run.sh.swp" beforeDir="false" afterPath="$PROJECT_DIR$/.run.sh.swp" afterDir="false" />
@@ -206,20 +201,19 @@
       <change beforePath="$PROJECT_DIR$/multilabel/testResNet_multilabel.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/multilabel/trainResNet_multilabel.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/plotTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotTools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotfile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postResnet.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/preResnet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prep_files/load_labels.py" beforeDir="false" afterPath="$PROJECT_DIR$/prep_files/load_labels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/process_results.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testResNet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainResNet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNetWaveParams.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_kfold.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/trainResNet_tiled.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/trainResNet_tiled_withWaveInfo.py/trainResNet_tiled_withWaves.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualize_CNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualize_CNN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualize_visualizations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualizations/visualize_visualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualizations/visualize_visualizations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../post_resnet/anl.py" beforeDir="false" afterPath="$PROJECT_DIR$/../post_resnet/anl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../post_resnet/anlTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/../post_resnet/anlTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../post_resnet/anl_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/../post_resnet/anl_1.py" afterDir="false" />
@@ -269,13 +263,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/trainResNet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2649">
+            <state relative-caret-position="392">
               <caret line="343" column="66" selection-start-line="343" selection-start-column="50" selection-end-line="343" selection-end-column="66" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/plotfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="105" column="64" selection-start-line="105" selection-start-column="64" selection-end-line="105" selection-end-column="64" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -354,7 +360,6 @@
         <option value="$PROJECT_DIR$/augment_imgs.py" />
         <option value="$PROJECT_DIR$/prep_files/rename_labels.py" />
         <option value="$PROJECT_DIR$/model_compare.py" />
-        <option value="$PROJECT_DIR$/plotfile.py" />
         <option value="$USER_HOME$/pytorch/lib/python2.7/site-packages/geostatspy/geostats.py" />
         <option value="$USER_HOME$/pytorch/lib/python2.7/site-packages/geostatspy/GSLIB.py" />
         <option value="$PROJECT_DIR$/../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/geostatspy/geostats.py" />
@@ -363,12 +368,13 @@
         <option value="$PROJECT_DIR$/prep_files/load_labels.py" />
         <option value="$PROJECT_DIR$/visualize_CNN.py" />
         <option value="$PROJECT_DIR$/trainResNet.py" />
+        <option value="$PROJECT_DIR$/plotfile.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1899" />
-    <option name="y" value="35" />
+    <option name="x" value="1995" />
+    <option name="y" value="32" />
     <option name="width" value="1920" />
     <option name="height" value="1016" />
   </component>
@@ -379,7 +385,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -391,12 +396,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/visualizations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -430,7 +436,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.trainResNet">
+  <component name="RunManager" selected="Python.plotfile">
     <configuration name="augment_imgs" type="PythonConfigurationType" factoryName="Python">
       <module name="ResNet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -677,15 +683,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1899" y="35" width="1920" height="1016" extended-state="0" />
+    <frame x="1995" y="32" width="1920" height="1016" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30585107" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30585107" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.325315" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.20969696" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.44314185" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2084399" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.44245523" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -826,6 +832,11 @@
           <url>file://$PROJECT_DIR$/visualize_CNN.py</url>
           <line>237</line>
           <option name="timeStamp" value="630" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/plotfile.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="631" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -1071,16 +1082,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plotfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="159" column="68" selection-start-line="159" selection-start-column="58" selection-end-line="159" selection-end-column="68" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/pandas/core/indexing.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/multiprocessing/popen_fork.py" />
     <entry file="file://$PROJECT_DIR$/../../../../../../local/users/aellenso/ResNet/lib/python3.7/site-packages/numba/core/analysis.py" />
@@ -1151,10 +1152,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trainResNet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2649">
+        <state relative-caret-position="392">
           <caret line="343" column="66" selection-start-line="343" selection-start-column="50" selection-end-line="343" selection-end-column="66" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plotfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="105" column="64" selection-start-line="105" selection-start-column="64" selection-end-line="105" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
