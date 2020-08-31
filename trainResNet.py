@@ -18,53 +18,39 @@ import random
 
 #load the labels dataframe
 
-pid_df_dict = {'train_on_duck':'labels/duck_daytimex_labels_df.pickle', 'train_on_nbn':'nbn_daytimex_labels.pickle'} ############no longer need this, since we're doing it all with dictionaries
-#load the validation files
-valfilename = 'labels/nbn_daytimex_valfiles.aug_imgs.pickle'
-valfile_duck = 'labels/duck_daytimex_valfiles.aug_imgs.pickle'
-removed_shoreline_mean = [0.2714, 0.3129, 0.3416]
-removed_shoreline_std = [0.3037, 0.3458, 0.3769]
-removed_shoreline_histeq_mean = [0.1680, 0.1719, 0.1871]
-removed_shoreline_histeq_std = [0.2567, 0.2591, 0.2708]
-nbn_gray_mean = [0.4835,0.4835,0.4835]
-nbn_gray_std = [0.2652,0.2652,0.2652]
-duck_gray_mean = [0.5199, 0.5199, 0.5199]
-duck_gray_std = [0.2319, 0.2319, 0.2319]
-rgb_mean = [0.4066, 0.4479, 0.4734]
-rgb_std = [0.2850, 0.3098, 0.3322]
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG'] #TO DO change states list to dashes from matfile
 res_height = 512 #height
 res_width = 512 #width
 batch_size = 4
-
 gray = True #This is a switch for grayscale or not
 momentum = 0.9
 gamma = 0.1
 equalize_classes = True
 no_epochs = 120
 step_size = 15 #when to decay the learning rate
-mean = duck_gray_mean
-std = duck_gray_std
 waveparams = []
 #pretrained = True
 multilabel_bool = False
 pretrained = False
-validate_only = True
+validate_only = False
 CNNtype = 'resnet'
 augtype = 'five_aug'
 prediction_fname = 'cnn_preds'
-
-for train_site in ['nbn_duck', 'nbn', 'duck']:
-    for runno in range(10):
+full = True
+for train_site in ['nbn_duck']:
+    if train_site == 'nbn_duck':
+        num_images_train = 40
+    else:
+        num_images_train = 80
+    for runno in range(3):
         lr = 0.01
 
         ##saveout info
-        model_name = 'resnet512_five_aug_{}'.format(runno)
 
-
+        model_name = 'resnet512_five_aug_withVal_{}'.format(runno)
 
         basedirs = ['/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
-                    '/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/']
+                    '/home/aquilla/aellenso/Research/DeepBeach/images/north/full/']
 
         out_folder = 'model_output/train_on_{}/{}/'.format(train_site,  model_name)
 
@@ -73,8 +59,13 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
 
         def load_train_and_valfiles(train_site):
 
-            valfiles = 'labels/{}_daytimex_valfiles.{}.pickle'.format(train_site, augtype)
-            trainfiles = 'labels/{}_daytimex_trainfiles.{}.pickle'.format(train_site, augtype)
+            if train_site == 'duck':
+                valfiles = 'labels/{}_daytimex_valfiles.{}.pickle'.format(train_site, augtype)
+                trainfiles = 'labels/{}_daytimex_trainfiles.{}.pickle'.format(train_site, augtype)
+
+            if train_site == 'nbn':
+                valfiles = 'labels/{}_daytimex_valfiles.{}.pickle'.format(train_site, augtype)
+                trainfiles = 'labels/{}_daytimex_trainfiles.{}.pickle'.format(train_site, augtype)
 
             with open(valfiles, 'rb') as f:
                 valfile = pickle.load(f)
@@ -84,16 +75,17 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
 
             return valfile, trainfile
 
-        valfiles = []
-        trainfiles = []
-        train_site_list = train_site.split('_')
-        for tt in train_site_list:
-            valfile, trainfile = load_train_and_valfiles(tt)
-            valfiles += valfile
-            trainfiles += trainfile
-
-        print('Trainfiles length: {}'.format(len(trainfiles)))
-        print('Valfiles length: {}'.format(len(valfiles)))
+        def select_training_images(trainfile, num_images):
+            site_trainfile = []
+            for beachnum in range(5):
+                trainfile_class = [tt for tt in trainfile if labels_dict[tt] == beachnum]
+                for file in trainfile_class[:num_images]:
+                    if not any([aug in file for aug in ['rot', 'flips', 'trans', 'gamma', 'erase']]):
+                        for augment in ['rot', 'flips', 'trans', 'gamma', 'erase']:
+                            augmented_file = file[:-3] + augment + '.jpg'
+                            site_trainfile.append(augmented_file)
+                site_trainfile += trainfile_class[:num_images]
+            return site_trainfile
 
         with open('labels/duck_labels_dict_{}.pickle'.format(augtype), 'rb') as f:
             labels_dict = pickle.load(f)
@@ -103,6 +95,22 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
 
         labels_dict.update(nbn_dict)
         print('labels dictionary length: {}'.format(len(list(labels_dict.keys()))))
+
+        valfiles = []
+        trainfiles = []
+        train_site_list = train_site.split('_')
+        for tt in train_site_list:
+            valfile_site, trainfile_site = load_train_and_valfiles(tt)
+            # if tt == minority_site:
+            #     num_images_train = num_images
+            # if tt == majority_site:
+            #     num_images_train = 100-num_images
+            trainfile_site = select_training_images(trainfile_site, num_images_train)
+            valfiles += valfile_site
+            trainfiles += trainfile_site
+
+        print('Trainfiles length: {}'.format(len(trainfiles)))
+        print('Valfiles length: {}'.format(len(valfiles)))
 
 
         ######################################################################################################################
@@ -114,14 +122,12 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
         train_transform = transforms.Compose([transforms.Resize((res_height, res_width)),
                                     transforms.ToTensor(),
                                     transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
-                                    # transforms.Normalize(mean,std),
                             ])
 
 
         test_transform = transforms.Compose([transforms.Resize((res_height,res_width)),
                                                 transforms.ToTensor(),
                                                 transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
-                                                # transforms.Normalize(mean,std),
                                         ])
 
         train_ds = ArgusDS.ArgusTrainDS(basedirs, trainfiles, labels_dict, transform = train_transform)
@@ -252,13 +258,12 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
                                 loss.backward()
                                 optimizer.step()
 
-
                         # statistics
                         running_loss += loss.item() * inputs.size(0)
                         running_corrects += torch.sum(preds.float() == labels.data.float())
 
                     epoch_loss = running_loss / dataset_sizes[phase]
-                    if phase == 'val':
+                    if phase == 'train':
                         scheduler.step(epoch_loss)
 
                     epoch_acc = running_corrects.double() / dataset_sizes[phase]
@@ -266,8 +271,9 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
                     if phase == 'val':
                         val_loss.append(epoch_loss)
                         val_acc.append(epoch_acc)
+                        if scheduler._last_lr[0] < 1E-3:
+                            early_stopping(epoch_loss)
 
-                        early_stopping(epoch_loss)
 
                     if phase == 'train':
                         train_loss.append(epoch_loss)
@@ -298,7 +304,8 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
             return model, val_loss, val_acc, train_acc, train_loss
 
         def confusion_results(test_site):
-            with open('labels/{}_daytimex_valfiles.final.pickle'.format(test_site)) as f:
+            valfiles_name = 'labels/{}_daytimex_testfiles.final.pickle'.format(test_site)
+            with open(valfiles_name, 'rb') as f:
                 valfiles = pickle.load(f)
 
             val_ds = ArgusDS.ArgusTrainDS(basedirs, valfiles, labels_dict, transform = test_transform)
@@ -331,7 +338,7 @@ for train_site in ['nbn_duck', 'nbn', 'duck']:
             with open(out_folder + 'train_specs.pickle'.format(train_site, model_name), 'wb') as f:
                 pickle.dump(train_info_dict, f)
 
-        # #Produce predictions for each site
+        ##Produce predictions for each site
 
         CNN_results = {}
         for test_site in ['duck', 'nbn']:

@@ -64,11 +64,11 @@ nbn_labels = nbn_labels.iloc[sorted_idx]
 
 
 trainsite = 'duck'
-allfiles = os.listdir(imgdirs[trainsite])
-newlabels = ['1359824400','1385226000','1385744400','1385830800','1390582800','1393261200','1422032400']
+allfiles = os.listdir('/home/aquilla/aellenso/Research/DeepBeach/images/north/full')
+newlabels = ['1426006800', '1426006800','1442246400']
 for ni, num in enumerate(newlabels):
     pid = [pp for pp in allfiles if num in pp][0]
-    labels_df.loc[labels_df.index.max() + ni + 1] = ['RBB-E', pid]
+    labels_df.loc[labels_df.index.max() + ni + 1] = ['Ref', pid]
 
 labels_df = labels_df.drop_duplicates('pid')
 
@@ -115,29 +115,28 @@ for testsite in ['duck','nbn']:
 
 
 
-for trainsite in ['duck', 'nbn']:
+for trainsite in ['duck']:
 
     imgdirs = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
-                'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+                'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/'}
 
     with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'rb') as f:
         valfiles = pickle.load(f)
 
-    outdir = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images/'.format(trainsite)
-    txtfname = '/home/aquilla/aellenso/Research/DeepBeach/images/valfiles/{}_images_addl.txt'.format(trainsite)
+    outdir = '/home/aquilla/aellenso/Research/DeepBeach/images/fullvalfiles/{}_images_full/'.format(trainsite)
+    txtfname = '/home/aquilla/aellenso/Research/DeepBeach/images/fullvalfiles/{}_images_full_addl.txt'.format(trainsite)
 
-    allfiles = os.listdir(outdir)
-    old_valfiles = os.listdir(outdir)
-    datenum = [ss.split('.')[3] for ss in old_valfiles]
-
-    old_pids = [pp for pp in valfiles if any([imgnum in pp for imgnum in datenum])]
-    files = [vv for vv in valfiles if vv not in old_pids]
+    # allfiles = os.listdir(outdir)
+    # old_valfiles = os.listdir(outdir)
+    # datenum = [ss.split('.')[3] for ss in old_valfiles]
+    #
+    # old_pids = [pp for pp in valfiles if any([imgnum in pp for imgnum in datenum])]
+    # files = [vv for vv in valfiles if vv not in old_pids]
 
     f = open(txtfname, 'wb')
 
     random.shuffle(files)
     for fi, file in enumerate(files):
-        fi = fi + 76
         if trainsite == 'nbn':
             names = file.split('_')
             number = names[1].split('.')[0]
@@ -179,7 +178,8 @@ labels_df = pd.read_pickle('labels/{}_daytimex_labels_df.pickle'.format(trainsit
 
 
 remove_imgs = ['1416157200','1383843600','1397577600','1396972800']
-pids = [pp for pp in valfiles if any([imgnum in pp for imgnum in remove_imgs])]
+pids = [pp for pp in valfiles if '2015' in pp]
+
 drop_inds = [labels_df[labels_df.pid == pp].index for pp in pids]
 drop_inds = [dd[0] for dd in drop_inds]
 labels_df = labels_df.drop(index = drop_inds)
@@ -309,5 +309,5 @@ for state in ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']:
     addl_valfiles += pids[:3]
 
 valfiles = list(valfiles) + addl_valfiles
-with open('labels/{}_daytimex_valfiles.final.pickle'.format(trainsite), 'wb') as f:
+with open('labels/{}_daytimex_valfiles.final.full.pickle'.format(trainsite), 'wb') as f:
     pickle.dump(valfiles, f)

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 states=("Ref" "LTT" "TBR" "RBB" "LBT")
-testsites=("nbn" "duck")
+testsites=("duck" "nbn")
 imagenum=(1 5 10 15 20)
-modelnum=(1)
+modelnum=(0)
 for testsite in "${testsites[@]}"
 	do
 	for state in "${states[@]}"
@@ -12,7 +12,7 @@ for testsite in "${testsites[@]}"
 		    do
 		    for mm in "${modelnum[@]}"
 		    do
-			~/pytorch/bin/python2.7 visualize_CNN.py -state $state -m resnet512_five_aug_$mm -ii $ii -testsite $testsite -trainsite nbn
+			~/pytorch/bin/python2.7 visualize_CNN.py -state $state -m resnet512_five_aug_trainloss_$mm -ii $ii -testsite $testsite -trainsite nbn 
 			wait
 		    done
 		done

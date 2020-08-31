@@ -116,7 +116,13 @@ class skillComp():
             sum_confusion_matrix = confusion_matrix.sum(axis = 0)
             v = sum_confusion_matrix.sum(axis = 1)
             confusion_matrix = sum_confusion_matrix/v[:,]
-            print("num images confused as LBT: {}".format(sum_confusion_matrix.sum(axis = 0)[-1]/sum_confusion_matrix.sum()))
+            print("Trained at {}, tested at {}".format(self.trainsite, testsite))
+            print('percentage of LBT images confused as LTT {}'.format(sum_confusion_matrix[-1, 1]/sum_confusion_matrix.sum(axis = 1)[0]))
+            for ci, state in enumerate(['Ref', 'LTT', 'TBR', 'RBB', 'LBT']):
+
+                print("num images confused as {}: {}".format(state, sum_confusion_matrix.sum(axis = 0)[ci]/sum_confusion_matrix.sum()))
+
+            print("Overall accuracy is {}".format(sum_confusion_matrix.diagonal().sum()/sum_confusion_matrix.sum()))
             class_acc = confusion_matrix.diagonal()
             im = ax.pcolor(confusion_matrix, cmap = cmap, vmin = 0, vmax =1)
 
@@ -166,7 +172,8 @@ class skillComp():
         #ax.set_title('Test on {0}'.format(testsite, class_acc.mean()))
         ax.set_title(title)
         cb = fig.colorbar(im, ax = ax)
-        cb.ax.set_yticklabels(['0', '0.2', '0.4', '0.6', '0.8', '1'])
+        cb.ax.set_yticklabels(['0', '20', '40', '60', '80', '100'])
+        cb.set_label('Accuracy (%)')
 
 
 
@@ -194,7 +201,7 @@ class skillComp():
         for model in self.modelnames:
             print(model)
 
-            fig, axes = pl.subplots(len(testsites),1, tight_layout = {'rect':[0, 0, 1, 0.92]}, sharex = True, figsize = [3,5])
+            fig, axes = pl.subplots(len(testsites),1, tight_layout = {'rect':[0, 0, 1, 0.95]}, sharex = True, figsize = [4,5])
 
             f1 = np.zeros((2,10))
 
@@ -263,7 +270,7 @@ class skillComp():
             pl.savefig(self.plot_folder + plot_fname)
             print('Printed Confusion Matrix for {}'.format(model))
 
-        return best_models
+        return best_models, fig, axes
 
 
 def trainInfo(val_acc, train_acc, val_loss, train_loss, plot_fname, title):

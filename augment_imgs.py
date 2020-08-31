@@ -154,7 +154,7 @@ class File_setup():
 
 ############set up validation dataset
 
-    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs):
+    def set_up_train_val(self, testfilename, trainfilename, num_train_imgs, num_val_imgs):
 
         '''
         This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe
@@ -173,37 +173,43 @@ class File_setup():
 
         files = os.listdir(self.img_dir)
         missing_files = [ff for ff in self.labels_df.pid if ff not in files]
-        self.labels_df.drop(index = missing_files) # remove missing files
+        missing_files_ind = [ii for ii in self.labels_df.index if self.labels_df[self.labels_df.index == ii].pid.values in missing_files]
+        self.labels_df.drop(index = missing_files_ind) # remove missing files
 
         print('Missing {} files from the labelled dataframe'.format(len(missing_files)))
 
         trainfiles = []
+        valfiles = []
 
-        with open(valfilename, 'rb') as f:
-            valfiles =  pickle.load(f)
+        with open(testfilename, 'rb') as f:
+            testfiles = pickle.load(f)
 
-        for ci in self.class_names: ####TO DO : make this so that it works with the labels dictionary, not necessarily a labels dataframe
+        for ci in self.class_names:
 
             pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
 
             #filter out any files that are in the validation set
-            trainpids = [pp for pp in pids if pp not in valfiles]
+            trainpids = [pp for pp in pids if pp not in testfiles]
 
             trainfiles += trainpids[:num_train_imgs]
+            valfiles += trainpids[num_train_imgs:num_train_imgs+num_val_imgs]
+
 
             print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
             print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
+            print('Length of testfiles is {} length of unique testfiles is {}'.format(len(testfiles), np.unique(len(testfiles))))
 
         random.shuffle(trainfiles)#shuffle the trainfiles later
         self.trainfiles = trainfiles
+        self.testfiles = testfiles
         self.valfiles = valfiles
 
         self.trainfilename = trainfilename
-        self.valfilename = valfilename.split('.')[0] + '.no_aug.pickle'
+        self.valfilename = testfilename.split('.')[0][:-9] + 'valfiles.no_aug.pickle'
 
         self.save_train_val(self.valfilename, self.trainfilename, self.valfiles, self.trainfiles)
 
-    def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles, new_val = False):
+    def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles):
 
         with open(valfilename, 'wb') as f:
             pickle.dump(valfiles, f)
@@ -249,10 +255,10 @@ class File_setup():
 
         #loop through this twice (for valfiles and trainfiles)
 
-        self.valfiles_aug = self.valfiles[:]
-        self.trainfiles_aug = self.trainfiles[:]
+        self.valfiles_aug = list(np.array(self.valfiles[:]).copy())
+        self.trainfiles_aug = list(np.array(self.trainfiles[:]).copy())
 
-        for filenames in [self.valfiles_aug, self.trainfiles_aug]:
+        for fi,filenames in enumerate([self.valfiles, self.trainfiles]):
 
             for ti, name in enumerate(augmentations):
 
@@ -279,17 +285,11 @@ class File_setup():
                             T = trans_options['vflip']
                             img = T(img)
 
+
                         elif 'darken_rotate' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
                             T = trans_options['rot']
                             img = T(img)
-
-                        elif 'erase_shift' in name:
-                            T = trans_options['erase']
-                            img = T(img)
-                            T = trans_options['translate']
-                            img = T(img)
-
 
                         elif 'streaks' in name:
                             img = af.streaks(img)
@@ -330,11 +330,19 @@ class File_setup():
                             img = af.streaks(img)
                             img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
 
+                        if name == 'vcut':
+                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+
                         img = img.convert("L")
 
                     #save out image file
                         filename = imgname[:-3] + name + '.jpg'
                         img.save(self.img_dir + filename)
+
+                        if fi == 0:
+                            self.valfiles_aug.append(filename)
+                        if fi == 1:
+                            self.trainfiles_aug.append(filename)
 
                     # add to files list
 
@@ -359,19 +367,20 @@ class File_setup():
 
 
 site = 'duck'
-img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
 
 labels_dict_filename = 'labels/{}_labels_dict_five_aug.pickle'.format(site)
 img_folder = img_dirs[site]
-valfilename = 'labels/{}_daytimex_valfiles.final.pickle'.format(site)
+testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
-num_train_imgs = 100
-augmentations = ['flips', 'rot', 'erase', 'gamma', 'translate']
+num_train_imgs = 80
+num_val_imgs = 20
+augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
 
 
 F = File_setup(img_folder, labels_pickle, site)
 F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
-F.set_up_train_val(valfilename, trainfilename, num_train_imgs)
+F.set_up_train_val(testfilename, trainfilename, num_train_imgs, num_val_imgs)
 F.augment_imgs(labels_dict_filename, augmentations)

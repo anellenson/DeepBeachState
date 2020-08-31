@@ -1,21 +1,16 @@
 from __future__ import print_function, division
 
-import copy
-import os.path as osp
 import os
 from PIL import Image
 import matplotlib.pyplot as pl
 import numpy as np
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
 from torchvision import models, transforms
-from grad_cam import BackPropagation, GuidedBackPropagation, GradCAM, Deconvnet
+from grad_cam import BackPropagation, GuidedBackPropagation, GradCAM
 import pickle
 import cv2
 from collections import Counter
-
-import shutil
 import argparse
 
 
@@ -31,22 +26,22 @@ beachstate = args.beachstate
 ii = args.start_index
 testsite = args.testsite
 trainsite = args.trainsite
+#
+# modelbasename = 'resnet512_five_aug_trainloss_'
+# runno = 3
+# ii = 0
+# modelname = modelbasename + str(runno)
+# #statenum = {'Ref':'1377705600', 'LTT':'1357232400', 'TBR':'1400515200', 'RBB':'1375718400', 'LBT':'1392138000'}
+# statenum = {'Ref':'1458334806', 'LTT':'1383512428', 'TBR':'1511746207', 'RBB':'1337374827', 'LBT':'1546133407'}
+# trainsite = 'nbn_duck'
+# testsite = 'nbn'
 
-modelbasename = 'resnet512_five_aug_'
-beachstate = 'LBT'
-ii = 10
-runno = 6
-modelname = modelbasename + str(runno)
-# statenum_duck = {'Ref':'1409846400', 'LTT':'1357232400', 'TBR':'1362502800', 'RBB':'1388509200', 'LBT':'1357578000'}
-# statenum = {'Ref':'1427765407', 'LTT':'1358024426', 'TBR':'1382648427', 'RBB':'1331586028', 'LBT':'1365195627'}
-trainsite = 'nbn_duck'
-testsite = 'nbn'
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
 plot_one_state = True
 vcut = False
 print('Visualizing for model {}'.format(modelname))
 imgdir = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
-            'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/match_nbn/'}
+            'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/'}
 
 manuscript_plot_dir = '/home/aquilla/aellenso/Research/DeepBeach/resnet_manuscript/plots/'
 
@@ -60,8 +55,6 @@ def load_images(test_IDs, res_height, res_width):
         raw_images.append(raw_image)
 
     return images, raw_images
-
-
 
 def preprocess(image_path, res_height, res_width):
     transform = transforms.Compose([transforms.Resize((res_height,res_width)), transforms.ToTensor()])
@@ -81,7 +74,6 @@ def gradient_im(gradient):
     gradient *= 255.0
 
     return gradient.astype(int)
-
 
 
 def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
@@ -117,9 +109,11 @@ def generate_img_probs(out_folder, modelbasename, img_id, testsite, classes, num
         with open(out_folder + modelbasename + '{}/cnn_preds.pickle'.format(rr), 'rb') as f:
             cnn_preds = pickle.load(f)
 
-        img_dict = cnn_preds['{}_imglabels'.format(testsite)]
-        img_fname = [ii for ii in list(img_dict.keys()) if img_id in ii][0]
-        labels.append(img_dict[img_fname])
+        img_fnames = cnn_preds['{}_valfiles'.format(testsite)]
+        img_labels = cnn_preds['{}_CNN'.format(testsite)]
+        img_idx = img_labels.index(img_id)
+
+        labels.append(img_labels[img_idx])
 
     ensemble_probs = {}
     for ci, state in enumerate(classes):
@@ -171,7 +165,7 @@ if not os.path.exists(vis_test_dir):
 if synthetic:
     allimgs = os.listdir(imgdir['duck'])
     test_IDs = [f for f in allimgs if 'synthetic' in f]
-    test_IDs = test_IDs[ii:ii+5]
+    test_IDs = test_IDs[1:]
 
 else:
 ##load images here, preprocess all of them (don't do a dataset)
@@ -208,11 +202,11 @@ test_IDs = [imgdir[testsite] + '/'+tt for tt in test_IDs]
 images, raw_images = load_images(test_IDs, res_height, res_width)
 images = torch.stack(images).to(device)
 
-# fig_cam, ax_cam = pl.subplots(5, topk + 1, figsize = [15,15])
-# fig_cam.subplots_adjust(0,0,0.9,1)
-#
-# fig_gbp, ax_gbp = pl.subplots(5, topk + 1, figsize = [15,15])
-# fig_gbp.subplots_adjust(0,0,0.9,1)
+fig_cam, ax_cam = pl.subplots(5, topk + 1, figsize = [15,15])
+fig_cam.subplots_adjust(0,0,0.9,1)
+
+fig_gbp, ax_gbp = pl.subplots(5, topk + 1, figsize = [15,15])
+fig_gbp.subplots_adjust(0,0,0.9,1)
 
 fig_gbpcam, ax_gbpcam = pl.subplots(5, topk + 1, tight_layout = {'rect':[0,0, 1, 0.95]}, figsize = [10,15])
 fig_gbpcam.subplots_adjust(0,0,0.9,1)
@@ -235,12 +229,7 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
     if testsite == 'nbn':
         ID = ID.split('_')[1]
 
-    ensemble_probs = generate_img_probs(out_folder, modelbasename, ID, testsite, classes, numruns=10)
-    all_probs.update({ID:ensemble_probs})
-
-
     for ax in [ax_cam, ax_gbp, ax_gbpcam]:
-    for ax in [ax_gbpcam]:
         ax[j,0].imshow(image.squeeze().cpu().numpy().transpose(1,2,0))
         ax[j,0].axis('off')
         if synthetic:
@@ -253,7 +242,7 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
                 ax[j,0].set_title('{}'.format(classes[j]), fontsize = 18)
 
     bp = BackPropagation(model=model_conv)
-    probs, ids = bp.forward(image) #generate the top predictions
+    probs, ids = bp.forward(image)#generate the top predictions
 
     gcam = GradCAM(model=model_conv)
     _ = gcam.forward(image)
@@ -287,7 +276,7 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         gbp.backward(ids=ids[:, [i]])
         gradients = gbp.generate()
 
-        # # Grad-CAM
+        # Grad-CAM
         gcam.backward(ids=ids[:, [i]])
         regions = gcam.generate(target_layer=target_layer)
 
@@ -295,16 +284,16 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         print("\t#{}: {} ({:.5f})".format(ii + j, classes[ids[0, i]], probs[0,i]))
 
         # Guided Backpropagation
-        # gbp_gradient = gradient_im(gradients[0])
-        # ax_gbp[j,i+1].imshow(gbp_gradient)
-        # ax_gbp[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-        #ax_gbp[j,i+1].set_title('{0}'.format(prediction))
+        gbp_gradient = gradient_im(gradients[0])
+        ax_gbp[j,i+1].imshow(gbp_gradient)
+        ax_gbp[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        ax_gbp[j,i+1].set_title('{0}'.format(prediction))
 
         #Grad-Cam
-        # grad_cam = regions[0,0].cpu().numpy()
-        # ax_cam[j,i+1].pcolor(np.flipud(grad_cam), alpha = 0.4, cmap = 'jet')
-        # ax_cam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
-       # ax_cam[j,i+1].set_title('{0}'.format(prediction))
+        grad_cam = regions[0,0].cpu().numpy()
+        ax_cam[j,i+1].pcolor(np.flipud(grad_cam), alpha = 0.4, cmap = 'jet')
+        ax_cam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, probs[0,i]))
+        ax_cam[j,i+1].set_title('{0}'.format(prediction))
 
         # Guided Grad-CAM
         guided_gradcam = gradient_im(torch.mul(regions, gradients)[0])
@@ -328,9 +317,8 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
 
 all_gradcams = np.array(all_gradcams)
 if plot_one_state:
-    with open('/imgprobs.pickle'.format(beachstate, ii), 'wb') as f:
+    with open(vis_dir + '/{}_{}_imgprobs.pickle'.format(beachstate, ii), 'wb') as f:
         pickle.dump(all_gradcams, f)
-
 
     fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
     fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}.png'.format(beachstate,ii), bbox_inches = 'tight')
@@ -342,7 +330,7 @@ if plot_one_state:
 
 
 elif not plot_one_state:
-    # fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
-    # fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_cam.savefig(vis_test_dir + '/GradCam_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
+    fig_gbp.savefig(vis_test_dir + '/Guided_Backprop_{}_{}_{}.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
     fig_gbpcam.savefig(vis_test_dir + '/BackCAM_{}_{}_{}_withimg.png'.format(testsite,beachstate,ii), bbox_inches = 'tight')
-    fig_gbpcam.savefig(manuscript_plot_dir + 'fig6_smap_{}.png'.format(testsite))
+    fig_gbpcam.savefig(manuscript_plot_dir + 'fig7_smap_{}.png'.format(testsite))
