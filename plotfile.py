@@ -54,7 +54,7 @@ def fig_5_transfer(plotfolder):
             modelnames = ['resnet512_five_aug_trainloss_']
         if trainsite == 'nbn_duck':
             for addsite in ['nbn', 'duck']:
-                for percentage in [0, 5, 10, 15, 25]:
+                for percentage in [5, 10, 15, 25]:
                     modelname = 'resnet512_five_aug_minsite{}_{}imgs_'.format(addsite, percentage)
                     modelnames.append(modelname)
 
@@ -75,9 +75,9 @@ def fig_5_transfer(plotfolder):
                 all_results_df.loc[all_results_df.model_type == 'resnet512_five_aug_trainloss_', 'model_type'] = 'resnet512_duck'
 
 
-    relabel_inds = {'resnet512_nbn':0, 'resnet512_five_aug_minsiteduck_5imgs_':2, 'resnet512_five_aug_minsiteduck_10imgs_':3,
-                    'resnet512_five_aug_minsiteduck_15imgs_':4, 'resnet512_five_aug_minsiteduck_25imgs_':5, 'resnet512_five_aug_trainloss_':6, 'resnet512_five_aug_minsitenbn_25imgs_':7, 'resnet512_five_aug_minsitenbn_15imgs_':8,
-                    'resnet512_five_aug_minsitenbn_10imgs_':9,'resnet512_five_aug_minsitenbn_5imgs_':10,'resnet512_five_aug_duck_':11}
+    relabel_inds = {'resnet512_nbn':0, 'resnet512_five_aug_minsiteduck_5imgs_':1, 'resnet512_five_aug_minsiteduck_10imgs__':2,
+                    'resnet512_five_aug_minsiteduck_15imgs_':3, 'resnet512_five_aug_minsiteduck_25imgs_':4, 'resnet512_five_aug_trainloss_':5, 'resnet512_five_aug_minsitenbn_25imgs_':6, 'resnet512_five_aug_minsitenbn_15imgs_':7,
+                    'resnet512_five_aug_minsitenbn_10imgs_':8,'resnet512_five_aug_minsitenbn_5imgs_':9,'resnet512_duck':10}
 
     labels = ['100 \n0', '95 \n5', '90 \n10', '85 \n15', '75 \n25', '50 \n50', '25 \n75', '15 \n85', '10 \n90',
               '5 \n 95', '0 \n100']
@@ -112,7 +112,7 @@ def fig_5_transfer(plotfolder):
     a.legend_.set_title('Test Loc')
     for t, l in zip(leg.texts, ['', 'Duck', 'Nbn', 'Combined']): t.set_text(l)
     ax.set_ylabel('F-Score')
-    ax.set_xlabel('Number of Images from Each Site')
+    ax.set_xlabel('Percentage of Images from Each Site')
     pl.savefig(plotfolder + 'fig5_results_line.png')
 
 def fig_4_results(plotfolder):
@@ -128,27 +128,27 @@ def fig_4_results(plotfolder):
         if ti >0:
             all_results_df = pd.concat((all_results_df, skc.gen_skill_df(testsites = testsites, ensemble=True)))
 
-    modelnames = ['resnet512_five_aug_trainloss_']
-    trainsite = 'nbn_duck'
-    skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite, numruns = 10, valfile = 'cnn_preds')
-    all_results_df = pd.concat((all_results_df, skc.gen_skill_df(testsites = testsites, ensemble=True)))
-    all_results_df.loc[all_results_df.model_type == 'resnet512_five_aug_trainloss_', 'train_site'] = 'nbn_duck_full'
+    # modelnames = ['resnet512_five_aug_trainloss_']
+    # trainsite = 'nbn_duck'
+    # skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite, numruns = 10, valfile = 'cnn_preds')
+    # all_results_df = pd.concat((all_results_df, skc.gen_skill_df(testsites = testsites, ensemble=True)))
+    # all_results_df.loc[all_results_df.model_type == 'resnet512_five_aug_trainloss_', 'train_site'] = 'nbn_duck_full'
 
     sns.set_color_codes('bright')
-    fig, ax = pl.subplots(1,1, sharex = True, tight_layout = {'rect':[0, 0, 1, 0.95]})
-    fig.set_size_inches(4.5, 4)
+    fig, ax = pl.subplots(1,1, sharex = True, tight_layout = {'rect':[0, 0, 0.93, 0.95]})
+    fig.set_size_inches(4, 4)
     metric = 'f1'
     a = sns.boxplot(x = 'train_site', y =metric, hue = 'test_site', data = all_results_df, ax = ax, palette = {'both':'black', 'nbn':'salmon', 'duck':'blue'})
-    a.plot((-0.5, 3.5), (0.57, 0.57), '--', color = 'salmon')
-    a.plot((-0.5, 3.5), (0.79, 0.79), '--', color = 'blue')
-    a.text(3.55, 0.79, 'Duck', color = 'blue')
-    a.text(3.55, 0.57, 'Nbn', color = 'salmon')
-    a.set_xlim((-0.5, 3.5))
+    a.plot((-0.5, 2.5), (0.57, 0.57), '--', color = 'salmon')
+    a.plot((-0.5, 2.5), (0.79, 0.79), '--', color = 'blue')
+    a.text(2.55, 0.79, 'Duck', color = 'blue')
+    a.text(2.55, 0.57, 'Nbn', color = 'salmon')
+    a.set_xlim((-0.5, 2.5))
     #a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi], palette = {'b', 'salmon'}, )
     leg = a.get_legend()
     a.legend(ncol =3, loc='lower right')
     leg = a.get_legend()
-    a.legend_.set_title('Test Loc')
+    a.legend_.set_title('Test Site')
     for t, l in zip(leg.texts, ['Nbn', 'Duck']): t.set_text(l)
 
     a.grid()
@@ -157,7 +157,6 @@ def fig_4_results(plotfolder):
     pl.suptitle('F-Score')
     ax.set_xticklabels(['Nbn', 'Duck', 'Combined', 'Combined-100'])
     ax.set_xlabel('Train Site')
-    fig.subplots_adjust(left=0, right = 0.45)
     pl.savefig(plotfolder + 'fig4_results_boxplot.png')
 
 
@@ -190,7 +189,7 @@ def fig_3_auth_conftables(plotfolder):
     for ti, testsite in enumerate(['nbn', 'duck']):
         f1_list = []
         for pi,person_name in enumerate(["GW", "KS", "KS1", 'JS']):
-            with open('labels/{}_daytimex_valfiles_allauthors_df_2.pickle'.format(testsite), 'rb') as f:
+            with open('labels/{}_daytimex_valfiles_allauthors_df.pickle'.format(testsite), 'rb') as f:
                 vallabels_df = pickle.load(f)
             labels_1 = vallabels_df['AE']
             labels_2 = vallabels_df[person_name]
@@ -229,7 +228,7 @@ def fig_3_auth_conftables(plotfolder):
 
 plotfolder = '/home/aquilla/aellenso/Research/DeepBeach/resnet_manuscript/plots/'
 #fig_2_beachstates(plotfolder)
-fig_4_results(plotfolder)
-fig_5_transfer(plotfolder)
-#fig_3_auth_conftables(plotfolder)
+#fig_4_results(plotfolder)
+#fig_5_transfer(plotfolder)
+fig_3_auth_conftables(plotfolder)
 fig_6_conftables(plotfolder)

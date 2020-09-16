@@ -14,30 +14,31 @@ from collections import Counter
 import argparse
 
 
-parser = argparse.ArgumentParser(description = 'specify which model')
-parser.add_argument('-m', '--modelname')
-parser.add_argument('-state', '--beachstate')
-parser.add_argument('-ii', '--start_index', type = int)
-parser.add_argument('-testsite', '--testsite')
-parser.add_argument('-trainsite', '--trainsite')
-args = parser.parse_args()
-modelname = args.modelname
-beachstate = args.beachstate
-ii = args.start_index
-testsite = args.testsite
-trainsite = args.trainsite
+# parser = argparse.ArgumentParser(description = 'specify which model')
+# parser.add_argument('-m', '--modelname')
+# parser.add_argument('-state', '--beachstate')
+# parser.add_argument('-ii', '--start_index', type = int)
+# parser.add_argument('-testsite', '--testsite')
+# parser.add_argument('-trainsite', '--trainsite')
+# args = parser.parse_args()
+# modelname = args.modelname
+# beachstate = args.beachstate
+# ii = args.start_index
+# testsite = args.testsite
+# trainsite = args.trainsite
 #
-# modelbasename = 'resnet512_five_aug_trainloss_'
-# runno = 3
-# ii = 0
-# modelname = modelbasename + str(runno)
-# #statenum = {'Ref':'1377705600', 'LTT':'1357232400', 'TBR':'1400515200', 'RBB':'1375718400', 'LBT':'1392138000'}
-# statenum = {'Ref':'1458334806', 'LTT':'1383512428', 'TBR':'1511746207', 'RBB':'1337374827', 'LBT':'1546133407'}
-# trainsite = 'nbn_duck'
-# testsite = 'nbn'
+modelbasename = 'resnet512_five_aug_trainloss_'
+runno = 0
+ii = 5
+modelname = modelbasename + str(runno)
+#statenum_duck = {'Ref':'1331485200', 'LTT':'1340726400', 'TBR':'1339516800', 'RBB':'1393347600', 'LBT':'1385053200'}
+statenum = {'Ref':'1436477406', 'LTT':'1408136407', 'TBR':'1411765207', 'RBB':'1322773228', 'LBT':'1445995807'}
+trainsite = 'nbn'
+testsite = 'nbn'
 
 synthetic = False #if synthetic is false, then it will go to determine if it is plot one state
-plot_one_state = True
+plot_one_state = False
+beachstate = "Ref"
 vcut = False
 print('Visualizing for model {}'.format(modelname))
 imgdir = {'nbn': '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/',
@@ -109,7 +110,7 @@ def generate_img_probs(out_folder, modelbasename, img_id, testsite, classes, num
         with open(out_folder + modelbasename + '{}/cnn_preds.pickle'.format(rr), 'rb') as f:
             cnn_preds = pickle.load(f)
 
-        img_fnames = cnn_preds['{}_valfiles'.format(testsite)]
+        img_fnames = cnn_preds['{}_testfiles'.format(testsite)]
         img_labels = cnn_preds['{}_CNN'.format(testsite)]
         img_idx = img_labels.index(img_id)
 
@@ -169,7 +170,7 @@ if synthetic:
 
 else:
 ##load images here, preprocess all of them (don't do a dataset)
-    with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
+    with open('labels/{}_daytimex_testfiles.final.pickle'.format(testsite), 'rb') as f:
         test_IDs = pickle.load(f)
 
     if vcut:
@@ -307,7 +308,7 @@ for j, (image, ID) in enumerate(zip(images, test_IDs)):
         #guided_gradcam[guided_gradcam<0] = 0
         #pl.imshow(guided_gradcam, cmap = 'hot', alpha = 0.4, vmin = 0, vmax = 100)
 
-        ax_gbpcam[j, i+1].imshow(guided_gradcam, alpha = 0.4, cmap = 'hot', vmin = 0, vmax = 100)
+        ax_gbpcam[j, i+1].imshow(guided_gradcam, alpha = 0.5, cmap = 'hot', vmin = 0, vmax = 100)
         #ax_gbpcam[j,i+1].set_title('{0} {1:.2f}'.format(prediction, ensemble_probs[prediction]))
         ax_gbpcam[j,i+1].set_title('{0}'.format(prediction))
 

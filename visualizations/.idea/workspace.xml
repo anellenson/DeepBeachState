@@ -2,36 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc70eb3e-f62e-4cf3-8004-3c120c59f43f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/VisTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../augment_imgs.py" beforeDir="false" afterPath="$PROJECT_DIR$/../augment_imgs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../duck_daytimex_labels_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/duck_daytimex_labels_df.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/../labels/duck_daytimex_labels_df.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/labels.pikl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/labels_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/matt_labels_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/multilabel_dict.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/nbn_labels_cleaned_165.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/prob_pid_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/prob_pid_dict.df" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/rawlabels.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/segmented_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/segmented_labels.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../labels/segmented_partition.pickle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../model_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/../model_compare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nbn_daytimex_labels_df.pickle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../plotTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/../plotTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../plotfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/../plotfile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../prep_files/load_labels.py" beforeDir="false" afterPath="$PROJECT_DIR$/../prep_files/load_labels.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../prep_files/rename_labels.py" beforeDir="false" afterPath="$PROJECT_DIR$/../prep_files/rename_labels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../trainResNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/../trainResNet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/visualizations.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/visualizations.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualize_visualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualize_visualizations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../visualize_CNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/../visualize_CNN.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,7 +21,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualize_visualizations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
+            <state relative-caret-position="2460">
               <caret line="171" column="23" selection-start-line="171" selection-start-column="23" selection-end-line="171" selection-end-column="23" />
             </state>
           </provider>
@@ -133,10 +109,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="32" />
-    <option name="width" value="1920" />
-    <option name="height" value="1137" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="519" />
+    <option name="y" value="108" />
+    <option name="width" value="1361" />
+    <option name="height" value="1124" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -206,9 +183,10 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="32" width="1920" height="1137" extended-state="6" />
+    <frame x="519" y="108" width="1361" height="1124" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2393617" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34065104" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -328,7 +306,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/visualize_visualizations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
+        <state relative-caret-position="2460">
           <caret line="171" column="23" selection-start-line="171" selection-start-column="23" selection-end-line="171" selection-end-column="23" />
         </state>
       </provider>

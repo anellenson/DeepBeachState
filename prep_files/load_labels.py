@@ -8,7 +8,7 @@ import numpy as np
 def load_xls(testsite):
 
     states = ['Ref', 'LTT-B', 'TBR-CD', 'RBB-E', 'LBT-FG']
-    with open('labels/{}_daytimex_valfiles.final.pickle'.format(testsite), 'rb') as f:
+    with open('labels/{}_daytimex_testfiles.final.pickle'.format(testsite), 'rb') as f:
         valfiles = pickle.load(f)
 
     labels_df = pd.read_pickle('labels/{}_daytimex_labels_df.pickle'.format(testsite))
@@ -42,7 +42,9 @@ def load_xls(testsite):
         ae_label = states.index(ae_label)
         vallabels_df['AE'].loc[pid] = ae_label
 
-    vallabels_df.to_pickle('labels/{}_daytimex_valfiles_allauthors_df.pickle'.format(testsite))
+    with open('labels/{}_daytimex_valfiles_allauthors_df.pickle'.format(testsite), 'wb') as f:
+        pickle.dump(vallabels_df, f, protocol = 2)
 
 
 
+load_xls('duck')

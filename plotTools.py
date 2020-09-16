@@ -117,7 +117,10 @@ class skillComp():
             v = sum_confusion_matrix.sum(axis = 1)
             confusion_matrix = sum_confusion_matrix/v[:,]
             print("Trained at {}, tested at {}".format(self.trainsite, testsite))
-            print('percentage of LBT images confused as LTT {}'.format(sum_confusion_matrix[-1, 1]/sum_confusion_matrix.sum(axis = 1)[0]))
+            print(sum_confusion_matrix)
+            print('Total images per state {}'.format(sum_confusion_matrix.sum(axis=1)[0]))
+
+
             for ci, state in enumerate(['Ref', 'LTT', 'TBR', 'RBB', 'LBT']):
 
                 print("num images confused as {}: {}".format(state, sum_confusion_matrix.sum(axis = 0)[ci]/sum_confusion_matrix.sum()))

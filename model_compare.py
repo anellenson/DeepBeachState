@@ -8,7 +8,7 @@ import pandas as pd
 all_results_df = pd.DataFrame(columns = ['train_site', 'test_site','corr-coeff', 'f1', 'nmi', 'model_type'])
 modelnames = ['resnet512_five_aug_trainloss_', 'resnet512_five_aug_trainlossv2_', 'resnet512_five_aug_withVal_']
 testsites = ['nbn', 'duck']
-for ti, trainsite in enumerate(['duck', 'nbn', 'nbn_duck']):
+for ti, trainsite in enumerate(['nbn_duck']):
     plot_folder = 'plots/train_on_{}/skill_compare/'.format(trainsite)
     out_folder = 'model_output/train_on_{}/'.format(trainsite)
     skc = pt.skillComp(modelnames, plot_folder, out_folder, trainsite, numruns = 3, valfile = 'cnn_preds')
@@ -38,7 +38,7 @@ sns.set_color_codes('bright')
 fig, ax = pl.subplots(3,1, sharex = True, tight_layout = {'rect':[0, 0, 1, 0.90]})
 fig.set_size_inches(5, 10)
 for mi,metric in enumerate(['f1', 'corr-coeff', 'nmi']):
-    a = sns.barplot(x = 'model_type', y =metric, hue = 'test_site', data = all_results_df[all_results_df.train_site == 'duck'], ax = ax[mi], palette = {'both':'black', 'nbn':'salmon', 'duck':'blue'})
+    a = sns.barplot(x = 'model_type', y =metric, hue = 'test_site', data = all_results_df[all_results_df.train_site == 'nbn_duck'], ax = ax[mi], palette = {'both':'black', 'nbn':'salmon', 'duck':'blue'})
     #a = sns.barplot(x = metric, y ='train_site', hue = 'test_site', data = all_results_df[all_results_df.model_type == model], ax = ax[mi], palette = {'b', 'salmon'}, )
     if mi > 0:
         a.legend_.remove()
