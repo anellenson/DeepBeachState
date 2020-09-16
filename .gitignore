@@ -4,3 +4,4 @@ plots/
 resnet_models/
 *.pyc
 labels/
+*.pyc

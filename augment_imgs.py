@@ -7,7 +7,7 @@ import os
 import numpy as np
 from PIL import Image
 import random
-import cv2
+import fnmatch
 import imutils
 
 class MyDataset(Dataset):
@@ -67,6 +67,41 @@ class augmentFcns():
 
         return im_straight
 
+    def find_spz(self, imgname):
+        spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
+        img_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
+        path = img_dir + imgname
+
+
+        img_files = os.listdir(spz_path)
+
+        filename = imgname.split('.')
+        days = filename[3].split('_')
+        day = days[0]
+
+        pattern = '*' + filename[2] + '.' + day + '*' + filename[-4] + '*'
+
+        spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            day_ = '{0:02d}'.format(int(day) + 1)
+            pattern = '*' + filename[2] + '.' + day_ + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        if spzname == []:
+
+            _day = '{0:02d}'.format(int(day) - 1)
+            pattern = '*' + filename[2] + '.' + _day + '*' + filename[-4] + '*'
+            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
+
+        try:
+            img_path = spz_path + spzname[0]
+            return img_path
+
+        except:
+
+            print('No SPZ file for {}'.format(imgname))
 
 
 
@@ -117,12 +152,9 @@ class File_setup():
 
         return mean, std
 
-
-
-
 ############set up validation dataset
 
-    def set_up_train_val(self, valfilename, trainfilename, num_train_imgs, num_val_imgs):
+    def set_up_train_val(self, testfilename, trainfilename, num_train_imgs, num_val_imgs):
 
         '''
         This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe
@@ -141,43 +173,52 @@ class File_setup():
 
         files = os.listdir(self.img_dir)
         missing_files = [ff for ff in self.labels_df.pid if ff not in files]
-        self.labels_df.drop(index = missing_files) # remove missing files
+        missing_files_ind = [ii for ii in self.labels_df.index if self.labels_df[self.labels_df.index == ii].pid.values in missing_files]
+        self.labels_df.drop(index = missing_files_ind) # remove missing files
 
         print('Missing {} files from the labelled dataframe'.format(len(missing_files)))
 
         trainfiles = []
         valfiles = []
 
-        for ci in self.class_names: ####TO DO : make this so that it works with the labels dictionary, not necessarily a labels dataframe
+        with open(testfilename, 'rb') as f:
+            testfiles = pickle.load(f)
+
+        for ci in self.class_names:
 
             pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
 
+            #filter out any files that are in the validation set
+            trainpids = [pp for pp in pids if pp not in testfiles]
 
-            trainfiles += pids[:num_train_imgs]
-            valfiles += pids[num_train_imgs:num_train_imgs + num_val_imgs]
+            trainfiles += trainpids[:num_train_imgs]
+            valfiles += trainpids[num_train_imgs:num_train_imgs+num_val_imgs]
+
 
             print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
             print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
+            print('Length of testfiles is {} length of unique testfiles is {}'.format(len(testfiles), np.unique(len(testfiles))))
 
         random.shuffle(trainfiles)#shuffle the trainfiles later
         self.trainfiles = trainfiles
+        self.testfiles = testfiles
         self.valfiles = valfiles
 
         self.trainfilename = trainfilename
-        self.valfilename = valfilename
+        self.valfilename = testfilename.split('.')[0][:-9] + 'valfiles.no_aug.pickle'
 
         self.save_train_val(self.valfilename, self.trainfilename, self.valfiles, self.trainfiles)
 
     def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles):
 
-            with open(valfilename, 'wb') as f:
-                pickle.dump(valfiles, f)
-            print('saved val files')
+        with open(valfilename, 'wb') as f:
+            pickle.dump(valfiles, f)
+        print('saved val files')
 
-            with open(trainfilename, 'wb') as f:
-                pickle.dump(trainfiles, f)
+        with open(trainfilename, 'wb') as f:
+            pickle.dump(trainfiles, f)
 
-            print('saved train files')
+        print('saved train files')
 
     def create_labels_dict(self, labels_dict_filename):
 
@@ -214,11 +255,10 @@ class File_setup():
 
         #loop through this twice (for valfiles and trainfiles)
 
-        self.valfiles_aug = self.valfiles[:]
-        self.trainfiles_aug = self.trainfiles[:]
+        self.valfiles_aug = list(np.array(self.valfiles[:]).copy())
+        self.trainfiles_aug = list(np.array(self.trainfiles[:]).copy())
 
-        for filenames in [self.valfiles_aug, self.trainfiles_aug]:
-
+        for fi,filenames in enumerate([self.valfiles, self.trainfiles]):
 
             for ti, name in enumerate(augmentations):
 
@@ -245,38 +285,34 @@ class File_setup():
                             T = trans_options['vflip']
                             img = T(img)
 
+
                         elif 'darken_rotate' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
                             T = trans_options['rot']
                             img = T(img)
 
-                        elif 'erase_shift' in name:
-                            T = trans_options['erase']
-                            img = T(img)
-                            T = trans_options['translate']
-                            img = T(img)
-
-
                         elif 'streaks' in name:
                             img = af.streaks(img)
 
                         elif 'spz' in name:
-                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
-                            img_path = spz_path + imgname
+                            img_path = af.find_spz(imgname)
 
-                            try:
-                                with open(img_path, 'rb') as f:
-                                    img = Image.open(f)
+                            if img_path is not None:
+                                fi = open(img_path, 'rb')
+                                img = Image.open(fi)
 
-                            except:
-                                print('No SPZ file for {}'.format(imgname))
+                            elif img_path is None:
                                 continue
+
 
                         elif 'gamma' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
 
-                        elif 'vcut' in name:
+                        elif 'vcut.translate' in name:
                             img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+                            T = trans_options['translate']
+                            img = T(img)
+
 
                         elif 'vcut.spz.streaks' in name:
 
@@ -294,11 +330,19 @@ class File_setup():
                             img = af.streaks(img)
                             img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
 
+                        if name == 'vcut':
+                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
+
                         img = img.convert("L")
 
                     #save out image file
                         filename = imgname[:-3] + name + '.jpg'
                         img.save(self.img_dir + filename)
+
+                        if fi == 0:
+                            self.valfiles_aug.append(filename)
+                        if fi == 1:
+                            self.trainfiles_aug.append(filename)
 
                     # add to files list
 
@@ -310,7 +354,9 @@ class File_setup():
                 print('Finished producing images from ' + name + 'transformation')
 
         # save out train and val files
-        self.save_train_val(self.valfilename[:-6]+ 'three_aug_imgs.pickle', self.trainfilename[:-6]+ 'three_aug_imgs.pickle', self.valfiles_aug, self.trainfiles_aug)
+        new_valname = self.valfilename.split('.')[0] + '.five_aug.pickle'
+        new_trainname = self.trainfilename.split('.')[0] + '.five_aug.pickle'
+        self.save_train_val(new_valname, new_trainname, self.valfiles_aug, self.trainfiles_aug)
 
         # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
@@ -320,21 +366,21 @@ class File_setup():
         #save out new labels dictionary
 
 
-site = 'nbn'
-img_dirs = {'duck':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/north/match_nbn/', 'nbn':'/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+site = 'duck'
+img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
 labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
 labels_df = pd.read_pickle(labels_pickle)
 
-labels_dict_filename = 'labels/{}_labels_dict_three_aug.pickle'.format(site)
+labels_dict_filename = 'labels/{}_labels_dict_five_aug.pickle'.format(site)
 img_folder = img_dirs[site]
-valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
-num_train_imgs = 100
-num_val_imgs = 15
-augmentations = ['darken_rotate', 'erase_shift', 'flips']
+testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
+trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
+num_train_imgs = 80
+num_val_imgs = 20
+augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
 
 
 F = File_setup(img_folder, labels_pickle, site)
-F.set_up_train_val(valfilename, trainfilename, num_train_imgs, num_val_imgs)
-F.create_labels_dict(labels_dict_filename)
+F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
+F.set_up_train_val(testfilename, trainfilename, num_train_imgs, num_val_imgs)
 F.augment_imgs(labels_dict_filename, augmentations)
