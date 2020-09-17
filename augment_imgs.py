@@ -1,195 +1,81 @@
-from torch.utils.data import Dataset, DataLoader
 import pandas as pd
-from PIL import Image, ImageFilter
 from torchvision import transforms
 import pickle
 import os
 import numpy as np
 from PIL import Image
 import random
-import fnmatch
-import imutils
-
-class MyDataset(Dataset):
-    def __init__(self, list_IDs, basedir, transform = None):
-        self.list_IDs = list_IDs
-        self.basedir = basedir
-        self.transform = transform
-
-    def __getitem__(self, index):
-        ID = self.list_IDs[index].encode('ascii')
-
-        path = self.basedir + ID
-
-        with open(path, 'rb') as f:
-            X = Image.open(f)
-            X = self.transform(X)
-
-        return X, ID
-
-    def __len__(self):
-        return len(self.list_IDs)
-
-
-class augmentFcns():
-
-    def streaks(self, image):
-        # This adds diagonal streaks by rotating the image 40 degrees, adding the streaks vertical, then unrotating it
-        # The streaks are blurred parts of the image, and the returned image is slightly cropped.
-        # Returns a PIL image
-
-        #noise type options are gauss, s&p, speckle and poisson
-        im_array = np.array(image)
-
-        im_blur = image.filter(ImageFilter.GaussianBlur(radius = 20))
-        im_blur_array = np.array(im_blur)
-
-        im_rotate = imutils.rotate_bound(im_array, 40)
-        im_blur_rotate = imutils.rotate_bound(im_blur_array, 40)
-
-        #randomly generate a number of columns to choose to add streaks to:
-        col_centers = np.random.randint(low = 50, high = 350, size = 2)
-        cols = []
-
-        for cc in col_centers:
-            new_cols = list(np.arange(cc-3,cc+3))
-            cols += new_cols
-
-        cols = np.array(cols)
-
-        im_rotate[:, cols] = im_blur_rotate[:, cols]
-
-
-        im_straight = imutils.rotate_bound(im_rotate, -40)
-        im_straight = im_straight[180:300, 50:400]
-
-        im_straight = Image.fromarray(im_straight)
-
-        return im_straight
-
-    def find_spz(self, imgname):
-        spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_spz/'
-        img_dir = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
-        path = img_dir + imgname
-
-
-        img_files = os.listdir(spz_path)
-
-        filename = imgname.split('.')
-        days = filename[3].split('_')
-        day = days[0]
-
-        pattern = '*' + filename[2] + '.' + day + '*' + filename[-4] + '*'
-
-        spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
-
-        if spzname == []:
-
-            day_ = '{0:02d}'.format(int(day) + 1)
-            pattern = '*' + filename[2] + '.' + day_ + '*' + filename[-4] + '*'
-            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
-
-        if spzname == []:
-
-            _day = '{0:02d}'.format(int(day) - 1)
-            pattern = '*' + filename[2] + '.' + _day + '*' + filename[-4] + '*'
-            spzname = [ii for ii in img_files if fnmatch.fnmatch(ii, pattern)]
-
-        try:
-            img_path = spz_path + spzname[0]
-            return img_path
-
-        except:
-
-            print('No SPZ file for {}'.format(imgname))
-
-
-
-#This will calculate the mean and standard deviation
 
 class File_setup():
 
     def __init__(self, img_dir, labels_pickle, site):
 
+        '''
+
+        :param img_dir:             img directory where the images are stored
+        :param labels_pickle:       labels dataframe where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
+        :param site:                choose Narrabeen = 'nbn' or Duck  = 'duck'
+        '''
         self.labels_df = pd.read_pickle(labels_pickle)
-        self.class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
+        self.class_names = ['Ref','LTT','TBR','RBB','LBT']
         self.img_dir = img_dir
         self.site = site
 
 
-
-    def calc_mean_and_std(self, size = (256,256)):
-
-        #This will provide the mean and variance of the given set of images.
-        #size is a tuple of (h,w), default is 256x256 square image
-
-        filenames = self.labels_df.pid.values
-        trans = transforms.Compose([transforms.Resize(size), transforms.ToTensor()])
-
-        dataset = MyDataset(filenames, img_dir, transform=trans)
-        loader = DataLoader(
-            dataset,
-            batch_size=10,
-            num_workers=1,
-            shuffle=False
-        )
-
-
-        mean = 0.
-        std = 0.
-        nb_samples = 0.
-        for (data,_) in loader:
-            batch_samples = data.size(0)
-            data = data.view(batch_samples, data.size(1), -1)
-            mean += data.mean(2).sum(0)
-            std += data.std(2).sum(0)
-            nb_samples += batch_samples
-
-        mean /= nb_samples
-        std /= nb_samples
-
-        print('The mean is {} and the std is {}'.format(mean, std))
-
-        return mean, std
-
-############set up validation dataset
-
-    def set_up_train_val(self, testfilename, trainfilename, num_train_imgs, num_val_imgs):
+    def set_up_train_test_val(self, trainfilename, percent_train, percent_val, percent_test, testfilename = None):
 
         '''
-        This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe
-        It will ensure that the images in the dataframe and the images in the image directory are consistent
+        This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe.
+        Labels_df is sorted chronologically.
+        The testfiles are taken from the final set of images in the labels dataframe.
+        It will ensure that the images in the dataframe and the images in the image directory are consistent.
 
-           num_train_imgs  =    number of images per class in training set
-           num_val_imgs  =    number of images per class in validation set
-           valfilename     =    name of pickle for validation files. The pickle will be a list of file names.
-                                The number of images per class = (len(valfiles) + len(trainfiles)) - num_train_imgs
+        INPUTS:
+           percent_train/val/test        percentage of data to be used as training/val/test
+           valfilename                  name of pickle for validation files. The pickle will be a list of file names.
+           trainfilename                picklename for trainfiles.
+           testfilename                 optional - in the event that the test files are established and the training data is changed.
+
+        OUTPUTS:
+            trainfile, testfile and valfile list
 
 
-            trainfilename  =    picklename for trainfiles.
-                                The number of images per class = num_train_images
         '''
 
+
+        #Check to make sure the labels dataframe doesn't have names of any images that aren't in the image directory
 
         files = os.listdir(self.img_dir)
         missing_files = [ff for ff in self.labels_df.pid if ff not in files]
         missing_files_ind = [ii for ii in self.labels_df.index if self.labels_df[self.labels_df.index == ii].pid.values in missing_files]
         self.labels_df.drop(index = missing_files_ind) # remove missing files
 
+        pids = labels_df.
+        labels_df = labels_df.sort() # TODO - sort the labels dataframe chronologically
+
         print('Missing {} files from the labelled dataframe'.format(len(missing_files)))
 
         trainfiles = []
         valfiles = []
 
-        with open(testfilename, 'rb') as f:
-            testfiles = pickle.load(f)
+        if os.path.exists(testfilename):
+            with open(testfilename, 'rb') as f:
+                testfiles = pickle.load(f)
+
+        else:
+            testfiles = []
+
+            for ci in self.class_names:
+                pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
+                num_test = int(percent_test * len(pids))
+                testfiles += pids[-num_test:]
 
         for ci in self.class_names:
-
             pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
-
             #filter out any files that are in the validation set
             trainpids = [pp for pp in pids if pp not in testfiles]
+            num_train_imgs = int(percent_train * len(pids))
+            num_val_imgs = int(percent_val * len(pids))
 
             trainfiles += trainpids[:num_train_imgs]
             valfiles += trainpids[num_train_imgs:num_train_imgs+num_val_imgs]
@@ -199,7 +85,6 @@ class File_setup():
             print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
             print('Length of testfiles is {} length of unique testfiles is {}'.format(len(testfiles), np.unique(len(testfiles))))
 
-        random.shuffle(trainfiles)#shuffle the trainfiles later
         self.trainfiles = trainfiles
         self.testfiles = testfiles
         self.valfiles = valfiles
@@ -222,6 +107,19 @@ class File_setup():
 
     def create_labels_dict(self, labels_dict_filename):
 
+        '''
+
+
+        INPUTS:
+                labels_dict_filename: name of the labels dictionary that is created from the labels dataframe
+                labels_df
+
+        OUTPUTS
+                labels dictionary saved in labels/ folder
+
+
+        '''
+
         labels_dict = {}
 
         for pid,label in zip(self.labels_df.pid, self.labels_df.label):
@@ -240,12 +138,22 @@ class File_setup():
 
     def augment_imgs(self, labels_dict_filename, augmentations):
 
-        #Receives choice of augmentations
+        '''
+        This function will augment the training and validation dataset.
+        INPUTS:
+            labels_dict_filename:       the filename of the labels dictionary
+            augmentations:              string of augmentation choices choices are 'hflip', 'vflip', 'rot', 'erase', 'translate' and 'gamma'
 
-        #partition the files FIRST
-        #Create the labels dictionary FIRST
+        If one wanted to add their own augmentation, a function could be added to this class. The function could be included below.
 
-        af = augmentFcns()
+        OUTPUTS:
+            Augments images based on augmentation choices
+            trainfiles_aug:             list of names for trainfiles that are augmented
+            valfiles_aug:               list of names for valfiles that are augmented
+
+            These are saved as pickles in the labels folder
+        '''
+
         trans_options = {'hflip': transforms.RandomHorizontalFlip(p = 1), 'vflip': transforms.RandomVerticalFlip(p = 1), 'rot':transforms.RandomRotation(15,fill=(0,)),
                          'erase':           transforms.Compose([transforms.ToTensor(),
                                             transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
@@ -286,52 +194,8 @@ class File_setup():
                             img = T(img)
 
 
-                        elif 'darken_rotate' in name:
-                            img = transforms.functional.adjust_gamma(img, gamma = 1.5)
-                            T = trans_options['rot']
-                            img = T(img)
-
-                        elif 'streaks' in name:
-                            img = af.streaks(img)
-
-                        elif 'spz' in name:
-                            img_path = af.find_spz(imgname)
-
-                            if img_path is not None:
-                                fi = open(img_path, 'rb')
-                                img = Image.open(fi)
-
-                            elif img_path is None:
-                                continue
-
-
                         elif 'gamma' in name:
                             img = transforms.functional.adjust_gamma(img, gamma = 1.5)
-
-                        elif 'vcut.translate' in name:
-                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
-                            T = trans_options['translate']
-                            img = T(img)
-
-
-                        elif 'vcut.spz.streaks' in name:
-
-                            spz_path = '/home/server/pi/homes/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/'
-                            img_path = spz_path + imgname
-
-                            try:
-                                with open(img_path, 'rb') as f:
-                                    img = Image.open(f)
-
-                            except:
-                                print('No SPZ file for {}'.format(imgname))
-                                continue
-
-                            img = af.streaks(img)
-                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
-
-                        if name == 'vcut':
-                            img = transforms.functional.affine(img, 0, (0, -20), 1, 0)
 
                         img = img.convert("L")
 
@@ -375,12 +239,12 @@ labels_dict_filename = 'labels/{}_labels_dict_five_aug.pickle'.format(site)
 img_folder = img_dirs[site]
 testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
 trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
-num_train_imgs = 80
-num_val_imgs = 20
+percent_train = 0.8
+percent_val = 0.2
 augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
 
 
 F = File_setup(img_folder, labels_pickle, site)
 F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
-F.set_up_train_val(testfilename, trainfilename, num_train_imgs, num_val_imgs)
+F.set_up_train_val(trainfilename, percent_train, percent_val, testfilename = testfilename)
 F.augment_imgs(labels_dict_filename, augmentations)
