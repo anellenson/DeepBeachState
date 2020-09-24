@@ -5,24 +5,65 @@ import os
 import numpy as np
 from PIL import Image
 import random
+from collections import OrderedDict
 
 class File_setup():
 
-    def __init__(self, img_dir, labels_pickle, site):
+    def __init__(self,num_classes, img_dir, labels_pickle, site):
 
         '''
 
         :param img_dir:             img directory where the images are stored
-        :param labels_pickle:       labels dataframe where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
+        :param labels_pickle:       labels dictionary where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
         :param site:                choose Narrabeen = 'nbn' or Duck  = 'duck'
         '''
-        self.labels_df = pd.read_pickle(labels_pickle)
-        self.class_names = ['Ref','LTT','TBR','RBB','LBT']
+        with open(labels_pickle, 'rb') as f:
+             pickle.load(f)
+        self.labels_dict = pd.read_pickle(labels_pickle)
         self.img_dir = img_dir
         self.site = site
+        self.num_classes = num_classes
+
+    def check_for_missing_files(self):
+        '''
+        This is a check to make sure that the labels dictionary and the images folder have the same images, otherwise the
+        augmentations won't work.
+
+        :return: labels_dictionary within self that
+        '''
+
+        files = os.listdir(self.img_dir)
+        missing_files = [ff for ff in self.labels_dict.keys() if ff not in files]
+        print('The image directory is missing {} files from the labelled dictionary'.format(len(missing_files)))
+
+        for file in missing_files:
+            self.labels_df.drop(file)
+        # missing_files_ind = [ii for ii in self.labels_df.index if self.labels_df[self.labels_df.index == ii].pid.values in missing_files]
+        # self.labels_df.drop(index = missing_files_ind) # remove missing files
+
+    def find_datenum(self, pid):
+
+        if self.site == 'duck':
+            datenum =int(pid.split('.')[0])
+        if self.site == 'nbn':
+            datenum = int(pid.split('.')[0].split('_')[1])
+
+        return datenum
 
 
-    def set_up_train_test_val(self, trainfilename, percent_train, percent_val, percent_test, testfilename = None):
+    def sort_labels_dict(self):
+        #Retrieve all pids, sort them, and return
+        pids = self.labels_dict.keys()
+        pids.sort(key=self.find_datenum)
+
+        labels_dict_ordered = OrderedDict()
+        for pp in pids:
+            labels_dict_ordered.update({pp:self.labels_dict[pp]})
+
+        return labels_dict_ordered
+
+
+    def set_up_train_test_val(self, percent_train, percent_val, percent_test, testfilename = None):
 
         '''
         This will set up partitions of train and validation sets as lists saved as pickles based off the entries in the labels dataframe.
@@ -32,8 +73,7 @@ class File_setup():
 
         INPUTS:
            percent_train/val/test        percentage of data to be used as training/val/test
-           valfilename                  name of pickle for validation files. The pickle will be a list of file names.
-           trainfilename                picklename for trainfiles.
+
            testfilename                 optional - in the event that the test files are established and the training data is changed.
 
         OUTPUTS:
@@ -43,17 +83,11 @@ class File_setup():
         '''
 
 
-        #Check to make sure the labels dataframe doesn't have names of any images that aren't in the image directory
+        #Check to make sure the labels dictionary doesn't have names of any images that aren't in the image directory
+        self.check_for_missing_files()
 
-        files = os.listdir(self.img_dir)
-        missing_files = [ff for ff in self.labels_df.pid if ff not in files]
-        missing_files_ind = [ii for ii in self.labels_df.index if self.labels_df[self.labels_df.index == ii].pid.values in missing_files]
-        self.labels_df.drop(index = missing_files_ind) # remove missing files
-
-        pids = labels_df.
-        labels_df = labels_df.sort() # TODO - sort the labels dataframe chronologically
-
-        print('Missing {} files from the labelled dataframe'.format(len(missing_files)))
+        #Sort the labels dictionary to choose images that are 'out of sample'
+        labels_dict_ordered = self.sort_labels_dict()
 
         trainfiles = []
         valfiles = []
@@ -65,13 +99,15 @@ class File_setup():
         else:
             testfiles = []
 
-            for ci in self.class_names:
-                pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
+            for ci in range(self.num_classes):
+                pids = [pid for pid,label in labels_dict_ordered.items() if label == ci]
                 num_test = int(percent_test * len(pids))
                 testfiles += pids[-num_test:]
 
-        for ci in self.class_names:
-            pids = list(self.labels_df[(self.labels_df['label'] == ci)].pid.values)
+
+        for ci in range(self.num_classes):
+            pids =  [pid for pid,label in labels_dict_ordered.items() if label == ci]
+
             #filter out any files that are in the validation set
             trainpids = [pp for pp in pids if pp not in testfiles]
             num_train_imgs = int(percent_train * len(pids))
@@ -80,68 +116,44 @@ class File_setup():
             trainfiles += trainpids[:num_train_imgs]
             valfiles += trainpids[num_train_imgs:num_train_imgs+num_val_imgs]
 
-
-            print('Length of trainfiles is {} length of unique trainfiles is {}'.format(len(trainfiles), np.unique(len(trainfiles))))
-            print('Length of valfiles is {} length of unique valfiles is {}'.format(len(valfiles), np.unique(len(valfiles))))
-            print('Length of testfiles is {} length of unique testfiles is {}'.format(len(testfiles), np.unique(len(testfiles))))
-
-        self.trainfiles = trainfiles
+        self.trainfiles_base = trainfiles
+        self.valfiles_base = valfiles
         self.testfiles = testfiles
-        self.valfiles = valfiles
 
-        self.trainfilename = trainfilename
-        self.valfilename = testfilename.split('.')[0][:-9] + 'valfiles.no_aug.pickle'
 
-        self.save_train_val(self.valfilename, self.trainfilename, self.valfiles, self.trainfiles)
+    def save_train_val(self, trainfilename, valfilename, testfilename):
 
-    def save_train_val(self, valfilename, trainfilename, valfiles, trainfiles):
+        '''
+
+        :param trainfilename:   filename that the trainfiles will be saved to
+        :param valfilename:     filename that the valfiles will be saved to
+        :param testfilename:    filename that the testfiles will be saved to. If this already exists, nothing will happen.
+        :return:
+        '''
+
 
         with open(valfilename, 'wb') as f:
-            pickle.dump(valfiles, f)
-        print('saved val files')
+            pickle.dump(self.valfiles, f)
+        print('saved val files as {}'.format(valfilename))
 
         with open(trainfilename, 'wb') as f:
-            pickle.dump(trainfiles, f)
+            pickle.dump(self.trainfiles, f)
 
-        print('saved train files')
+        print('saved train files as {}'.format(trainfilename))
 
-    def create_labels_dict(self, labels_dict_filename):
-
-        '''
-
-
-        INPUTS:
-                labels_dict_filename: name of the labels dictionary that is created from the labels dataframe
-                labels_df
-
-        OUTPUTS
-                labels dictionary saved in labels/ folder
-
-
-        '''
-
-        labels_dict = {}
-
-        for pid,label in zip(self.labels_df.pid, self.labels_df.label):
-            if label in self.class_names: #Don't include the images you don't want
-                classnum = self.class_names.index(label)
-                entry = {pid:classnum}
-                labels_dict.update(entry)
-
-        with open(labels_dict_filename, 'wb') as f:
-            pickle.dump(labels_dict, f)
-
-        self.labels_dict = labels_dict
-
-        return labels_dict
-
+        if not os.path.exists(testfilename):
+            with open(testfilename, 'wb') as f:
+                pickle.dump(self.trainfiles, f)
+            print('saved test files as {}'.format(testfilename))
+        else:
+            print('{} exists'.format(testfilename))
 
     def augment_imgs(self, labels_dict_filename, augmentations):
 
         '''
         This function will augment the training and validation dataset.
         INPUTS:
-            labels_dict_filename:       the filename of the labels dictionary
+            labels_dict_filename:       the filename of the labels dictionary to be fed into CNN
             augmentations:              string of augmentation choices choices are 'hflip', 'vflip', 'rot', 'erase', 'translate' and 'gamma'
 
         If one wanted to add their own augmentation, a function could be added to this class. The function could be included below.
@@ -150,6 +162,7 @@ class File_setup():
             Augments images based on augmentation choices
             trainfiles_aug:             list of names for trainfiles that are augmented
             valfiles_aug:               list of names for valfiles that are augmented
+            labels_dict_
 
             These are saved as pickles in the labels folder
         '''
@@ -163,8 +176,8 @@ class File_setup():
 
         #loop through this twice (for valfiles and trainfiles)
 
-        self.valfiles_aug = list(np.array(self.valfiles[:]).copy())
-        self.trainfiles_aug = list(np.array(self.trainfiles[:]).copy())
+        self.valfiles = list(np.array(self.valfiles_base[:]).copy())
+        self.trainfiles = list(np.array(self.trainfiles_base[:]).copy())
 
         for fi,filenames in enumerate([self.valfiles, self.trainfiles]):
 
@@ -204,9 +217,9 @@ class File_setup():
                         img.save(self.img_dir + filename)
 
                         if fi == 0:
-                            self.valfiles_aug.append(filename)
+                            self.valfiles.append(filename)
                         if fi == 1:
-                            self.trainfiles_aug.append(filename)
+                            self.trainfiles.append(filename)
 
                     # add to files list
 
@@ -217,34 +230,86 @@ class File_setup():
 
                 print('Finished producing images from ' + name + 'transformation')
 
-        # save out train and val files
-        new_valname = self.valfilename.split('.')[0] + '.five_aug.pickle'
-        new_trainname = self.trainfilename.split('.')[0] + '.five_aug.pickle'
-        self.save_train_val(new_valname, new_trainname, self.valfiles_aug, self.trainfiles_aug)
-
         # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
             pickle.dump(self.labels_dict, f)
 
+def merge_train_val_files(trainfilename, valfilename, testfilename, labels_dict_filename, *f_objects):
+    '''
+    This function merges the trainfiles from different sites
 
-        #save out new labels dictionary
+    INPUTS:
+
+        trainfilename:      merged trainfilename
+        valfilename:        merged valfilename
+        testfilename:       merged testfilename
+        labels_filename:    merged labels dictionary filename
+        *args:              File_setup objects with the trainfile set up names
+
+    OUTPUT
+
+        merged train, validation, and testfiles saved in locations indicated
+    '''
+    trainfiles = []
+    valfiles = []
+    testfiles = []
+    labels_dict = {}
+
+    for f_obj in f_objects:
+        trainfiles += f_obj.trainfiles
+        valfiles += f_obj.valfiles
+        testfiles += f_obj.testfiles
+        labels_dict.update(f_obj.labels_dict)
+
+
+    with open(trainfilename, 'wb') as f:
+        pickle.dump(trainfiles, f)
+
+    with open(valfilename, 'wb') as f:
+        pickle.dump(valfiles, f)
+
+    with open(testfilename, 'wb') as f:
+        pickle.dump(trainfiles, f)
+
+img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
+
+site = 'nbn'
+labels_pickle = 'labels/{}_labels_dict.pickle'.format(site)
+labels_dict_filename = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(site) #non-augmented labels dictionary
+img_folder = img_dirs[site]
+testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
+trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
+valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
+percent_train = 0.6
+percent_val = 0.2
+percent_test = 0.2
+augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
+
+
+F1 = File_setup(5, img_folder, labels_pickle, site)
+F1.set_up_train_test_val(percent_train, percent_val, percent_test, testfilename = testfilename)
+F1.augment_imgs(labels_dict_filename, augmentations)
+F1.save_train_val(trainfilename, valfilename, testfilename)
 
 
 site = 'duck'
 img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
-labels_pickle = 'labels/{}_daytimex_labels_df.pickle'.format(site)
-labels_df = pd.read_pickle(labels_pickle)
 
-labels_dict_filename = 'labels/{}_labels_dict_five_aug.pickle'.format(site)
+labels_pickle = 'labels/{}_labels_dict.pickle'.format(site)
+labels_dict_filename = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(site) #non-augmented labels dictionary
 img_folder = img_dirs[site]
 testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.no_aug.pickle'.format(site)
-percent_train = 0.8
-percent_val = 0.2
-augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
+trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
+valfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
 
+F2 = File_setup(5, img_folder, labels_pickle, site)
+F2.set_up_train_test_val(percent_train, percent_val, percent_test, testfilename = testfilename)
+F2.augment_imgs(labels_dict_filename, augmentations)
+F2.save_train_val(trainfilename, valfilename, testfilename)
 
-F = File_setup(img_folder, labels_pickle, site)
-F.create_labels_dict('labels/{}_labels_dict_no_aug.pickle'.format(site))
-F.set_up_train_val(trainfilename, percent_train, percent_val, testfilename = testfilename)
-F.augment_imgs(labels_dict_filename, augmentations)
+merged_trainfilename = 'labels/nbn_duck_trainfiles.pickle'
+merged_valfilename = 'labels/nbn_duck_valfiles.pickle'
+merged_testfilename = 'labels/nbn_duck_testfiles.pickle'
+labels_dict_filename = 'labels/nbn_duck_labels_dict_five_aug.pickle'
+merge_train_val_files(merged_trainfilename, merged_valfilename, merged_testfilename, labels_dict_filename, F1, F2)
+

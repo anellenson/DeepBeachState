@@ -14,13 +14,7 @@ class ArgusTrainDS(D.Dataset):
         self.labels = labels
         self.list_IDs = list_IDs
         self.transform = transform
-        for bb in basedir:
-            if 'Narrabeen' in bb:
-                self.basedir_nbn = bb
-            if 'north' in bb:
-                self.basedir_duck = bb
-
-
+        self.basedir = basedir
 
     def __len__(self):
         'Denotes the total number of samples'
@@ -30,17 +24,10 @@ class ArgusTrainDS(D.Dataset):
         'Generates one sample of data'
         # Select sample
         ID = self.list_IDs[index].encode('ascii')
-
-        if 'c5' in ID:
-            path = self.basedir_nbn + ID
-
-        if 'argus02' in ID:
-            path = self.basedir_duck + ID
-
+        path = self.basedir + ID
 
         with open(path, 'rb') as f:
             X = Image.open(f)
-            #X.convert('RGB')
             if self.transform:
                 X = self.transform(X)
 

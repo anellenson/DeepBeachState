@@ -20,7 +20,6 @@ class skillComp():
         self.valfile = valfile
 
 
-
     def gen_skill_score(self, true_labels, pred_labels):
 
         f1 = metrics.f1_score(true_labels, pred_labels, average='weighted')
