@@ -28,6 +28,8 @@ test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
 #Output and Model Info:
 #==================================
 prediction_fname = 'cnn_preds' #file to save prediction results
+validate_only = False # Switch to use this script to run in a forward only mode (testing)
+pretrained = False #Switch to load a previous model
 model_name = 'train_on_nbn_resnet512'
 model_path = 'resnet_models/{}.pth'.format(model_name)
 out_folder = 'model_output/{}'.format(model_name)
@@ -87,6 +89,9 @@ num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Linear(num_ftrs, nb_classes)
 
 if validate_only == True:
+    model_conv.load_state_dict(torch.load(model_path))
+
+if pretrained == True:
     model_conv.load_state_dict(torch.load(model_path))
 model_conv = model_conv.to(device)
 optimizer_conv = optim.SGD(filter(lambda p: p.requires_grad, model_conv.parameters()), lr=lr, momentum=momentum)  #Here to switch weights
@@ -190,7 +195,9 @@ def confusion_results(test_site):
     with open(testfiles, 'rb') as f:
         valfiles = pickle.load(f)
 
-    test_dl = torch.utils.data.DataLoader(val_ds, batch_size = batch_size, shuffle = False)
+    test_ds = ArgusDS.ArgusDS(imgdir, testfiles, labels_dict, transform = transform)
+    test_dl = torch.utils.data.DataLoader(test_ds, batch_size = batch_size, shuffle = False)
+
 
     CNN_preds = []
     truth = []
