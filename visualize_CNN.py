@@ -5,7 +5,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
-from grad_cam import BackPropagation, GuidedBackPropagation, GradCAM
+from utils.grad_cam import BackPropagation, GuidedBackPropagation, GradCAM
 import pickle
 import cv2
 import argparse

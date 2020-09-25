@@ -7,7 +7,7 @@ from torchvision import models, transforms
 import time
 import copy
 import pickle
-from pytorchtools import EarlyStopping
+from utils.pytorchtools import EarlyStopping
 import ArgusDS
 import os
 
@@ -72,10 +72,10 @@ transform = transforms.Compose([transforms.Resize((res_height, res_width)),
                             transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
                     ])
 
-train_ds = ArgusDS.ArgusTrainDS(imgdir, trainfiles, labels_dict, transform = transform)
+train_ds = ArgusDS.ArgusDS(imgdir, trainfiles, labels_dict, transform = transform)
 train_dl = torch.utils.data.DataLoader(train_ds, batch_size=batch_size, shuffle = True) #change batch size?
 
-val_ds = ArgusDS.ArgusTrainDS(imgdir, valfiles, labels_dict, transform = transform)
+val_ds = ArgusDS.ArgusDS(imgdir, valfiles, labels_dict, transform = transform)
 val_dl = torch.utils.data.DataLoader(val_ds, batch_size = batch_size, shuffle = True)
 
 dataloaders = {'train':train_dl, 'val':val_dl}

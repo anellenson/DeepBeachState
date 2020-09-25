@@ -74,7 +74,7 @@ class File_setup():
         INPUTS:
            percent_train/val/test        percentage of data to be used as training/val/test
 
-           testfilename                 optional - in the event that the test files are established and the training data is changed.
+            testfilename                 In the event that the test files are established and the training data is changed, name the testfile
 
         OUTPUTS:
             trainfile, testfile and valfile list
@@ -91,10 +91,10 @@ class File_setup():
 
         trainfiles = []
         valfiles = []
-
-        if os.path.exists(testfilename):
-            with open(testfilename, 'rb') as f:
-                testfiles = pickle.load(f)
+        if testfilename:
+            if os.path.exists(testfilename):
+                with open(testfilename, 'rb') as f:
+                    testfiles = pickle.load(f)
 
         else:
             testfiles = []
@@ -121,7 +121,7 @@ class File_setup():
         self.testfiles = testfiles
 
 
-    def save_train_val(self, trainfilename, valfilename, testfilename):
+    def save_train_val(self, filename, testfilename):
 
         '''
 
@@ -131,15 +131,11 @@ class File_setup():
         :return:
         '''
 
+        files_dict = {'validation':self.valfiles, 'training':self.trainfile}
 
-        with open(valfilename, 'wb') as f:
-            pickle.dump(self.valfiles, f)
-        print('saved val files as {}'.format(valfilename))
-
-        with open(trainfilename, 'wb') as f:
-            pickle.dump(self.trainfiles, f)
-
-        print('saved train files as {}'.format(trainfilename))
+        with open(filename, 'wb') as f:
+            pickle.dump(files_dict)
+        print('saved train/val files as {}'.format(valfilename))
 
         if not os.path.exists(testfilename):
             with open(testfilename, 'wb') as f:
@@ -227,9 +223,10 @@ class File_setup():
                     entry = {filename:label}
                     self.labels_dict.update(entry)
 
-
-                print('Finished producing images from ' + name + 'transformation')
-
+            if fi == 0:
+                print('Finished producing images from ' + name + 'transformation for validation dataset')
+            if fi == 1:
+                print('Finished producing images from ' + name + 'transformation for training dataset')
         # save out labels dictionary
         with open(labels_dict_filename, 'wb') as f:
             pickle.dump(self.labels_dict, f)
@@ -271,45 +268,4 @@ def merge_train_val_files(trainfilename, valfilename, testfilename, labels_dict_
     with open(testfilename, 'wb') as f:
         pickle.dump(trainfiles, f)
 
-img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
-
-site = 'nbn'
-labels_pickle = 'labels/{}_labels_dict.pickle'.format(site)
-labels_dict_filename = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(site) #non-augmented labels dictionary
-img_folder = img_dirs[site]
-testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
-valfilename = 'labels/{}_daytimex_valfiles.pickle'.format(site)
-percent_train = 0.6
-percent_val = 0.2
-percent_test = 0.2
-augmentations = ['rot', 'flips', 'erase', 'trans', 'gamma']
-
-
-F1 = File_setup(5, img_folder, labels_pickle, site)
-F1.set_up_train_test_val(percent_train, percent_val, percent_test, testfilename = testfilename)
-F1.augment_imgs(labels_dict_filename, augmentations)
-F1.save_train_val(trainfilename, valfilename, testfilename)
-
-
-site = 'duck'
-img_dirs = {'duck':'/home/aquilla/aellenso/Research/DeepBeach/images/north/full/', 'nbn':'/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'}
-
-labels_pickle = 'labels/{}_labels_dict.pickle'.format(site)
-labels_dict_filename = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(site) #non-augmented labels dictionary
-img_folder = img_dirs[site]
-testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(site)
-trainfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
-valfilename = 'labels/{}_daytimex_trainfiles.pickle'.format(site)
-
-F2 = File_setup(5, img_folder, labels_pickle, site)
-F2.set_up_train_test_val(percent_train, percent_val, percent_test, testfilename = testfilename)
-F2.augment_imgs(labels_dict_filename, augmentations)
-F2.save_train_val(trainfilename, valfilename, testfilename)
-
-merged_trainfilename = 'labels/nbn_duck_trainfiles.pickle'
-merged_valfilename = 'labels/nbn_duck_valfiles.pickle'
-merged_testfilename = 'labels/nbn_duck_testfiles.pickle'
-labels_dict_filename = 'labels/nbn_duck_labels_dict_five_aug.pickle'
-merge_train_val_files(merged_trainfilename, merged_valfilename, merged_testfilename, labels_dict_filename, F1, F2)
 
