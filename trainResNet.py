@@ -8,7 +8,7 @@ import time
 import copy
 import pickle
 from utils.pytorchtools import EarlyStopping
-import ArgusDS
+from utils import ArgusDS
 import os
 
 
@@ -18,9 +18,8 @@ validate_only = False #Switch this if you want to train the model or just have i
 #=================================
 train_site = 'nbn'
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
-trainfiles = 'labels/{}_daytimex_trainfiles.pickle'.format(train_site)
-valfiles = 'labels/{}_daytimex_valfiles.pickle'.format(train_site)
-testfiles = 'labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
+train_val_files = 'labels/{}_daytimex_train_val_files.pickle'.format(train_site)
+testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
 imgdir = '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
 labels_dict = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(train_site)
 test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
@@ -31,7 +30,7 @@ prediction_fname = 'cnn_preds' #file to save prediction results
 validate_only = False # Switch to use this script to run in a forward only mode (testing)
 pretrained = False #Switch to load a previous model
 model_name = 'train_on_nbn_resnet512'
-model_path = 'resnet_models/{}.pth'.format(model_name)
+model_path = 'models/{}.pth'.format(model_name)
 out_folder = 'model_output/{}'.format(model_name)
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
@@ -58,11 +57,11 @@ criterion = nn.CrossEntropyLoss()
 with open(labels_dict, 'rb') as f:
     labels_dict = pickle.load(f)
 
-with open(trainfiles, 'rb') as f:
-    trainfiles = pickle.load(f)
+with open(train_val_files, 'rb') as f:
+    trainvalfiles = pickle.load(f)
 
-with open(valfiles, 'rb') as f:
-    valfiles = pickle.load(f)
+trainfiles = trainvalfiles['trainfiles']
+valfiles = trainvalfiles['valfiles']
 
 print('Trainfiles length: {}'.format(len(trainfiles)))
 print('Valfiles length: {}'.format(len(valfiles)))
@@ -192,8 +191,9 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs):
     return model, val_loss, val_acc, train_acc, train_loss
 
 def confusion_results(test_site):
-    with open(testfiles, 'rb') as f:
-        valfiles = pickle.load(f)
+
+    with open(testfilename, 'rb') as f:
+        testfiles = pickle.load(f)
 
     test_ds = ArgusDS.ArgusDS(imgdir, testfiles, labels_dict, transform = transform)
     test_dl = torch.utils.data.DataLoader(test_ds, batch_size = batch_size, shuffle = False)

@@ -231,41 +231,5 @@ class File_setup():
         with open(labels_dict_filename, 'wb') as f:
             pickle.dump(self.labels_dict, f)
 
-def merge_train_val_files(trainfilename, valfilename, testfilename, labels_dict_filename, *f_objects):
-    '''
-    This function merges the trainfiles from different sites
-
-    INPUTS:
-
-        trainfilename:      merged trainfilename
-        valfilename:        merged valfilename
-        testfilename:       merged testfilename
-        labels_filename:    merged labels dictionary filename
-        *args:              File_setup objects with the trainfile set up names
-
-    OUTPUT
-
-        merged train, validation, and testfiles saved in locations indicated
-    '''
-    trainfiles = []
-    valfiles = []
-    testfiles = []
-    labels_dict = {}
-
-    for f_obj in f_objects:
-        trainfiles += f_obj.trainfiles
-        valfiles += f_obj.valfiles
-        testfiles += f_obj.testfiles
-        labels_dict.update(f_obj.labels_dict)
-
-
-    with open(trainfilename, 'wb') as f:
-        pickle.dump(trainfiles, f)
-
-    with open(valfilename, 'wb') as f:
-        pickle.dump(valfiles, f)
-
-    with open(testfilename, 'wb') as f:
-        pickle.dump(trainfiles, f)
 
 
