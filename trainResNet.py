@@ -28,9 +28,9 @@ test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
 #Output and Model Info:
 #==================================
 prediction_fname = 'cnn_preds' #file to save prediction results
-model_name = 'resnet512'
-model_path = 'resnet_models/train_on_{}/{}.pth'.format(train_site, model_name)
-out_folder = 'model_output/train_on_{}/{}/'.format(train_site,  model_name)
+model_name = 'train_on_nbn_resnet512'
+model_path = 'resnet_models/{}.pth'.format(model_name)
+out_folder = 'model_output/{}'.format(model_name)
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
 
@@ -48,15 +48,6 @@ lr = 0.01
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 nb_classes = len(class_names)
 criterion = nn.CrossEntropyLoss()
-#Write out model info (in case you change something and forget what you did...)
-specs = ['Resolution: h{} x w{}'.format(res_height, res_width),
-         'num_epochs: {}'.format(no_epochs),
-         'batch_size: {}'.format(batch_size),
-         'learning_rate: {}'.format(lr)
-         ]
-with open(out_folder + 'model_info.txt', 'wb') as f:
-    for spec in specs:
-        f.writelines(spec + '\n')
 
 
 #Dataset Setup for pytorch loading.
@@ -222,11 +213,6 @@ if not validate_only:
     #Training
     model_conv, val_loss, val_acc, train_acc, train_loss = train_model(model_conv, criterion, optimizer_conv, exp_lr_scheduler, num_epochs=no_epochs)
     torch.save(model_conv.state_dict(), model_path)
-
-    #Save out train info
-    train_info_dict = {'val_loss':val_loss, 'val_acc':val_acc, 'train_acc':train_acc, 'train_loss':train_loss}
-    with open(out_folder + 'train_specs.pickle'.format(train_site, model_name), 'wb') as f:
-        pickle.dump(train_info_dict, f)
 
 ##Produce predictions for each site
 CNN_results = {}
