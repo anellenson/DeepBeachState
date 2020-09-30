@@ -8,9 +8,9 @@ from torchvision import models, transforms
 from utils.grad_cam import BackPropagation, GuidedBackPropagation, GradCAM
 import pickle
 import cv2
-import argparse
 
-parser = argparse.ArgumentParser(description = '''
+
+'''
                                                
 This script generates Guided-GradCAM images. 
 Script adapted from:
@@ -22,7 +22,7 @@ Script adapted from:
         Directory Information
         ===================================
         Note that the outdir will automatically be: model_output/model_name/
-        -mpath:         modelpath, including the model name, that yu want to make the visualization for
+        -mpath:         modelpath, including the model name, that you want to make the visualization for
         -imgpath:      image path to evaluate
         
         CNN Options
@@ -32,16 +32,11 @@ Script adapted from:
         
         
  
-''')
-parser.add_argument('-m', '--modelpath')
-parser.add_argument('-i', '--imgpath')
-parser.add_argument('-t', '--topk')
+'''
+modelpath = 'DeepBeachState/models/resnet512_train_on_nbn.pth'
+imgpath = 'DeepBeachState/images/example_img.jpg'
+topk = 2
 
-args = parser.parse_args()
-modelpath = args.modelpath
-
-topk = int(args.topk)
-imgpath = args.imgpath
 
 pid = imgpath.split('/')[-1]
 modelname = modelpath.split('/')[-1][:-4]
@@ -137,6 +132,6 @@ probs = probs.detach().cpu().numpy().squeeze()
 ids = ids.detach().cpu().numpy().squeeze()
 ggcam_dict.update({'ids':ids, 'probs':probs})
 
-with open('model_output/{}/ggcam_{}.pickle'.format(modelname, pid[:-4]), 'wb') as f:
+with open('DeepBeachState/model_output/{}/ggcam_{}.pickle'.format(modelname, pid[:-4]), 'wb') as f:
     pickle.dump(ggcam_dict, f)
-
+print('Image printed')

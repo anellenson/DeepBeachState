@@ -11,27 +11,30 @@ from utils.pytorchtools import EarlyStopping
 from utils import ArgusDS
 import os
 
+#Run name
+model_name = 'resnet512_train_on_nbn'
 
-validate_only = False #Switch this if you want to train the model or just have it predict on the test dataset
+#Switch this if you want to train the model or just have it predict on the test dataset
+validate_only = False
 
 #Input Data Information
 #=================================
+
 train_site = 'nbn'
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
-train_val_files = 'labels/{}_daytimex_train_val_files.pickle'.format(train_site)
-testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
+train_val_files = 'DeepBeachState/labels/{}_daytimex_train_val_files.pickle'.format(train_site)
+testfilename = 'DeepBeachState/labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
 imgdir = '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
-labels_dict = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(train_site)
+labels_dict = 'DeepBeachState/labels/{}_daytimex_labels_dict_five_aug.pickle'.format(train_site)
 test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
 
 #Output and Model Info:
 #==================================
-prediction_fname = 'cnn_preds' #file to save prediction results
+prediction_fname = 'cnn_preds' #filename to save prediction results
 validate_only = False # Switch to use this script to run in a forward only mode (testing)
 pretrained = False #Switch to load a previous model
-model_name = 'train_on_nbn_resnet512'
-model_path = 'models/{}.pth'.format(model_name)
-out_folder = 'model_output/{}'.format(model_name)
+model_path = 'DeepBeachState/models/{}.pth'.format(model_name)
+out_folder = 'DeepBeachState/model_output/{}/'.format(model_name)
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
 
@@ -226,6 +229,7 @@ CNN_results = {}
 for test_site in test_sites:
     CNN_site_preds, truth_site, val_ids = confusion_results(test_site)
     CNN_results.update({'{}_CNN'.format(test_site):CNN_site_preds, '{}_truth'.format(test_site):truth_site, '{}_valfiles'.format(test_site):val_ids})
+    print('Tested on {}'.format(test_site))
 
 with open(out_folder + '{}.pickle'.format(prediction_fname), 'wb') as f:
     pickle.dump(CNN_results, f)

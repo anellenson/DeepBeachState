@@ -16,7 +16,10 @@ class File_setup():
         :param img_dir:             img directory where the images are stored
         :param labels_pickle:       labels dictionary where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
         :param site:                choose Narrabeen = 'nbn' or Duck  = 'duck'
+
         '''
+        wd = os.getcwd()
+        print(wd)
         with open(labels_pickle, 'rb') as f:
              pickle.load(f)
         self.labels_dict = pd.read_pickle(labels_pickle)
@@ -121,7 +124,7 @@ class File_setup():
         self.testfiles = testfiles
 
 
-    def save_train_val(self, filename, testfilename):
+    def save_train_val(self, filename, testfilename, labels_dict_filename):
 
         '''
 
@@ -131,20 +134,25 @@ class File_setup():
         :return:
         '''
 
-        files_dict = {'validation':self.valfiles, 'training':self.trainfile}
+        files_dict = {'valfiles':self.valfiles, 'trainfiles':self.trainfiles}
 
         with open(filename, 'wb') as f:
-            pickle.dump(files_dict)
-        print('saved train/val files as {}'.format(valfilename))
+            pickle.dump(files_dict, f)
+        print('saved train/val files as {}'.format(filename))
 
         if not os.path.exists(testfilename):
             with open(testfilename, 'wb') as f:
-                pickle.dump(self.trainfiles, f)
+                pickle.dump(self.testfiles, f)
             print('saved test files as {}'.format(testfilename))
         else:
             print('{} exists'.format(testfilename))
 
-    def augment_imgs(self, labels_dict_filename, augmentations):
+        with open(labels_dict_filename, 'wb') as f:
+            pickle.dump(self.labels_dict, f)
+        print('Saved new augmented dictionary at {}'.format(labels_dict_filename))
+
+
+    def augment_imgs(self, augmentations):
 
         '''
         This function will augment the training and validation dataset.
@@ -223,13 +231,12 @@ class File_setup():
                     entry = {filename:label}
                     self.labels_dict.update(entry)
 
-            if fi == 0:
+            if ti == 0:
                 print('Finished producing images from ' + name + 'transformation for validation dataset')
-            if fi == 1:
+            if ti == 1:
                 print('Finished producing images from ' + name + 'transformation for training dataset')
         # save out labels dictionary
-        with open(labels_dict_filename, 'wb') as f:
-            pickle.dump(self.labels_dict, f)
+
 
 
 
