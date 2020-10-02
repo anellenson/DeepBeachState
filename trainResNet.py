@@ -56,7 +56,7 @@ criterion = nn.CrossEntropyLoss()
 
 #Dataset Setup for pytorch loading.
 #==================================
-#Note that the test files are not fed into the dataloader for training, but are loaded below after training
+#Note that the test files are not fed into the dataloader for training
 with open(labels_dict, 'rb') as f:
     labels_dict = pickle.load(f)
 
@@ -69,11 +69,13 @@ valfiles = trainvalfiles['valfiles']
 print('Trainfiles length: {}'.format(len(trainfiles)))
 print('Valfiles length: {}'.format(len(valfiles)))
 
-transform = transforms.Compose([transforms.Resize((res_height, res_width)),
-                            transforms.ToTensor(),
-                            transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+#Pytorch transform
+transform = transforms.Compose([transforms.Resize((res_height, res_width)), #Reshape
+                            transforms.ToTensor(),                          # To pytorch tensor (input type)
+                            transforms.Lambda(lambda x: x.repeat(3, 1, 1)), # Repeat the gray-scale channel so it has RGB dims
                     ])
 
+#Set up pytorch dataloaders and corresponding dictionaries
 train_ds = ArgusDS.ArgusDS(imgdir, trainfiles, labels_dict, transform = transform)
 train_dl = torch.utils.data.DataLoader(train_ds, batch_size=batch_size, shuffle = True) #change batch size?
 
@@ -96,13 +98,21 @@ if validate_only == True:
 if pretrained == True:
     model_conv.load_state_dict(torch.load(model_path))
 model_conv = model_conv.to(device)
+
+#Iterative optimization routine, can choose other techniques (e.g., Adam)
 optimizer_conv = optim.SGD(filter(lambda p: p.requires_grad, model_conv.parameters()), lr=lr, momentum=momentum)  #Here to switch weights
+
+#Learning rate decay scheduler
 exp_lr_scheduler = lr_scheduler.ReduceLROnPlateau(optimizer_conv, 'min', factor=gamma, verbose=True, patience=8)
+
+#Try to reduce over fitting by using early stopping
 early_stopping = EarlyStopping()
 
-
+##Note the following function is adapted from pytorch tutorial
+# https://github.com/pytorch/tutorials/blob/master/beginner_source/transfer_learning_tutorial.py
 def train_model(model, criterion, optimizer, scheduler, num_epochs):
     since = time.time()
+    #List to save out and watch learning convergence
     val_loss = []
     val_acc = []
 
@@ -113,7 +123,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 
-    for epoch in range(num_epochs):
+    for epoch in range(num_epochs): #Limit number of epochs
         torch.cuda.empty_cache()
         print('For train on {}, model {}, Epoch {}/{}'.format(train_site, model_name, epoch, num_epochs - 1))
         print('-' * 10)
@@ -206,12 +216,12 @@ def confusion_results(test_site):
     truth = []
     id_list = []
     with torch.no_grad():
-        for inputs, id, labels in test_dl:
+        for inputs, id, labels in test_dl: #Loop over dataloders for testing, output test predictions
             inputs = inputs.to(device)
             labels = labels.to(device, dtype = torch.int64)
 
-            outputs = model_conv(inputs)
-            _, preds = torch.max(outputs,1)
+            outputs = model_conv(inputs) #input batch of images into the CNN
+            _, preds = torch.max(outputs,1) #Choose top prediction
 
             truth += list(labels.cpu().numpy())
             CNN_preds += list(preds.cpu().numpy())
@@ -231,6 +241,7 @@ for test_site in test_sites:
     CNN_results.update({'{}_CNN'.format(test_site):CNN_site_preds, '{}_truth'.format(test_site):truth_site, '{}_valfiles'.format(test_site):val_ids})
     print('Tested on {}'.format(test_site))
 
+#Save out
 with open(out_folder + '{}.pickle'.format(prediction_fname), 'wb') as f:
     pickle.dump(CNN_results, f)
 

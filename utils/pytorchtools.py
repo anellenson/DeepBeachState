@@ -1,3 +1,7 @@
+#Written by Bjarte Mehus Sunde
+#https://github.com/Bjarten
+
+
 import numpy as np
 import torch
 

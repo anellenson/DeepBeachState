@@ -75,13 +75,15 @@ def save_gradcam(filename, gcam, raw_image, paper_cmap=False):
 torch.cuda.empty_cache()
 res_height = 512 #height
 res_width = 512 #width
-classes = ['Ref', 'LTT', 'TBR', 'RBB', 'LBT']
+classes = ['Ref', 'LTT', 'TBR', 'RBB', 'LBT'] #WS five classes
 
 ##load model
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 nb_classes = len(classes)
 model_conv = models.resnet50()
-target_layer = 'layer4'
+
+target_layer = 'layer4' #Target layer to see visualizations from, this is from the final convolutional block before global average pooling
+
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Linear(num_ftrs, nb_classes) # check is there really drop out
 
@@ -89,11 +91,15 @@ model_conv.load_state_dict(torch.load(modelpath))
 model_conv = model_conv.to(device)
 model_conv.eval()
 
+#Load images
 image, raw_image = preprocess(imgpath, res_height, res_width)
 image = image.unsqueeze(dim = 0).cuda()
 
+#Initialize save out dictionary
 ggcam_dict = {}
 
+#Set up three modules from utils/grad_cam.py. Remember guided back propagation is a combined output from both the guided back propagation, grad cam modules
+#Back propagation is the class with the "forward" pass. Need to generate feature maps from forward pass first
 bp = BackPropagation(model=model_conv)
 probs, ids = bp.forward(image)#generate the top predictions
 
@@ -103,6 +109,7 @@ _ = gcam.forward(image)
 gbp = GuidedBackPropagation(model=model_conv)
 _ = gbp.forward(image)
 
+#Loop through the number of choices (topk) interested in
 for i in range(topk):
 
     torch.cuda.empty_cache()
@@ -127,7 +134,7 @@ for i in range(topk):
 
     ggcam_dict.update({'{}_choice_ggcam'.format(i):grad_cam})
 
-#Save out the predictions and probabilities for each prediction
+#Save out
 probs = probs.detach().cpu().numpy().squeeze()
 ids = ids.detach().cpu().numpy().squeeze()
 ggcam_dict.update({'ids':ids, 'probs':probs})
