@@ -1,9 +1,13 @@
 # DeepBeachState
 
 This repository provides a basic skeleton of how to implement a CNN on Argus data.
+
 The project requires a GPU, which pytorch accesses locally. It runs on python 3.
-The github repo includes two dictionaries, where the entries correspond to images and labels for Narrabeen and Duck.
+
+The github repo includes two dictionaries in the labels directory, where the entries correspond to images and labels for Narrabeen and Duck.
+
 The github repo includes a utils folder, which contains helping scripts that are used by the main scripts.
+
 The run_modules notebook shows how to load/augment the dataset, post-process the results, and plot a Guided-Grad-Cam visualization.  
 
 ## Work Flow
@@ -46,5 +50,13 @@ Step 5) Run guided grad cam on an image:
 python visualize_CNN.py -m 'models/resnet512_train_on_nbn.pth' -i 'images/example_img.jpg' -t 2
 </code></pre>
 
+The script output will provide information about the choices and associated probabilities for that image:
+<pre><code>
+	#0: Ref (0.90998)
+	#1: LTT (0.08850)
+Image printed
+</code></pre>
+
 Step 6) Visualize guided grad-cam. 
+        
         run_modules.ipynb, third block
