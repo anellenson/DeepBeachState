@@ -1,5 +1,3 @@
-from __future__ import print_function, division
-
 from PIL import Image
 import numpy as np
 import torch
@@ -8,9 +6,10 @@ from torchvision import models, transforms
 from utils.grad_cam import BackPropagation, GuidedBackPropagation, GradCAM
 import pickle
 import cv2
+import argparse
 
+parser = argparse.ArgumentParser(description = '''
 
-'''
                                                
 This script generates Guided-GradCAM images. 
 Script adapted from:
@@ -32,10 +31,15 @@ Script adapted from:
         
         
  
-'''
-modelpath = 'DeepBeachState/models/resnet512_train_on_nbn.pth'
-imgpath = 'DeepBeachState/images/example_img.jpg'
-topk = 2
+        ''')
+
+parser.add_argument('-m', '--modelpath')
+parser.add_argument('-state', '--imgpath')
+parser.add_argument('-ii', '--topk', type = int)
+args = parser.parse_args()
+modelpath = args.modelpath
+imgpath = args.imgpath
+topk = args.topk
 
 
 pid = imgpath.split('/')[-1]
@@ -139,6 +143,6 @@ probs = probs.detach().cpu().numpy().squeeze()
 ids = ids.detach().cpu().numpy().squeeze()
 ggcam_dict.update({'ids':ids, 'probs':probs})
 
-with open('DeepBeachState/model_output/{}/ggcam_{}.pickle'.format(modelname, pid[:-4]), 'wb') as f:
+with open('model_output/{}/ggcam_{}.pickle'.format(modelname, pid[:-4]), 'wb') as f:
     pickle.dump(ggcam_dict, f)
 print('Image printed')

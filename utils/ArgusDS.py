@@ -1,7 +1,5 @@
-import torch
 from torch.utils import data as D
 from PIL import Image
-import os
 
 
 class ArgusDS(D.Dataset):
@@ -23,7 +21,7 @@ class ArgusDS(D.Dataset):
     def __getitem__(self, index):
         'Generates one sample of data'
         # Select sample
-        ID = self.list_IDs[index].encode('ascii')
+        ID = self.list_IDs[index]
         path = self.basedir + ID
 
         with open(path, 'rb') as f:

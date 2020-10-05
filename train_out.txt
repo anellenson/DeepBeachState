@@ -1,0 +1,11 @@
+Trainfiles length: 4521
+Valfiles length: 1496
+For train on nbn, model resnet512_train_on_nbn, Epoch 0/0
+----------
+train Loss: 1.6569 Acc: 0.2185
+val Loss: 1.5903 Acc: 0.3021
+
+Training complete in 1m 59s
+Best val Acc: 0.302139
+Tested on nbn
+Tested on duck

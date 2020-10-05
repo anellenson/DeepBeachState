@@ -11,6 +11,15 @@ from utils.pytorchtools import EarlyStopping
 from utils import ArgusDS
 import os
 
+'''
+INPUTS
+                Image directory with augmented and original images.
+                Labels dictionary with augmented and original images. 
+                 
+OUTPUTS     
+                Pickle with test dataset predictions for Narrabeen and Duck 
+'''
+
 #Run name
 model_name = 'resnet512_train_on_nbn'
 
@@ -22,10 +31,10 @@ validate_only = False
 
 train_site = 'nbn'
 class_names = ['Ref','LTT-B','TBR-CD','RBB-E','LBT-FG']
-train_val_files = 'DeepBeachState/labels/{}_daytimex_train_val_files.pickle'.format(train_site)
-testfilename = 'DeepBeachState/labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
+train_val_files = 'labels/{}_daytimex_train_val_files.pickle'.format(train_site)
+testfilename = 'labels/{}_daytimex_testfiles.final.pickle'.format(train_site)
 imgdir = '/home/aquilla/aellenso/Research/DeepBeach/images/Narrabeen_midtide_c5/daytimex_gray_full/'
-labels_dict = 'DeepBeachState/labels/{}_daytimex_labels_dict_five_aug.pickle'.format(train_site)
+labels_dict = 'labels/{}_daytimex_labels_dict_five_aug.pickle'.format(train_site)
 test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
 
 #Output and Model Info:
@@ -33,8 +42,8 @@ test_sites = ['nbn', 'duck'] #list of test sites to validate the model on
 prediction_fname = 'cnn_preds' #filename to save prediction results
 validate_only = False # Switch to use this script to run in a forward only mode (testing)
 pretrained = False #Switch to load a previous model
-model_path = 'DeepBeachState/models/{}.pth'.format(model_name)
-out_folder = 'DeepBeachState/model_output/{}/'.format(model_name)
+model_path = 'models/{}.pth'.format(model_name)
+out_folder = 'model_output/{}/'.format(model_name)
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
 

@@ -4,7 +4,6 @@ import pickle
 import os
 import numpy as np
 from PIL import Image
-import random
 from collections import OrderedDict
 
 class File_setup():
@@ -13,9 +12,9 @@ class File_setup():
 
         '''
 
-        :param img_dir:             img directory where the images are stored
-        :param labels_pickle:       labels dictionary where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
-        :param site:                choose Narrabeen = 'nbn' or Duck  = 'duck'
+        img_dir:             img directory where the images are stored
+        labels_pickle:       labels dictionary where the labels are stored as 'pid' (picture ID) and 'label' (label as string)
+        site:                choose Narrabeen = 'nbn' or Duck  = 'duck'
 
         '''
         wd = os.getcwd()
@@ -231,12 +230,8 @@ class File_setup():
                     entry = {filename:label}
                     self.labels_dict.update(entry)
 
-            if ti == 0:
-                print('Finished producing images from ' + name + 'transformation for validation dataset')
-            if ti == 1:
-                print('Finished producing images from ' + name + 'transformation for training dataset')
+                if ti == 0:
+                    print('Finished producing images from ' + name + 'transformation for validation dataset')
+                if ti == 1:
+                    print('Finished producing images from ' + name + 'transformation for training dataset')
         # save out labels dictionary
-
-
-
-
